@@ -177,10 +177,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for(let period of projected) {
             const pDate = window.parseDateLocal(period);
+            if (!pDate) continue;
             const nextPeriod = new Date(pDate);
-            nextPeriod.setDate(nextPeriod.setDate() + state.cycleLength);
+            nextPeriod.setDate(pDate.getDate() + state.cycleLength);
             const ovulation = new Date(nextPeriod);
-            ovulation.setDate(ovulation.getDate() - 14);
+            ovulation.setDate(nextPeriod.getDate() - 14);
 
             if (ovulation >= startOfMonth && ovulation <= endOfMonth) {
                 ovulationDates.push(`${ovulation.getFullYear()}-${String(ovulation.getMonth() + 1).padStart(2, '0')}-${String(ovulation.getDate()).padStart(2, '0')}`);
@@ -283,10 +284,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentCycleDay = ((dayDiff - 1) % state.cycleLength) + 1;
             
             if (cycleDayText) cycleDayText.innerText = "Day " + currentCycleDay;
-            if (ringElement) {
+
+            // Animate the SVG ring progress
+            const svgRing = document.getElementById('cycle-ring-progress');
+            if (svgRing) {
+                const circumference = 2 * Math.PI * 108; // r=108 as in HTML
                 const percent = currentCycleDay / state.cycleLength;
-                ringElement.style.background = `conic-gradient(var(--primary) ${percent * 100}%, #FCE4EC ${percent * 100}%)`;
-                const totalText = ringElement.querySelector('.total-text');
+                const offset = circumference - percent * circumference;
+                svgRing.style.strokeDasharray = circumference;
+                svgRing.style.strokeDashoffset = offset;
+                const totalText = document.querySelector('.ring-content .total-text');
                 if (totalText) totalText.textContent = `of ${state.cycleLength}`;
             }
 
@@ -295,12 +302,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 aiMoodDisplay.innerText = getMoodTip(currentCycleDay);
             }
 
+            // Update Fertile Window & Ovulation info cards
             const fertileVal = document.getElementById('fertile');
             const ovulationVal = document.getElementById('ovulation');
             if (fertileVal || ovulationVal) {
-                const predictions = calculatePredictionsForDate(new Date().toISOString().split('T')[0]);
-                if (fertileVal) fertileVal.textContent = predictions.menstruation;
-                if (ovulationVal) ovulationVal.textContent = predictions.ovulation;
+                const ovulation = new Date(nextPeriod);
+                ovulation.setDate(nextPeriod.getDate() - 14);
+                const fertileStart = new Date(ovulation);
+                fertileStart.setDate(ovulation.getDate() - 5);
+                const fmt = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                if (fertileVal) fertileVal.textContent = fmt(fertileStart);
+                if (ovulationVal) ovulationVal.textContent = fmt(ovulation);
             }
 
             calculateAdvancedInsights(lastPeriod, nextPeriod, today);
@@ -504,19 +516,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 5. Phase Tips
             updatePhaseTips(phaseBadge.textContent.replace(' ✨', ''));
-
-            // 6. Update Fertile/Ovulation Cards
-            if (fertileDateText && ovulationDateText) {
-                const ovulation = new Date(nextPeriod);
-                ovulation.setDate(nextPeriod.getDate() - 14);
-
-                const fertileStart = new Date(ovulation);
-                fertileStart.setDate(ovulation.getDate() - 3);
-
-                fertileDateText.innerText = fertileStart.toDateString();
-                ovulationDateText.innerText = ovulation.toDateString();
-            }
         }
+
+        // 6. Update cycle-summary Fertile/Ovulation text (works for any number of periods)
+        if (fertileDateText && ovulationDateText) {
+            const ovulation = new Date(nextPeriod);
+            ovulation.setDate(nextPeriod.getDate() - 14);
+            const fertileStart = new Date(ovulation);
+            fertileStart.setDate(ovulation.getDate() - 5);
+            const fmt = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            fertileDateText.innerText = fmt(fertileStart);
+            ovulationDateText.innerText = fmt(ovulation);
+        }
+
     }
 
     function updatePhaseTips(phaseName) {
