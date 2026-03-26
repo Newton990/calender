@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna | Settings</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff4d6d">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="js/common.js"></script>
+</head>
+<body>
+    <div id="global-header"></div>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="calendar.html" class="nav-item">
+            <span class="nav-icon">📅</span>
+            <span>Calendar</span>
+        </a>
+        <div id="quick-log-btn" class="log-btn-nav" title="Quick Log">+</div>
+        <a href="report.html" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span>Insights</span>
+        </a>
+        <a href="settings.html" class="nav-item active">
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+        </a>
+    </nav>
+    <div class="app-container" style="align-items: center; padding-top: 5vh;">
+        <div class="glass" style="padding: 40px; max-width: 500px; width: 100%; text-align: center;">
+            <h2 class="auth-title" style="font-family: 'Playfair Display', serif; color: var(--primary-dark);">⚙️ Settings</h2>
+            <p class="auth-subtitle">Customize your tracking experience</p>
+            
+            <div class="setup-form" style="text-align: left; padding: 20px 0;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Average Cycle Length (Days)</label>
+                <input type="number" id="setting-cycle" class="date-input" value="28" min="20" max="45" style="margin-top:0; margin-bottom: 15px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Average Period Length (Days)</label>
+                <input type="number" id="setting-period" class="date-input" value="5" min="2" max="10" style="margin-top:0; margin-bottom: 25px;">
+
+                <label style="font-weight: 600; display: block; margin-bottom: 10px;">Privacy & Security 🔒</label>
+                <div class="glass" style="padding: 15px; margin-bottom: 25px; text-align: left; background: rgba(255,255,255,0.2);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <span style="font-size: 0.9rem;">Enable Security Lock</span>
+                        <input type="checkbox" id="pin-enabled" style="width: 20px; height: 20px; accent-color: var(--primary);">
+                    </div>
+                    
+                    <div id="pin-setup-area" class="hidden">
+                        <label style="font-size: 0.8rem; display: block; margin-bottom: 5px;">Lock Type:</label>
+                        <select id="lock-type" class="date-input" style="margin: 0 0 10px 0; padding: 8px; width: 100%; background: white;">
+                            <option value="pin">4-Digit PIN</option>
+                            <option value="password">Password</option>
+                        </select>
+
+                        <label id="lock-label" style="font-size: 0.8rem; display: block; margin-bottom: 5px;">Set 4-Digit PIN:</label>
+                        <input type="password" id="pin-input" class="date-input" maxlength="4" pattern="\d{4}" inputmode="numeric" placeholder="1234" style="margin: 0; padding: 8px; width: 100%;">
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                            <span style="font-size: 0.85rem;">Use Biometrics (Face/Fingerprint)</span>
+                            <input type="checkbox" id="biometric-enabled" style="width: 18px; height: 18px;">
+                        </div>
+                    </div>
+                    
+                    <hr style="margin: 15px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.1);">
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <span style="font-size: 0.9rem;">Private Mode 🕵️‍♀️</span>
+                            <p style="font-size: 0.7rem; color: var(--text-muted);">Masks sensitive terms on the dashboard.</p>
+                        </div>
+                        <input type="checkbox" id="private-mode-enabled" style="width: 20px; height: 20px; accent-color: var(--primary);">
+                    </div>
+                </div>
+
+                <label style="font-weight: 600; display: block; margin-bottom: 10px;">Daily Supportive Reminders 🔔</label>
+                <div class="glass" style="padding: 15px; margin-bottom: 25px; text-align: left; background: rgba(255,255,255,0.2);">
+                    <!-- Birth Control -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <span style="font-size: 0.9rem;">Birth Control Reminder 💊</span>
+                        <input type="checkbox" id="bc-reminder-enabled" style="width: 20px; height: 20px; accent-color: var(--primary);">
+                    </div>
+                    <div id="bc-setup-area" class="hidden" style="margin-bottom: 15px;">
+                        <label style="font-size: 0.8rem; display: block; margin-bottom: 5px;">Reminder Time:</label>
+                        <input type="time" id="bc-time" class="date-input" style="margin: 0; padding: 8px;">
+                    </div>
+
+                    <!-- Medication -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <span style="font-size: 0.9rem;">Medication Reminder 🌿</span>
+                        <input type="checkbox" id="med-reminder-enabled" style="width: 20px; height: 20px; accent-color: var(--primary);">
+                    </div>
+                    <div id="med-setup-area" class="hidden">
+                        <label style="font-size: 0.8rem; display: block; margin-bottom: 5px;">Reminder Time:</label>
+                        <input type="time" id="med-time" class="date-input" style="margin: 0; padding: 8px;">
+                    </div>
+                    <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 10px;">We'll send you a gentle nudge at your chosen time. ✨</p>
+                </div>
+
+                <label style="font-weight: 600; display: block; margin-bottom: 10px;">Mood-Boosting Themes ✨</label>
+                <div class="theme-grid">
+                    <div class="theme-option active" data-theme="default">
+                        <div class="color-swatch" style="background: #ff4d6d;"></div>
+                        <span>Rose</span>
+                    </div>
+                    <div class="theme-option" data-theme="lavender">
+                        <div class="color-swatch" style="background: #9d4edd;"></div>
+                        <span>Lavender</span>
+                    </div>
+                    <div class="theme-option" data-theme="sunset">
+                        <div class="color-swatch" style="background: #f77f00;"></div>
+                        <span>Sunset</span>
+                    </div>
+                    <div class="theme-option" data-theme="mint">
+                        <div class="color-swatch" style="background: #2d6a4f;"></div>
+                        <span>Mint</span>
+                    </div>
+                    <div class="theme-option" data-theme="peachy">
+                        <div class="color-swatch" style="background: #ff85a1;"></div>
+                        <span>Peachy</span>
+                    </div>
+                    <div class="theme-option" data-theme="ocean">
+                        <div class="color-swatch" style="background: #4cc9f0;"></div>
+                        <span>Ocean</span>
+                    </div>
+                    <div class="theme-option" data-theme="midnight">
+                        <div class="color-swatch" style="background: #7209b7;"></div>
+                        <span>Midnight</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <a href="index.html" class="btn-secondary" style="text-decoration: none; display: inline-block; text-align: center; box-sizing: border-box;">Cancel</a>
+                <button id="save-settings" class="btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/settings.js"></script>
+</body>
+</html>

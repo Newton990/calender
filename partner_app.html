@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna | Partner App</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="js/common.js"></script>
+    <style>
+        .partner-accent { color: #4361ee; }
+        .support-card { border-left: 4px solid #4361ee; background: rgba(67, 97, 238, 0.05); }
+        .action-chip { padding: 10px 15px; background: white; border-radius: 20px; border: 1px solid var(--glass-border); font-size: 0.85rem; cursor: pointer; transition: 0.2s; }
+        .action-chip:hover { border-color: var(--primary); background: var(--accent); }
+    </style>
+</head>
+<body class="partner-mode">
+    <div class="app-container">
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="partner_app.html" class="nav-item active">
+                <span class="nav-icon">🤝</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="chat.html" class="nav-item">
+                <span class="nav-icon">💬</span>
+                <span>Chat</span>
+            </a>
+            <a href="settings.html" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <header style="text-align: center; margin-bottom: 30px;">
+            <h1 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--primary-dark);">Support Hub 🤝</h1>
+            <p style="color: var(--text-muted); font-style: italic;">Stay connected, stay supportive.</p>
+        </header>
+
+        <main id="partner-dashboard">
+            <!-- Partner Status Wheel -->
+            <div class="stats-card glass">
+                <div class="stats-content">
+                    <h2 id="partner-name-display" style="font-size: 1.1rem; opacity: 0.8;">Your Partner is in</h2>
+                    
+                    <div class="cycle-wheel-container">
+                        <svg class="cycle-svg" width="200" height="200" viewBox="0 0 220 220">
+                            <circle class="cycle-track" cx="110" cy="110" r="95"></circle>
+                            <circle id="cycle-progress-circle" class="cycle-progress" cx="110" cy="110" r="95" style="stroke: #4361ee;"></circle>
+                        </svg>
+                        <div class="wheel-center">
+                            <span class="wheel-day" id="cycle-day-count">--</span>
+                            <span class="wheel-phase" id="phase-text" style="color: #4361ee;">Phase</span>
+                        </div>
+                    </div>
+                    
+                    <div id="phase-alert-box" class="glass" style="margin-top: 15px; padding: 10px 20px; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">
+                        Period predicted in 5 days 🌸
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pregnancy Update (Hidden by default) -->
+            <div id="partner-preg-card" class="stats-card glass support-card hidden">
+                <div class="stats-content" style="text-align: left; width: 100%;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">Baby Update 👶</h3>
+                    <p style="font-size: 0.95rem; line-height: 1.5;">Week 12: Baby is the size of a <b>Lemon 🍋</b>! Their tiny fingers and toes are starting to develop.</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Tip: Be ready for more frequent snacks!</p>
+                </div>
+            </div>
+
+            <!-- Support Tips Card -->
+            <div class="stats-card glass" style="padding: 24px; text-align: left;">
+                <h3 style="font-size: 1.1rem; margin-bottom: 15px;">Luna's Support Tips 🤖</h3>
+                <div id="support-tips-container" style="display: flex; flex-direction: column; gap: 15px;">
+                    <div class="insight-row">
+                        <div style="display: flex; gap: 12px; align-items: flex-start;">
+                            <span style="font-size: 1.5rem;">💆‍♀️</span>
+                            <div>
+                                <strong id="support-tip-title">Comfort Strategy</strong>
+                                <p id="support-tip-desc" style="font-size: 0.9rem; color: var(--text-muted);">Partner might feel extra tired today. Offer to handle dinner or a relaxing foot rub.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Love Actions -->
+            <div style="margin-top: 20px;">
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; text-align: center;">Send a quick gesture of support:</p>
+                <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                    <div class="action-chip" onclick="location.href='chat.html?prefill=love'">❤️ Send Love</div>
+                    <div class="action-chip" onclick="location.href='chat.html?prefill=help'">🤝 Can I help?</div>
+                    <div class="action-chip" onclick="location.href='chat.html?prefill=flowers'">💐 Thinking of you</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/partner_app.js"></script>
+</body>
+</html>

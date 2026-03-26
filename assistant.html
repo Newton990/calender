@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna | AI Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff4d6d">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="js/common.js"></script>
+    <style>
+        .chat-container {
+            height: calc(100vh - 180px);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+            overflow-y: auto;
+            mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+        }
+        .message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
+        .message.ai {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--text-main);
+            border-bottom-left-radius: 4px;
+            border: 1px solid var(--glass-border);
+        }
+        .message.user {
+            align-self: flex-end;
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .chat-input-area {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 600px;
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+        #chat-input {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            font-family: inherit;
+            outline: none;
+        }
+        .suggestion-chips {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 20px 0;
+            scrollbar-width: none;
+        }
+        .chip {
+            white-space: nowrap;
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .chip:hover {
+            background: var(--accent);
+            border-color: var(--primary);
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div id="global-header"></div>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="calendar.html" class="nav-item">
+            <span class="nav-icon">📅</span>
+            <span>Calendar</span>
+        </a>
+        <div id="quick-log-btn" class="log-btn-nav" title="Quick Log">+</div>
+        <a href="report.html" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span>Insights</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+        </a>
+    </nav>
+
+        <div class="suggestion-chips" id="suggestions">
+            <div class="chip">Why am I so tired?</div>
+            <div class="chip">Cramps relief?</div>
+            <div class="chip">Is my cycle normal?</div>
+            <div class="chip">Best food for PMS?</div>
+        </div>
+
+        <div class="chat-container" id="chat-messages">
+            <div class="message ai">
+                Hello! I'm Luna, your personal health assistant. How are you feeling today? I can help you understand your cycle or give you health tips. ✨
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <button id="voice-btn" style="background:none; border:none; font-size: 1.5rem; cursor: pointer; opacity: 0.6;">🎤</button>
+            <input type="text" id="chat-input" placeholder="Ask me anything about your cycle...">
+            <button id="send-btn" class="btn-primary" style="padding: 10px 20px; font-size: 0.9rem;">Send</button>
+        </div>
+    </div>
+
+    <script src="js/assistant.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna | Couple Chat</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="js/common.js"></script>
+    <style>
+        .chat-container { height: calc(100vh - 220px); overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 0.9rem; position: relative; }
+        .msg.sent { align-self: flex-end; background: var(--primary); color: white; border-bottom-right-radius: 4px; }
+        .msg.received { align-self: flex-start; background: rgba(255,255,255,0.8); border-bottom-left-radius: 4px; border: 1px solid var(--glass-border); }
+        .ai-hint { font-size: 0.75rem; font-style: italic; color: var(--primary-dark); margin-top: 5px; display: block; }
+        .chat-footer { position: fixed; bottom: 85px; width: 100%; max-width: 600px; left: 50%; transform: translateX(-50%); padding: 10px; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Bottom Nav will be standardized via common.js or manually -->
+        <div id="chat-header" class="glass" style="padding: 15px; text-align: center; border-bottom: 1px solid var(--glass-border);">
+            <h3 id="chat-title">NewLuna Duo 💬</h3>
+            <p style="font-size: 0.75rem; color: var(--text-muted);">Secure & Connected</p>
+        </div>
+
+        <div class="chat-container" id="chat-window">
+            <div class="msg received">
+                Welcome to your private space! 🌸
+            </div>
+        </div>
+
+        <div class="chat-footer">
+            <div id="ai-suggestion-chips" style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none;">
+                <!-- Suggestions -->
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="chat-input" placeholder="Type a message..." class="date-input" style="margin:0; flex:1;">
+                <button id="msg-send-btn" class="btn-primary" style="width: auto; padding: 0 20px;">Send</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/chat.js"></script>
+</body>
+</html>

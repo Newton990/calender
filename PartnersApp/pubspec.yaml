@@ -1,0 +1,24 @@
+name: partners_app
+description: Luna Partners App
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  share_plus: ^8.0.0
+  local_auth: ^2.2.0
+  cupertino_icons: ^1.0.2
+  shared_preferences: ^2.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true

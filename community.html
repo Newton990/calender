@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna | Community & Advice</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff4d6d">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="js/common.js"></script>
+    <style>
+        .advice-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--bg-grad);
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+        .advice-section { margin-bottom: 50px; }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Articles Grid */
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .article-card {
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+        .article-card:hover { transform: translateY(-5px); }
+        .article-img {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+        .article-content { padding: 20px; }
+        .article-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--primary);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .article-title { margin: 10px 0; font-size: 1.2rem; }
+        .article-excerpt { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
+
+        /* FAQ Accordion */
+        .faq-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            padding: 0 20px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 20px 20px 20px;
+        }
+
+        /* PMS Support Hub */
+        .pms-hub {
+            background: rgba(255, 179, 193, 0.1);
+            border: 1px dashed var(--primary);
+            border-radius: 20px;
+            padding: 30px;
+        }
+        .pms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .pms-tip {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .pms-icon { font-size: 2rem; display: block; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div id="global-header"></div>
+    
+    <div class="app-container" style="max-width: 1000px; margin: 0 auto; padding: 20px;">
+        <header class="advice-header">
+            <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary-dark);">Community & Advice 📚</h1>
+            <p style="color: var(--text-muted);">Expert knowledge and personal support for your wellness journey.</p>
+        </header>
+
+        <!-- Articles Section -->
+        <section class="advice-section">
+            <h2 class="section-title">Health Articles 📖</h2>
+            <div class="article-grid">
+                <article class="glass article-card">
+                    <div class="article-img" style="background-image: url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80')"></div>
+                    <div class="article-content">
+                        <span class="article-tag">Cycle Syncing</span>
+                        <h3 class="article-title">How to Sync Your Workout with Your Cycle</h3>
+                        <p class="article-excerpt">Discover how various phases of your cycle affect your energy levels and how to optimize your fitness routine.</p>
+                    </div>
+                </article>
+                <article class="glass article-card">
+                    <div class="article-img" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=800&q=80')"></div>
+                    <div class="article-content">
+                        <span class="article-tag">Nutrition</span>
+                        <h3 class="article-title">5 Foods to Ease Period Cramps Naturally</h3>
+                        <p class="article-excerpt">From ginger tea to dark chocolate, learn which foods help reduce inflammation and soothe discomfort.</p>
+                    </div>
+                </article>
+                <article class="glass article-card">
+                    <div class="article-img" style="background-image: url('https://images.unsplash.com/photo-1531983412531-1f3950154fb1?auto=format&fit=crop&w=800&q=80')"></div>
+                    <div class="article-content">
+                        <span class="article-tag">Pregnancy</span>
+                        <h3 class="article-title">The First Trimester: What to Expect</h3>
+                        <p class="article-excerpt">A comprehensive guide on the physical and emotional changes during your first 12 weeks of pregnancy.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- PMS Support Hub -->
+        <section class="advice-section">
+            <div class="pms-hub">
+                <h2 class="section-title" style="margin-bottom: 10px;">PMS Support Hub 💖</h2>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Personalized advice to help you feel your best when you're feeling your worst.</p>
+                <div class="pms-grid">
+                    <div class="pms-tip">
+                        <span class="pms-icon">🍵</span>
+                        <strong>Herbal Care</strong>
+                        <p style="font-size: 0.8rem; margin-top: 5px;">Peppermint and Raspberry leaf tea can help with bloating.</p>
+                    </div>
+                    <div class="pms-tip">
+                        <span class="pms-icon">🧘</span>
+                        <strong>Gentle Movement</strong>
+                        <p style="font-size: 0.8rem; margin-top: 5px;">Yoga and light stretching release endorphins to boost your mood.</p>
+                    </div>
+                    <div class="pms-tip">
+                        <span class="pms-icon">🍫</span>
+                        <strong>Magnesium Boost</strong>
+                        <p style="font-size: 0.8rem; margin-top: 5px;">Magnesium helps ease muscle tension and mood swings.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="advice-section">
+            <h2 class="section-title">Common Questions (FAQ) ❓</h2>
+            <div class="glass" style="padding: 10px;">
+                <div class="faq-item">
+                    <button class="faq-question">Why is my period irregular? <span>+</span></button>
+                    <div class="faq-answer">
+                        Irregular periods are very common and can be caused by stress, changes in exercise or diet, or underlying hormonal shifts. If your period is consistently irregular, it's a good idea to chat with your healthcare provider.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">When should I start taking prenatal vitamins? <span>+</span></button>
+                    <div class="faq-answer">
+                        Ideally, you should start taking prenatal vitamins at least three months before you plan to conceive to build up essential nutrients like folic acid.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">How can I track my ovulation accurately? <span>+</span></button>
+                    <div class="faq-answer">
+                        The most accurate ways include tracking your Basal Body Temperature (BBT), monitoring cervical mucus changes, or using Ovulation Predictor Kits (OPKs).
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/community.js"></script>
+</body>
+</html>

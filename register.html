@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna | Register</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff4d6d">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="js/common.js"></script>
+</head>
+<body>
+    <div id="auth-container" class="auth-wrapper">
+        <div class="auth-card glass">
+            <h1 class="logo auth-title">NewLuna</h1>
+            <p class="auth-subtitle">Join our elegant health community.</p>
+            
+            <div id="signup-form-container">
+                <h2>Create Account</h2>
+                <input type="text" id="signup-username" class="auth-input" placeholder="Choose a Username">
+                <input type="password" id="signup-password" class="auth-input" placeholder="Create a Password">
+                <button id="signup-btn" class="btn-primary auth-btn">Sign Up</button>
+                <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+            </div>
+            
+            <p id="auth-error" class="auth-error hidden">Invalid credentials</p>
+        </div>
+    </div>
+    <script src="js/auth.js"></script>
+</body>
+</html>

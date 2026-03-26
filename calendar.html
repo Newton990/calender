@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna | Calendar</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff4d6d">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="js/common.js"></script>
+</head>
+<body>
+    <div id="app-container" class="app-container">
+    <div id="global-header"></div>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="calendar.html" class="nav-item active">
+            <span class="nav-icon">📅</span>
+            <span>Calendar</span>
+        </a>
+        <div id="quick-log-btn" class="log-btn-nav" title="Quick Log">+</div>
+        <a href="report.html" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span>Insights</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+        </a>
+    </nav>
+
+        <main style="display: block;">
+            <div class="calendar-card glass">
+                <div class="calendar-header">
+                    <button id="prev-month" class="nav-btn">&lt;</button>
+                    <h3 id="month-display">--</h3>
+                    <button id="next-month" class="nav-btn">&gt;</button>
+                </div>
+                <div class="calendar-grid">
+                    <div class="weekday">Sun</div>
+                    <div class="weekday">Mon</div>
+                    <div class="weekday">Tue</div>
+                    <div class="weekday">Wed</div>
+                    <div class="weekday">Thu</div>
+                    <div class="weekday">Fri</div>
+                    <div class="weekday">Sat</div>
+                </div>
+                <div id="calendar-days" class="calendar-days"></div>
+            </div>
+        </main>
+
+        <div id="modal-overlay" class="overlay hidden"></div>
+        <div id="symptom-modal" class="modal hidden glass">
+            <h3>Date Details</h3>
+            <p id="selected-date-display" style="font-weight: 600; font-size: 1.1rem; color: var(--primary); margin-bottom: 5px;"></p>
+            <div class="predictions-panel" style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 12px; margin-bottom: 15px; font-size: 0.9rem;">
+                <p><strong>Next Period:</strong> <span id="pred-menstruation" style="color: var(--primary);">Calculating...</span></p>
+                <p><strong>Ovulation:</strong> <span id="pred-ovulation" style="color: var(--primary-dark);">Calculating...</span></p>
+            </div>
+            <!-- Tab Navigation -->
+            <div class="modal-tabs" style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 10px;">
+                <button class="tab-btn active" data-tab="emotional">🧠 Emotional</button>
+                <button class="tab-btn" data-tab="physical">🩸 Physical</button>
+                <button class="tab-btn" data-tab="lifestyle">🌿 Lifestyle</button>
+            </div>
+
+            <!-- Emotional Tab -->
+            <div id="tab-emotional" class="tab-pane">
+                <h4 style="margin-bottom: 10px; text-align: left;">Mood & Energy</h4>
+                <div class="mood-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px;">
+                    <button class="metric-btn mood-btn" data-mood="happy">😊 Happy</button>
+                    <button class="metric-btn mood-btn" data-mood="sad">😢 Sad</button>
+                    <button class="metric-btn mood-btn" data-mood="anxious">😰 Anxious</button>
+                    <button class="metric-btn mood-btn" data-mood="angry">😡 Angry</button>
+                    <button class="metric-btn mood-btn" data-mood="calm">😌 Calm</button>
+                    <button class="metric-btn mood-btn" data-mood="tired">😴 Tired</button>
+                    <button class="metric-btn mood-btn" data-mood="moody">🎭 Mood Swings</button>
+                </div>
+                <div class="scale-group" style="margin-bottom: 15px;">
+                    <label style="display: block; font-size: 0.9rem; margin-bottom: 5px;">Energy Level (1-5):</label>
+                    <input type="range" id="energy-range" min="1" max="5" step="1" style="width: 100%;">
+                </div>
+            </div>
+
+            <!-- Physical Tab -->
+            <div id="tab-physical" class="tab-pane hidden">
+                <h4 style="margin-bottom: 10px; text-align: left;">Cramps & Flow</h4>
+                <div class="scale-group" style="margin-bottom: 15px;">
+                    <label style="display: block; font-size: 0.9rem; margin-bottom: 5px;">Pain/Cramps (1-5):</label>
+                    <input type="range" id="pain-range" min="1" max="5" step="1" style="width: 100%;">
+                </div>
+                <div class="flow-selector" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px;">
+                    <button class="metric-btn flow-btn" data-flow="spotting">💧 Spotting</button>
+                    <button class="metric-btn flow-btn" data-flow="light">🩸 Light</button>
+                    <button class="metric-btn flow-btn" data-flow="medium">🩸 Medium</button>
+                    <button class="metric-btn flow-btn" data-flow="heavy">🩸 Heavy</button>
+                </div>
+                <div id="menstrual-symptoms" class="symptom-grid">
+                    <button class="symptom-btn" data-symptom="bloating">🎈 Bloating</button>
+                    <button class="symptom-btn" data-symptom="headache">🤕 Headache</button>
+                    <button class="symptom-btn" data-symptom="acne">✨ Acne</button>
+                    <button class="symptom-btn" data-symptom="cravings">🍕 Cravings</button>
+                </div>
+                <div id="pregnancy-symptoms" class="symptom-grid hidden">
+                    <button class="symptom-btn" data-symptom="nausea">🤢 Nausea</button>
+                    <button class="symptom-btn" data-symptom="fatigue">😴 Fatigue</button>
+                </div>
+            </div>
+
+            <!-- Lifestyle Tab -->
+            <div id="tab-lifestyle" class="tab-pane hidden">
+                <h4 style="margin-bottom: 10px; text-align: left;">Sleep & Drive</h4>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label style="display: block; font-size: 0.9rem; margin-bottom: 5px;">Sleep (Hours):</label>
+                    <input type="number" id="sleep-hours" placeholder="8" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #ddd;">
+                </div>
+                <div class="drive-selector" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                    <button class="metric-btn drive-btn" data-drive="low">📉 Low</button>
+                    <button class="metric-btn drive-btn" data-drive="med">📊 Med</button>
+                    <button class="metric-btn drive-btn" data-drive="high">📈 High</button>
+                </div>
+            </div>
+            <div class="modal-actions" style="flex-wrap: wrap; gap: 10px;">
+                <button id="toggle-period-btn" class="btn-primary" style="flex: 1 1 100%; margin-bottom: 5px; background: var(--primary-dark);">Mark as Period Start</button>
+                <button id="close-modal" class="btn-secondary" style="flex: 1;">Cancel</button>
+                <button id="save-symptoms" class="btn-primary" style="flex: 1;">Save Symptoms</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

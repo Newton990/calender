@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna | Pregnancy Journey</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#d4a373">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="js/common.js"></script>
+</head>
+<body class="pregnancy-mode">
+    <div id="global-header"></div>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="calendar.html" class="nav-item">
+            <span class="nav-icon">📅</span>
+            <span>Calendar</span>
+        </a>
+        <div id="quick-log-btn" class="log-btn-nav" title="Quick Log">+</div>
+        <a href="report.html" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span>Insights</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+        </a>
+    </nav>
+    
+    <div class="app-container" style="max-width: 1000px; margin: 0 auto; padding: 20px;">
+        <header style="text-align: center; margin-bottom: 30px;">
+            <h1 id="journey-title" style="font-family: 'Playfair Display', serif; font-size: 2.22rem; color: var(--primary-dark);">Your Journey ✨</h1>
+            <p id="journey-subtitle" style="color: var(--text-muted); font-style: italic;">We're with you every step of the way.</p>
+        </header>
+
+        <!-- Mode Selector (Only shown if not active) -->
+        <div id="mode-selector-area" class="glass" style="padding: 25px; text-align: center; margin-bottom: 30px;">
+            <h3 style="margin-bottom: 20px;">What is your current goal?</h3>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <button id="btn-set-ttc" class="well-card glass" style="flex: 1; min-width: 200px; cursor: pointer; border: 2px solid transparent;">
+                    <span style="font-size: 2rem;">🌱</span>
+                    <strong style="display: block; margin-top: 10px;">Trying to Conceive</strong>
+                    <p style="font-size: 0.8rem; opacity: 0.7;">Track ovulation & fertility windows.</p>
+                </button>
+                <button id="btn-set-pregnant" class="well-card glass" style="flex: 1; min-width: 200px; cursor: pointer; border: 2px solid transparent;">
+                    <span style="font-size: 2rem;">👶</span>
+                    <strong style="display: block; margin-top: 10px;">I'm Pregnant</strong>
+                    <p style="font-size: 0.8rem; opacity: 0.7;">Track weeks & fetal development.</p>
+                </button>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 20px;">You can change this anytime in your profile settings. 🌸</p>
+        </div>
+
+        <!-- TTC DASHBOARD -->
+        <div id="ttc-area" class="hidden">
+            <div class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="glass" style="padding: 25px; text-align: center;">
+                    <span style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted);">Fertility Status</span>
+                    <h2 id="ttc-fertility-status" style="margin: 10px 0; color: var(--primary);">High Fertility</h2>
+                    <p id="ttc-ovu-countdown" style="font-size: 1.1rem; font-weight: 600;">Ovulation in 2 Days</p>
+                </div>
+                <div class="glass" style="padding: 25px; text-align: center;">
+                    <span style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted);">Today's Tip</span>
+                    <p id="ttc-tip" style="font-size: 0.9rem; margin-top: 10px; line-height: 1.4;">"CoQ10 supplements may support egg quality during your TTC journey. ✨"</p>
+                </div>
+            </div>
+
+            <div class="glass" style="margin-top: 20px; padding: 25px;">
+                <h3 style="margin-bottom: 15px;">Fertility Tracking 🌡️</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div>
+                        <label style="font-size: 0.85rem; display: block; margin-bottom: 5px;">Basal Body Temp (BBT)</label>
+                        <input type="number" step="0.1" id="bbt-input" class="date-input" placeholder="98.6" style="margin:0; width: 100%;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem; display: block; margin-bottom: 5px;">Cervical Mucus</label>
+                        <select id="mucus-input" class="date-input" style="margin:0; width: 100%;">
+                            <option value="">Select consistency...</option>
+                            <option value="dry">Dry</option>
+                            <option value="sticky">Sticky</option>
+                            <option value="creamy">Creamy</option>
+                            <option value="watery">Watery</option>
+                            <option value="egg-white">Egg White (Peak)</option>
+                        </select>
+                    </div>
+                </div>
+                <button id="save-fertility" class="auth-btn" style="margin-top: 20px; width: auto; padding: 10px 30px;">Log Today's Data ✨</button>
+            </div>
+        </div>
+
+        <!-- PREGNANCY DASHBOARD -->
+        <div id="pregnancy-area" class="hidden">
+            <div class="glass" style="text-align: center; padding: 30px; margin-bottom: 30px;">
+                <h2 id="preg-week-display" style="font-size: 2.5rem; color: var(--primary);">Week 12, Day 3</h2>
+                <div id="preg-progress-container" style="height: 12px; background: rgba(0,0,0,0.05); border-radius: 6px; margin: 20px 0; overflow: hidden; position: relative;">
+                    <div id="preg-progress-bar" style="height: 100%; width: 30%; background: var(--primary); transition: width 1s ease;"></div>
+                </div>
+                <p id="preg-due-date" style="font-weight: 600; color: var(--text-muted);">Due Date: September 24, 2026</p>
+            </div>
+
+            <div class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="glass" style="padding: 25px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <span style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;">Baby is the size of a:</span>
+                    <span id="baby-size-emoji" style="font-size: 3rem; margin-bottom: 10px;">🍋</span>
+                    <h3 id="baby-size-name">Lemon</h3>
+                </div>
+                <div class="glass" style="padding: 25px;">
+                    <h3 style="margin-bottom: 10px;">This Week ✨</h3>
+                    <p id="weekly-insight" style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">"Your baby's reflexes are developing! They may be moving their fingers and toes, though you can't feel it yet."</p>
+                </div>
+            </div>
+
+            <div class="glass" style="margin-top: 30px; padding: 25px; text-align: center; background: rgba(255,179,193,0.1);">
+                <p style="font-size: 0.9rem; color: var(--primary-dark);">"You're doing an incredible job growing a human. Remember to take time for yourself today." ❤️</p>
+            </div>
+        </div>
+
+        <!-- Setup Modal (Simple Overlay) -->
+        <div id="setup-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+            <div class="glass" style="padding: 40px; max-width: 400px; width: 90%; text-align: center;">
+                <h3 id="setup-title">Setup Journey</h3>
+                <p id="setup-desc" style="font-size: 0.9rem; margin: 15px 0;">Enter your Last Menstrual Period:</p>
+                <input type="date" id="setup-date" class="date-input" style="width: 100%; margin-bottom: 20px;">
+                <div style="display: flex; gap: 10px;">
+                    <button id="cancel-setup" class="btn-secondary" style="flex: 1;">Cancel</button>
+                    <button id="confirm-setup" class="btn-primary" style="flex: 1;">Start ✨</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+             <button id="reset-journey" class="btn-secondary" style="font-size: 0.8rem; opacity: 0.6;">Reset Journey Tracking</button>
+        </div>
+    </div>
+    <script src="js/pregnancy.js"></script>
+</body>
+</html>

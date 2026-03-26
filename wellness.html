@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna | Wellness Center</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff4d6d">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="js/common.js"></script>
+</head>
+<body>
+    <div id="global-header"></div>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="calendar.html" class="nav-item">
+            <span class="nav-icon">📅</span>
+            <span>Calendar</span>
+        </a>
+        <div id="quick-log-btn" class="log-btn-nav" title="Quick Log">+</div>
+        <a href="report.html" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span>Insights</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+        </a>
+    </nav>
+    
+        <div class="app-container" style="max-width: 1000px; margin: 0 auto; padding: 20px;">
+            <header style="text-align: center; margin-bottom: 40px;">
+                <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary-dark); margin-bottom: 10px;">Wellness Center ✨</h1>
+                <p style="color: var(--text-muted); font-style: italic;">Your sanctuary for health, balance, and self-love.</p>
+            </header>
+
+            <!-- Cycle Academy Section -->
+            <section id="cycle-academy" style="margin-bottom: 40px;">
+                <h2 style="font-size: 1.4rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                    Cycle Academy 🎓 <span style="font-size: 0.9rem; font-weight: normal; opacity: 0.7;">Learn your biology</span>
+                </h2>
+                
+                <div class="academy-grid" style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+                    <!-- Menstrual -->
+                    <div class="well-card academy-card glass">
+                        <div class="academy-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <div>
+                                <strong style="color: #ffb3c1;">Menstrual Phase (Days 1-5) 🩸</strong>
+                                <p style="font-size: 0.85rem; margin-top: 5px;">Hormone levels are at their lowest as your body sheds the uterine lining.</p>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="academy-content hidden" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px;">This is the start of your cycle. Your energy is naturally lower, and your body is focused on rest and renewal. It's a time for reflection and inner focus.</p>
+                            <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px;">
+                                <strong style="font-size: 0.8rem; display: block; margin-bottom: 5px; color: var(--primary);">Key Biological Events:</strong>
+                                <ul style="font-size: 0.85rem; padding-left: 20px;">
+                                    <li>Estrogen and Progesterone drop to their lowest levels.</li>
+                                    <li>The hypothalamus signals the pituitary gland to start the process again.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Follicular -->
+                    <div class="well-card academy-card glass">
+                        <div class="academy-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <div>
+                                <strong style="color: var(--primary);">Follicular Phase (Days 6-13) 🌱</strong>
+                                <p style="font-size: 0.85rem; margin-top: 5px;">Hormones start to climb, bringing fresh energy and mental clarity.</p>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="academy-content hidden" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px;">Your brain is extra sharp now. It's the perfect phase to start new projects, socialize, and tackle complex problems. You'll likely feel more optimistic and creative.</p>
+                            <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px;">
+                                <strong style="font-size: 0.8rem; display: block; margin-bottom: 5px; color: var(--primary);">Key Biological Events:</strong>
+                                <ul style="font-size: 0.85rem; padding-left: 20px;">
+                                    <li>FSH (Follicle Stimulating Hormone) rises to mature eggs.</li>
+                                    <li>Estrogen begins to thicken the uterine lining.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ovulation -->
+                    <div class="well-card academy-card glass">
+                        <div class="academy-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <div>
+                                <strong style="color: #ffb703;">Ovulation Phase (Day 14-16) ✨</strong>
+                                <p style="font-size: 0.85rem; margin-top: 5px;">Peak fertility and peak confidence! You're glowing inside and out.</p>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="academy-content hidden" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px;">This is a short window with big impact. You might feel more attractive, communicative, and physically strong. Your libido is often highest during these few days.</p>
+                            <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px;">
+                                <strong style="font-size: 0.8rem; display: block; margin-bottom: 5px; color: var(--primary);">Key Biological Events:</strong>
+                                <ul style="font-size: 0.85rem; padding-left: 20px;">
+                                    <li>LH (Luteinizing Hormone) surges, triggering the release of the egg.</li>
+                                    <li>Estrogen reaches its highest point.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Luteal -->
+                    <div class="well-card academy-card glass">
+                        <div class="academy-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <div>
+                                <strong style="color: #43aa8b;">Luteal Phase (Days 17-28) 🌙</strong>
+                                <p style="font-size: 0.85rem; margin-top: 5px;">The 'winding down' phase. Turning inward and prioritizing stability.</p>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="academy-content hidden" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px;">The first half is calm, but as you approach your period, you may feel more sensitive. It's a great time for detail-oriented tasks and finishing projects rather than starting them.</p>
+                            <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px;">
+                                <strong style="font-size: 0.8rem; display: block; margin-bottom: 5px; color: var(--primary);">Key Biological Events:</strong>
+                                <ul style="font-size: 0.85rem; padding-left: 20px;">
+                                    <li>Progesterone rises to prepare the uterus for potential pregnancy.</li>
+                                    <li>If no pregnancy occurs, hormone levels drop, triggering menstruation.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="wellness-grid">
+            <!-- Daily Tips -->
+            <div class="well-card glass">
+                <span class="well-icon">☀️</span>
+                <h3>Daily Wellness Tips</h3>
+                <ul class="well-tips">
+                    <li>Start your morning with a glass of warm lemon water.</li>
+                    <li>Take 5 minutes for deep breathing every afternoon.</li>
+                    <li>Limit blue light exposure 1 hour before sleep.</li>
+                    <li>Move your body for at least 20 minutes today.</li>
+                </ul>
+            </div>
+
+            <!-- PMS Tips -->
+            <div class="well-card glass">
+                <span class="well-icon">🌸</span>
+                <h3>PMS Support</h3>
+                <ul class="well-tips">
+                    <li>Apply a warm compress for cramp relief.</li>
+                    <li>Ginger or Chamomile tea helps reduce bloating.</li>
+                    <li>Magnesium-rich foods can help with mood swings.</li>
+                    <li>Gentle stretching/Yoga relieves lower back tension.</li>
+                </ul>
+            </div>
+
+            <!-- Nutrition -->
+            <div class="well-card glass">
+                <span class="well-icon">🍎</span>
+                <h3>Nutrition Suggestions</h3>
+                <ul class="well-tips">
+                    <li>Leafy greens for iron during your period.</li>
+                    <li>Avocados and healthy fats for hormone balance.</li>
+                    <li>Probiotics (Yogurt/Kefir) for digestive health.</li>
+                    <li>Dark chocolate (70%+) for a mood boost!</li>
+                </ul>
+            </div>
+
+            <!-- Self-Care -->
+            <div class="well-card glass">
+                <span class="well-icon">🧘‍♀️</span>
+                <h3>Self-Care Reminders</h3>
+                <ul class="well-tips">
+                    <li>It's okay to say 'no' and rest when you need it.</li>
+                    <li>Write down three things you are grateful for today.</li>
+                    <li>Your worth is not defined by your productivity.</li>
+                    <li>Treat yourself to a relaxing bath or a quiet walk.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('.academy-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                const content = card.querySelector('.academy-content');
+                const icon = header.querySelector('.toggle-icon');
+                
+                content.classList.toggle('hidden');
+                icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+                icon.style.transition = 'transform 0.3s ease';
+            });
+        });
+
+        // Auto-expand if linked from dashboard
+        const hash = window.location.hash;
+        if (hash) {
+            const phaseMap = {
+                '#menstrual': 0,
+                '#follicular': 1,
+                '#ovulation': 2,
+                '#luteal': 3
+            };
+            const index = phaseMap[hash.toLowerCase()];
+            if (index !== undefined) {
+                const headers = document.querySelectorAll('.academy-header');
+                if (headers[index]) headers[index].click();
+            }
+        }
+    </script>
+</body>
+</html>

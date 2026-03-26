@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna | Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff4d6d">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="js/common.js"></script>
+</head>
+<body>
+    <div id="app-container" class="app-container">
+    <div id="global-header"></div>
+    <!-- Bottom Navigation -->
+    <!-- Global Bottom Navigation Placeholder -->
+    <div id="global-bottom-nav"></div>
+
+        <main id="main-content" style="display: block;">
+            <div id="dashboard-view">
+                <section class="dashboard" style="max-width: 600px; margin: 0 auto;">
+                    <div id="partner-mode-banner" class="banner hidden">Partner Mode: Read-Only</div>
+                    
+                    <div style="padding: 10px 20px; text-align: right;">
+                        <label style="font-size: 0.9rem; font-weight: 600; color: var(--primary); cursor: pointer; display: flex; align-items: center; justify-content: flex-end; gap: 8px;">
+                            <input type="checkbox" id="pregMode" onchange="togglePregnancy()" style="width: 18px; height: 18px; cursor: pointer;">
+                            Pregnancy Mode ✨
+                        </label>
+                    </div>
+
+                    <!-- Pregnancy Specific Dashboard -->
+                    <div id="pregnancyDashboard" style="display: none; padding: 25px; background: white; border-radius: 20px; margin: 20px; animation: slideUpFade 0.6s ease;" class="glass">
+                        <h2 id="pregnancy-week-text" style="color: var(--primary-dark); margin-bottom: 10px; font-weight: 700;">Pregnancy Week 8</h2>
+                        <p id="baby-size" style="font-size: 1.1rem; margin-bottom: 8px; font-weight: 600;">Baby size: Raspberry</p>
+                        <p id="pregnancy-tip" style="font-size: 0.95rem; color: var(--text-muted); font-style: italic; line-height: 1.5;">Tip: Stay hydrated and eat iron rich foods.</p>
+                        
+                        <div style="display: flex; gap: 10px; margin-top: 20px;">
+                            <button id="log-kick-btn" class="btn-primary" style="flex: 1; padding: 12px; border-radius: 12px;">Log Kick 🦶</button>
+                            <a href="pregnancy.html" class="btn-primary" style="flex: 1; text-decoration: none; display: flex; align-items: center; justify-content: center; background: #bc8a5f; color: white; border-radius: 12px; font-weight: 600;">Journey ✨</a>
+                        </div>
+                    </div>
+
+                    <!-- Cycle Tracking Dashboard -->
+                    <div id="cycleDashboard">
+                        
+                        <!-- Cycle Status Card -->
+                        <div class="flutter-card">
+                            <p style="font-size: 1rem; color: var(--text-muted); margin-bottom: 8px;">Cycle Status</p>
+                            <h2 id="daysLeft" style="font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 12px;">-- DAYS LEFT</h2>
+                            <button id="mark-period-btn" class="btn-primary" style="padding: 10px 25px; border-radius: 20px;">Log Period</button>
+                        </div>
+
+                        <!-- Circular Percent Indicator (Cycle Ring) -->
+                        <div class="cycle-ring-container">
+                            <svg class="flutter-ring-svg" width="240" height="240" viewBox="0 0 240 240">
+                                <circle class="ring-bg" cx="120" cy="120" r="108" stroke="#FCE4EC" stroke-width="12" fill="none" />
+                                <circle id="cycle-ring-progress" class="ring-progress" cx="120" cy="120" r="108" stroke="#FF4D6D" stroke-width="12" fill="none" stroke-dasharray="678.58" stroke-dashoffset="678.58" stroke-linecap="round" transform="rotate(-90 120 120)" />
+                            </svg>
+                            <div class="ring-content">
+                                <span id="cycleDay" class="day-text">Day --</span>
+                                <span class="total-text">of 28</span>
+                            </div>
+                        </div>
+
+                        <!-- Fertility Insights Row -->
+                        <div class="cycle-grid" style="display: flex; gap: 10px; padding: 0 16px; margin-bottom: 20px;">
+                            <div class="info-card green">
+                                <span class="icon">🌱</span>
+                                <span class="title">Fertile Window</span>
+                                <span id="fertile" class="value">Mar 22</span>
+                            </div>
+                            <div class="info-card orange">
+                                <span class="icon">❤️</span>
+                                <span class="title">Ovulation</span>
+                                <span id="ovulation" class="value">Mar 27</span>
+                            </div>
+                        </div>
+
+                        <!-- Luna AI Advice Tile -->
+                        <div class="list-tile-card">
+                            <div class="list-tile" onclick="location.href='assistant.html'">
+                                <div class="leading" style="color: #9c27b0;">🤖</div>
+                                <div class="content">
+                                    <span class="title">Luna AI Tip</span>
+                                    <span id="aiMood" class="subtitle">Analyzing your cycle...</span>
+                                </div>
+                                <div class="trailing">›</div>
+                            </div>
+                        </div>
+
+                        <!-- Partner Mode Tile -->
+                        <div class="list-tile-card">
+                            <div class="list-tile" onclick="location.href='partner.html'">
+                                <div class="leading" style="color: #e91e63;">❤️</div>
+                                <div class="content">
+                                    <span class="title">Partner Mode</span>
+                                    <span class="subtitle">Chat and share cycle updates</span>
+                                </div>
+                                <div class="trailing">›</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    </div>
+
+                    <!-- Water Tracker Card -->
+                    <div class="stats-card glass water-card">
+                        <div class="stats-content">
+                            <h2 style="font-size: 1.2rem; margin-bottom: 5px; opacity: 0.8;">Hydration 💧</h2>
+                            <h2 id="water-count">0 / 8</h2>
+                            <div class="water-progress-bar" style="width: 100%; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden; margin: 15px 0;">
+                                <div id="water-progress-fill" style="width: 0%; height: 100%; background: #4cc9f0; transition: width 0.3s ease;"></div>
+                            </div>
+                            <div class="water-actions" style="display: flex; justify-content: center; gap: 15px;">
+                                <button id="remove-water" class="btn-minimal" style="font-size: 1.2rem; background: none; border: none; cursor: pointer;">-</button>
+                                <button id="add-water" class="btn-minimal" style="font-size: 1.2rem; background: none; border: none; cursor: pointer;">+</button>
+                            </div>
+                            <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.6;">Goal: 8 cups a day</p>
+                        </div>
+                    </div>
+
+
+                    <!-- Kindness Corner (Motivational Messages) -->
+                    <div id="kindness-corner" class="stats-card glass" style="padding: 24px; text-align: center; border: 1px dashed var(--primary); background: rgba(255,179,193,0.05);">
+                        <span id="kindness-icon" style="font-size: 2.22rem; display: block; margin-bottom: 10px;">🌸</span>
+                        <h3 id="kindness-title" style="font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 8px;">Kindness Corner</h3>
+                        <p id="kindness-message" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; font-style: italic;">"You're doing an amazing job today. Remember to be gentle with yourself." ✨</p>
+                    </div>
+
+                    <!-- AI Mood Prediction Card -->
+                    <div id="ai-mood-card" class="stats-card glass" style="background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255, 77, 109, 0.1));">
+                        <div class="stats-content" style="text-align: left; width: 100%;">
+                            <h2 style="font-size: 1.1rem; margin-bottom: 12px; opacity: 0.8;">AI Mood Insight 🧠</h2>
+                            <div id="mood-insight-container" style="display: flex; gap: 12px; align-items: flex-start;">
+                                <span id="mood-insight-emoji" style="font-size: 1.5rem;">✨</span>
+                                <div>
+                                    <p id="mood-insight-text" style="font-size: 0.9rem; line-height: 1.4; color: var(--text-main);">Analyzing your cycle to predict emotional trends...</p>
+                                    <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 5px;">Based on current phase & history</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Insights Card -->
+                    <div id="insights-card" class="stats-card glass">
+                        <div class="stats-content" style="text-align: left; width: 100%;">
+                            <h2 style="font-size: 1.2rem; margin-bottom: 15px; opacity: 0.8;">Phase & Insights ✨</h2>
+                            
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                                <div id="cycle-phase-badge" style="display: inline-block; padding: 5px 12px; border-radius: 20px; background: var(--primary); color: white; font-size: 0.8rem; font-weight: 600;">Follicular Phase</div>
+                                <a id="phase-learn-more" href="wellness.html" style="font-size: 0.75rem; color: var(--primary); text-decoration: none; font-weight: 600; background: rgba(255,255,255,0.3); padding: 4px 8px; border-radius: 12px;">Learn what this means →</a>
+                            </div>
+                            
+                            <div class="insight-row" style="margin-bottom: 15px;">
+                                <p style="font-size: 0.9rem; margin-bottom: 5px;"><strong>Fertility Status:</strong></p>
+                                <p id="fertility-text" style="font-size: 0.95rem; color: var(--text-main);">Low chance of conception today.</p>
+                            </div>
+
+                            <div id="irregularity-alert" class="hidden" style="background: rgba(247, 127, 0, 0.1); border-left: 4px solid #f77f00; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
+                                <p style="font-size: 0.85rem; color: #cc5803;"><strong>Cycle Alert:</strong> Your cycles have been varying. Check the Wellness Center for tips on balance.</p>
+                            </div>
+
+                            <div class="trend-section">
+                                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">Cycle Timeline History:</p>
+                                <div id="cycle-timeline" style="display: flex; gap: 5px; height: 10px; background: rgba(0,0,0,0.05); border-radius: 5px; overflow: hidden;">
+                                    <!-- Timeline bars will be injected -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Body Patterns Card -->
+                    <div id="patterns-card" class="stats-card glass" style="margin-top: 20px; background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(72, 202, 228, 0.1));">
+                        <div class="stats-content" style="text-align: left; width: 100%;">
+                            <h2 style="font-size: 1.1rem; margin-bottom: 12px; opacity: 0.8;">Body Patterns 🔍</h2>
+                            <div id="patterns-container">
+                                <p style="font-size: 0.85rem; color: var(--text-muted);">Log more data to uncover patterns in your cycle.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insights" style="margin-top: 20px;">
+                        <div class="insight-card glass">
+                            <h3>Cycle Summary</h3>
+                            <div class="insight-item">
+                                <span>Average Cycle</span>
+                                <strong id="avg-cycle">--</strong>
+                            </div>
+                            <div class="insight-item">
+                                <span>Average Period</span>
+                                <strong id="avg-period">--</strong>
+                            </div>
+                        </div>
+
+                        <!-- Daily Wellness Tip -->
+                        <div class="stats-card glass" style="padding: 24px; margin-top: 20px; text-align: left; background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,179,193,0.2));">
+                            <h3 style="font-size: 1.1rem; margin-bottom: 15px;">Daily Wellness Guide ✨</h3>
+                            
+                            <div id="tip-nutrition" style="display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start;">
+                                <span style="font-size: 1.2rem;">🥗</span>
+                                <div>
+                                    <strong style="display: block; font-size: 0.8rem; color: var(--primary);">Nutrition</strong>
+                                    <p id="tip-nutrition-text" style="font-size: 0.9rem; line-height: 1.4;">Loading suggestions...</p>
+                                </div>
+                            </div>
+
+                            <div id="tip-exercise" style="display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start;">
+                                <span style="font-size: 1.2rem;">🏃‍♀️</span>
+                                <div>
+                                    <strong style="display: block; font-size: 0.8rem; color: var(--primary);">Exercise</strong>
+                                    <p id="tip-exercise-text" style="font-size: 0.9rem; line-height: 1.4;">Loading recommendation...</p>
+                                </div>
+                            </div>
+
+                            <div id="tip-selfcare" style="display: flex; gap: 12px; align-items: flex-start;">
+                                <span style="font-size: 1.2rem;">💆‍♀️</span>
+                                <div>
+                                    <strong style="display: block; font-size: 0.8rem; color: var(--primary);">Self-Care</strong>
+                                    <p id="tip-selfcare-text" style="font-size: 0.9rem; line-height: 1.4;">Loading ideas...</p>
+                                </div>
+                            </div>
+
+                            <a href="wellness.html" style="display: block; margin-top: 15px; font-size: 0.8rem; color: var(--primary); text-decoration: none; font-weight: 600;">Full Wellness Center →</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+    </div>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
