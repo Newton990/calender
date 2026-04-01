@@ -1,53 +1,108 @@
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'encryption_util.dart';
 
 class ChatMessage {
+  final String messageId;
+  final String chatId;
+  final String senderId;
   final String text;
-  final String type; // 'sent' or 'received'
+  final String? imageUrl;
+  final String? audioUrl;
   final DateTime timestamp;
 
-  ChatMessage({required this.text, required this.type, required this.timestamp});
+  ChatMessage({
+    required this.messageId,
+    required this.chatId,
+    required this.senderId,
+    required this.text,
+    this.imageUrl,
+    this.audioUrl,
+    required this.timestamp,
+  });
 
   Map<String, dynamic> toJson() => {
+    'messageId': messageId,
+    'chatId': chatId,
+    'senderId': senderId,
     'text': text,
-    'type': type,
-    'timestamp': timestamp.toIso8601String(),
+    'imageUrl': imageUrl,
+    'audioUrl': audioUrl,
+    'timestamp': Timestamp.fromDate(timestamp),
   };
 
-  factory ChatMessage.fromJson(Map<String, dynamic> json) => ChatMessage(
-    text: json['text'],
-    type: json['type'],
-    timestamp: DateTime.parse(json['timestamp']),
-  );
+  factory ChatMessage.fromFirestore(DocumentSnapshot doc) {
+    Map data = doc.data() as Map;
+    final rawText = data['text'] ?? '';
+    // Automatically decrypt if it looks like Base64 or is flagged as encrypted
+    final decryptedText = EncryptionUtil.decryptText(rawText);
+
+    return ChatMessage(
+      messageId: doc.id,
+      chatId: data['chatId'] ?? '',
+      senderId: data['senderId'] ?? '',
+      text: decryptedText,
+      imageUrl: data['imageUrl'],
+      audioUrl: data['audioUrl'],
+      timestamp: (data['timestamp'] as Timestamp? ?? Timestamp.now()).toDate(),
+    );
+  }
 }
 
-  // In a real app, this would be your Firebase Firestore collection 
-  static const String _sharedPath = 'c:/Users/user/Desktop/calender/shared_chat.json';
+class MessagingService {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<List<ChatMessage>> getLogs() async {
-    try {
-      final file = File(_sharedPath);
-      if (!file.existsSync()) return [];
-      final content = await file.readAsString();
-      final List<dynamic> list = jsonDecode(content);
-      return list.map((s) => ChatMessage.fromJson(s)).toList();
-    } catch (e) {
-      print("Chat Sync Error: $e");
-      return [];
-    }
+  /// Deterministic chatId generation: sort UIDs to ensure consistency between both partners.
+  String getChatId(String uid1, String uid2) {
+    List<String> ids = [uid1, uid2];
+    ids.sort();
+    return ids.join('_');
   }
 
-  Future<void> saveMessage(ChatMessage msg) async {
-    try {
-      final logs = await getLogs();
-      logs.add(msg);
-      final file = File(_sharedPath);
-      await file.writeAsString(jsonEncode(logs.map((m) => m.toJson()).toList()));
-    } catch (e) {
-      print("Chat Save Error: $e");
-    }
+  /// Sends a message from the partner side to the nested 'messages' subcollection: chats/{chatId}/messages
+  Future<void> sendMessage({
+    required String chatId,
+    required String receiverId,
+    required String text,
+    String? imageUrl,
+    String? audioUrl,
+  }) async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    // 1. Encrypt the text before sending to Firestore
+    final encryptedText = EncryptionUtil.encryptText(text);
+
+    await _db
+        .collection('chats')
+        .doc(chatId)
+        .collection('messages')
+        .add({
+      'chatId': chatId,
+      'senderId': user.uid,
+      'receiverId': receiverId,
+      'text': encryptedText,
+      'imageUrl': imageUrl,
+      'audioUrl': audioUrl,
+      'timestamp': FieldValue.serverTimestamp(),
+      'isEncrypted': true,
+    });
   }
 
+  /// Real-time stream of messages from the subcollection for the partner view
+  Stream<List<ChatMessage>> getMessagesStream(String chatId) {
+    return _db
+        .collection('chats')
+        .doc(chatId)
+        .collection('messages')
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => ChatMessage.fromFirestore(doc)).toList());
+  }
+
+  /// Quick replies for the partner to send supportive messages
   List<String> getQuickReplies(int currentDay, bool isPregnant) {
     if (isPregnant) {
       return ["How are you feeling? ❤️", "Need anything from the store? 🍎", "I'm thinking of you! ✨"];
@@ -56,7 +111,7 @@ class ChatMessage {
     if (currentDay <= 5) {
       return ["Thinking of you! ❤️", "Got you tea! 🍵", "Netflix tonight? 📺"];
     } else if (currentDay >= 12 && currentDay <= 16) {
-      return ["You glow today! ✨", "Dinner date tonight? 🍷", "I love you! ❤️"];
+      return ["You glow today! ✨", "Dinner tonight? 🍷", "I love you! ❤️"];
     } else {
       return ["Take a breath! 🌙", "I'm here to listen. 👂", "You got this! 💪"];
     }

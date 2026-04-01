@@ -29,6 +29,27 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // 1.1 Layout Variant Guard (Soft vs Roma)
+    const layout = localStorage.getItem('current_layout') || 'roma';
+    const softPages = {
+        'index.html': 'soft_dashboard.html',
+        'assistant.html': 'soft_assistant.html',
+        'partner_dashboard.html': 'soft_partner_dashboard.html'
+    };
+    const romaPages = {
+        'soft_dashboard.html': 'index.html',
+        'soft_assistant.html': 'assistant.html',
+        'soft_partner_dashboard.html': 'partner_dashboard.html'
+    };
+
+    if (layout === 'soft') {
+        const target = softPages[path.split('/').pop()];
+        if (target) window.location.replace(target);
+    } else {
+        const target = romaPages[path.split('/').pop()];
+        if (target) window.location.replace(target);
+    }
+
     // 1.2 Onboarding Check
     if (currentUser && !localStorage.getItem(`onboardingComplete_${currentUser}`)) {
         if (path.includes('index.html') || path === '/' || path === '') {

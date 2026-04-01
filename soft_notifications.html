@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerts & Nudges | Luna Soft</title>
+    <link rel="stylesheet" href="css/soft-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FDF7F9;
+            color: #2D3142;
+        }
+
+        .notify-header {
+            padding: 40px 24px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .nudge-banner {
+            margin: 0 24px 24px;
+            padding: 20px;
+            background: rgba(240, 98, 146, 0.05);
+            border-radius: 28px;
+            border: 1px solid rgba(240, 98, 146, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nudge-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--soft-pink);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            box-shadow: 0 8px 16px rgba(240, 98, 146, 0.2);
+        }
+
+        .notification-list {
+            padding: 0 24px 100px;
+        }
+
+        .notify-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,182,193,0.2);
+            border-radius: 32px;
+            padding: 20px;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            transition: 0.3s;
+        }
+
+        .notify-card:active {
+            transform: scale(0.98);
+        }
+
+        .notify-type-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+        }
+
+        .notify-content {
+            flex: 1;
+        }
+
+        .notify-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .notify-title {
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'Outfit';
+        }
+
+        .notify-time {
+            font-size: 10px;
+            font-weight: 700;
+            color: #AAA;
+            text-transform: uppercase;
+        }
+
+        .notify-subtitle {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.4;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            right: 24px;
+            height: 72px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #A0A0A0;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-item.active {
+            color: var(--soft-pink);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Splash Screen -->
+    <div class="splash-overlay">
+        <div class="splash-flower">❋</div>
+        <div class="splash-bloom">Moon Bloom</div>
+    </div>
+
+    <div class="notify-header">
+        <div>
+            <div class="glass-pill" style="background: rgba(240, 98, 146, 0.1); color: var(--soft-pink); margin-bottom: 8px;">
+                <span style="color: var(--soft-pink); margin-right: 6px;">●</span> Wellness Updates
+            </div>
+            <h1 style="font-family: 'Outfit'; font-size: 32px; font-weight: 700; margin: 0;">Alerts & Nudges</h1>
+        </div>
+        <div class="nav-item" onclick="location.reload()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2D3142" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+        </div>
+    </div>
+
+    <!-- Active Nudge Banner -->
+    <div class="nudge-banner">
+        <div class="nudge-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        </div>
+        <div>
+            <div style="font-family: 'Outfit'; font-weight: 700; font-size: 15px;">Active Hourly Nudges</div>
+            <div style="font-size: 12px; color: #888;">We're nudging you every hour to hydrate.</div>
+        </div>
+        <div style="margin-left: auto; color: var(--soft-pink);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        </div>
+    </div>
+
+    <div class="notification-list" id="notifyList">
+        <!-- Notification Items Load Here -->
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item" onclick="location.href='soft_dashboard.html'">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        </div>
+        <div class="nav-item" onclick="location.href='soft_assistant.html'">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 10-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        </div>
+        <div class="nav-item" onclick="location.href='soft_reports.html'">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+        </div>
+        <div class="nav-item" onclick="location.href='soft_profile.html'">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        </div>
+    </nav>
+
+    <script src="js/soft_notifications.js"></script>
+</body>
+</html>

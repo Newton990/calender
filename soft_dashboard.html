@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna | Soft Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="soft-style.css">
+</head>
+<body>
+
+<!-- Animated Splash Screen -->
+<div class="splash-overlay">
+    <div class="splash-flower">❋</div>
+    <div class="splash-bloom">Moon Bloom</div>
+</div>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header" style="display: flex; align-items: center; padding: 20px 0; margin-bottom: 20px;">
+            <div class="moon-bloom-logo" style="background: none; -webkit-text-fill-color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.1);">Moon Bloom</div>
+        </div>
+            <a href="soft_dashboard.html" class="nav-item active">
+                <i>🏠</i> Dashboard
+            </a>
+            <a href="calendar.html" class="nav-item">
+                <i>📅</i> Calendar
+            </a>
+            <a href="partner.html" class="nav-item">
+                <i>❤️</i> Partner
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i>👤</i> Profile
+            </a>
+            <a href="settings.html" class="nav-item">
+                <i>⚙️</i> Settings
+            </a>
+        </nav>
+        <div class="sidebar-footer" style="font-size: 0.8rem; opacity: 0.6; margin-top: auto;">
+            Premium Luna Experience <br>
+            v2.0.1 (Soft Edition)
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOP HEADER -->
+        <header class="top-header fade-in">
+            <div class="welcome-msg">
+                <p id="current-date" style="color: var(--soft-pink-main); font-weight: bold; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;">Wednesday, April 1</p>
+                <h1 style="font-family: 'Outfit'; font-weight: 700;">Hello, <span id="user-name">Sarah</span>! 👋</h1>
+            </div>
+            <div class="user-profile">
+                <div class="avatar" id="user-avatar">S</div>
+                <div class="badge" style="background: gold; padding: 4px 10px; border-radius: 10px; font-size: 0.7rem; font-weight: bold; color: #444;">PRO</div>
+            </div>
+        </header>
+
+        <!-- TOP GRID -->
+        <div class="grid-2">
+
+            <!-- CYCLE STATUS -->
+            <section class="card glass-card fade-in delay-1">
+                <h3 style="margin-bottom: 20px;">Cycle Status</h3>
+                <div class="cycle-status">
+                    <div class="circle-container">
+                        <svg class="circle-svg" width="200" height="200" viewBox="0 0 200 200">
+                            <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
+                            <circle id="cycle-ring-progress" class="circle-progress" cx="100" cy="100" r="90" stroke-dasharray="565" stroke-dashoffset="565"></circle>
+                        </svg>
+                        <div class="circle-content">
+                            <span class="circle-label">Day</span>
+                            <span class="circle-day" id="cycle-day">4</span>
+                        </div>
+                    </div>
+                    <button class="btn" id="log-period-btn">Log Period 🩸</button>
+                    <p style="font-size: 0.85rem; color: var(--soft-text-muted); margin-top: 15px;">You're in the <b>Follicular Phase</b>. Energy levels are rising! ✨</p>
+                </div>
+            </section>
+
+            <!-- UPCOMING -->
+            <section class="card glass-card upcoming-card fade-in delay-2" style="background: linear-gradient(135deg, #ffffff 40%, #fff0f3 100%); border-right: 5px solid var(--soft-pink-main);">
+                <h3 style="margin-bottom: 10px;">Upcoming</h3>
+                <h1 class="upcoming-date" id="next-period-date">MAY 22</h1>
+                <p class="upcoming-label" id="next-period-label">Next Period</p>
+                <div style="margin-top: 30px; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 15px; font-size: 0.9rem;">
+                    <b>Tip:</b> High focus day. Great for planning! 🏃‍♀️
+                </div>
+            </section>
+
+        </div>
+
+        <!-- SECOND ROW -->
+        <div class="grid-3">
+
+            <div class="card glass-card small-card fade-in delay-3">
+                <span class="small-card-icon">💚</span>
+                <span class="small-card-title">Fertile Window</span>
+                <b class="small-card-value" id="fertile-window">Apr 16 - 21</b>
+            </div>
+
+            <div class="card glass-card small-card fade-in delay-1">
+                <span class="small-card-icon">❤️</span>
+                <span class="small-card-title">Ovulation</span>
+                <b class="small-card-value" id="ovulation-date">Apr 24</b>
+            </div>
+
+            <div class="card glass-card small-card fade-in delay-2">
+                <span class="small-card-icon">💧</span>
+                <span class="small-card-title">Hydration</span>
+                <div class="hydration-controls">
+                    <button class="control-btn" id="remove-water">-</button>
+                    <strong class="small-card-value" id="hydration-count">0 / 8</strong>
+                    <button class="control-btn" id="add-water">+</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- LOWER -->
+        <div class="grid-2">
+
+            <div class="card glass-card fade-in delay-3" style="display: flex; gap: 20px; align-items: center;">
+                <div style="width: 60px; height: 60px; border-radius: 50%; background: #e0f2f1; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">❤️</div>
+                <div>
+                    <h3 style="margin-bottom: 5px;">Partner Sync</h3>
+                    <p style="color: var(--soft-text-muted); font-size: 0.9rem;">Connected with <b>Alex</b></p>
+                    <a href="partner.html" style="color: var(--soft-pink-dark); text-decoration: none; font-size: 0.85rem; font-weight: 600; margin-top: 5px; display: block;">Open Duo Chat →</a>
+                </div>
+            </div>
+
+            <div class="card glass-card fade-in delay-1">
+                <h3 style="margin-bottom: 15px;">🔔 Reminders</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px; font-size: 0.9rem; display: flex; gap: 10px; align-items: center;">
+                        <span style="color: var(--soft-pink-main);">🌸</span> Start vitamins
+                    </li>
+                    <li style="margin-bottom: 10px; font-size: 0.9rem; display: flex; gap: 10px; align-items: center;">
+                        <span style="color: var(--soft-pink-main);">🛒</span> Buy products
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<!-- Scripts -->
+<script src="js/common.js"></script>
+<script src="js/soft_dashboard.js"></script>
+
+</body>
+</html>

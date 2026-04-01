@@ -1,0 +1,13 @@
+{
+  "name": "newluna-web",
+  "version": "1.0.0",
+  "description": "NewLuna web application",
+  "main": "serve.js",
+  "scripts": {
+    "start": "node serve.js",
+    "test": "node test.mjs"
+  },
+  "dependencies": {
+    "puppeteer": "^21.0.0"
+  }
+}

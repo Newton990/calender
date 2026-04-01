@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duo Chat | Luna Soft</title>
+    <link rel="stylesheet" href="css/soft-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FDF7F9;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 40px 24px 20px;
+            background: rgba(253, 247, 249, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 10;
+        }
+
+        .message-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            scroll-behavior: smooth;
+        }
+
+        .message-bubble {
+            max-width: 75%;
+            padding: 14px 20px;
+            border-radius: 24px;
+            font-size: 15px;
+            line-height: 1.5;
+            font-family: 'Outfit', sans-serif;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        .message-bubble.me {
+            align-self: flex-end;
+            background: var(--soft-pink);
+            color: white;
+            border-bottom-right-radius: 8px;
+        }
+
+        .message-bubble.partner {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.5);
+            color: #2D3142;
+            border-bottom-left-radius: 8px;
+        }
+
+        .message-time {
+            font-size: 10px;
+            font-weight: 700;
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .me .message-time { color: rgba(255,255,255,0.7); text-align: right; }
+        .partner .message-time { color: #888; }
+
+        .input-dock {
+            padding: 20px 24px 40px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .input-pill {
+            display: flex;
+            background: white;
+            padding: 8px 8px 8px 24px;
+            border-radius: 40px;
+            align-items: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+        }
+
+        .input-pill input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            font-family: 'Outfit', sans-serif;
+            background: transparent;
+        }
+
+        .send-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--soft-pink);
+            color: white;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(240, 98, 146, 0.3);
+        }
+
+        .suggestion-bar {
+            display: flex;
+            gap: 10px;
+            padding: 0 24px 15px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .suggestion-chip {
+            background: rgba(240, 98, 146, 0.1);
+            color: var(--soft-pink);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            border: 1px solid rgba(240, 98, 146, 0.2);
+            transition: 0.3s;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--soft-pink);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Splash Screen -->
+    <div class="splash-overlay">
+        <div class="splash-flower">❋</div>
+        <div class="splash-bloom">Moon Bloom</div>
+    </div>
+
+    <div class="chat-header">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center;">
+                <div class="nav-item" style="margin-right: 15px;" onclick="location.href='soft_dashboard.html'">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2D3142" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </div>
+                <div>
+                    <div style="font-size: 10px; font-weight: 700; color: var(--soft-pink); letter-spacing: 1.5px; text-transform: uppercase;">Secure Duo Sync 🔒</div>
+                    <h1 style="font-size: 22px; margin: 0; font-family: 'Outfit';">Luna Partner</h1>
+                </div>
+            </div>
+            <div class="status-indicator" style="background: #E8F5E9; color: #2E7D32; padding: 6px 12px; border-radius: 12px; font-size: 11px; font-weight: 700;">
+                ACTIVE SYNC
+            </div>
+        </div>
+    </div>
+
+    <div class="message-container" id="chatList">
+        <!-- Messages will be injected here -->
+        <div class="message-bubble partner">
+            Hi! How are you feeling today? I saw you might be starting your luteal phase soon. ❤️
+            <div class="message-time">10:24 AM</div>
+        </div>
+        <div class="message-bubble me">
+            I'm doing okay, just a bit tired. Thank you for asking! 🌸
+            <div class="message-time">10:26 AM • SENT</div>
+        </div>
+    </div>
+
+    <div class="suggestion-bar">
+        <div class="suggestion-chip">❤️ Send Love</div>
+        <div class="suggestion-chip">🤝 Can I help?</div>
+        <div class="suggestion-chip">💐 Flowers</div>
+        <div class="suggestion-chip">🌙 Goodnight</div>
+    </div>
+
+    <div class="input-dock">
+        <div class="input-pill">
+            <input type="text" placeholder="Carefully shared..." id="chatInput">
+            <button class="send-btn" id="sendBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+        </div>
+    </div>
+
+    <script src="js/soft_chat.js"></script>
+</body>
+</html>

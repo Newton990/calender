@@ -7,41 +7,58 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendBtn = document.getElementById('msg-send-btn');
     const suggestionContainer = document.getElementById('ai-suggestion-chips');
 
-    // 1. Initial Logic
+    // 1. Initial Logic & Schema Simulation
     const urlParams = new URLSearchParams(window.location.search);
     const prefill = urlParams.get('prefill');
-    if (prefill) {
-        const texts = {
-            'love': "Thinking of you! I love you. ❤️",
-            'help': "I'm here for you! How can I help today? 🤝",
-            'flowers': "Sending you some virtual flowers! 💐"
+    
+    // Deterministic ChatID Simulation
+    function getChatId(uid1, uid2) {
+        return [uid1, uid2].sort().join('_');
+    }
+    
+    const partnerId = "partner_123"; // Mock partner link
+    const chatId = getChatId(currentUser, partnerId);
+
+    function addMsg(text, senderId, imageUrl = null, audioUrl = null) {
+        const messageId = "msg_" + new Date().getTime();
+        const msg = {
+            messageId,
+            chatId,
+            senderId,
+            text,
+            imageUrl,
+            audioUrl,
+            timestamp: new Date().getTime()
         };
-        chatInput.value = texts[prefill] || "";
+
+        // Save to logs (Simulating Firestore subcollection: chats/{chatId}/messages)
+        const storageKey = `chats/${chatId}/messages`;
+        const messages = JSON.parse(localStorage.getItem(storageKey)) || [];
+        messages.push(msg);
+        localStorage.setItem(storageKey, JSON.stringify(messages));
+        
+        renderMsg(msg);
     }
 
-    function addMsg(text, type) {
+    function renderMsg(msg) {
         const div = document.createElement('div');
-        div.className = `msg ${type === 'sent' ? 'sent' : 'received'}`;
-        div.textContent = text;
+        const type = msg.senderId === currentUser ? 'sent' : 'received';
+        div.className = `msg ${type}`;
+        
+        let content = msg.text;
+        if (msg.imageUrl) content += `<br><img src="${msg.imageUrl}" style="max-width: 100%; border-radius: 10px; margin-top: 5px;">`;
+        if (msg.audioUrl) content += `<br><span style="font-size: 0.8rem; opacity: 0.7;">🎵 Audio message</span>`;
+        
+        div.innerHTML = content;
         chatWindow.appendChild(div);
         chatWindow.scrollTop = chatWindow.scrollHeight;
-        
-        // Save to log
-        const logs = JSON.parse(localStorage.getItem(`chat_logs_${currentUser}`)) || [];
-        logs.push({ text, type, time: new Date().getTime() });
-        localStorage.setItem(`chat_logs_${currentUser}`, JSON.stringify(logs));
     }
 
     function loadLogs() {
-        const logs = JSON.parse(localStorage.getItem(`chat_logs_${currentUser}`)) || [];
+        const storageKey = `chats/${chatId}/messages`;
+        const messages = JSON.parse(localStorage.getItem(storageKey)) || [];
         chatWindow.innerHTML = '';
-        logs.forEach(msg => {
-            const div = document.createElement('div');
-            div.className = `msg ${msg.type === 'sent' ? 'sent' : 'received'}`;
-            div.textContent = msg.text;
-            chatWindow.appendChild(div);
-        });
-        chatWindow.scrollTop = chatWindow.scrollHeight;
+        messages.forEach(renderMsg);
     }
 
     function renderAISuggestions() {
@@ -81,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleSend() {
         const text = chatInput.value.trim();
         if (!text) return;
-        addMsg(text, 'sent');
+        addMsg(text, currentUser);
         chatInput.value = '';
     }
 

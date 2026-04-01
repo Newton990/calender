@@ -11,6 +11,11 @@ import '../models/mood.dart';
 import '../models/partner_style.dart';
 import '../models/app_mode.dart';
 import '../services/logic_engine.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../widgets/moon_bloom_mark.dart';
+import 'notifications.dart';
+import 'partner_wellness.dart';
+import '../widgets/animated_card.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -26,6 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   AppMode _currentMode = AppMode.period;
   Mood _userMood = Mood.neutral;
   PartnerStyle _partnerStyle = PartnerStyle.masculine;
+  int _partnerWaterIntake = 0;
   bool _isLoading = true;
 
   @override
@@ -68,6 +74,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         _pregnancyStartDate = DateTime.now().subtract(const Duration(days: 84)); // Week 12
       }
 
+      _partnerWaterIntake = prefs.getInt('partner_water_intake') ?? 0;
       _isLoading = false;
     });
   }
@@ -76,6 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     if (_isLoading) return const Scaffold(body: Center(child: CircularProgressIndicator()));
 
+    final _isPregnant = _currentMode == AppMode.pregnancy;
     if (_isPregnant && _pregnancyStartDate != null) {
       return _buildPregnancyDashboard();
     }
@@ -84,52 +92,85 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final nudge = _partnerService.getPartnerNudge(_partnerLastPeriod!);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F4F8),
-      appBar: AppBar(
-        title: const Text('Partner Dashboard', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.teal,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.sync, color: Colors.white),
-            onPressed: () async {
-              await PartnerSyncService().pullPartnerData();
-              if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Dashboard updated! ✨")));
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (nudge != null) _buildNudgeAlert(nudge),
-            const SizedBox(height: 12),
-            _buildCycleWheel(insights, _partnerLastPeriod!),
-            const SizedBox(height: 16),
-            _buildSupportTipCard(insights),
-            const SizedBox(height: 24),
-            _buildPartnerAdviceCard(),
-            const SizedBox(height: 24),
-            _buildDuoHarmonyCard(),
-            const SizedBox(height: 24),
-            _buildQuickLoveActions(),
-            const SizedBox(height: 32),
-            const Text('Tools & Management', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 12),
-            _buildActionGrid(),
-            const SizedBox(height: 32),
-            const Center(
-              child: ShareAppButton(
-                appName: 'Luna Partners',
-                appLink: 'https://example.com/partners-download',
+      body: Container(
+        decoration: const BoxDecoration(
+          color: Color(0xFFFDF7F9),
+        ),
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(24, 60, 24, 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const MoonBloomMark(size: 40),
+                        const SizedBox(width: 12),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Moon Bloom",
+                              style: GoogleFonts.outfit(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.5,
+                                color: const Color(0xFF2D3142),
+                              ),
+                            ),
+                            Text(
+                              "PARTNERS",
+                              style: GoogleFonts.outfit(color: const Color(0xFFF06292), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.notifications_none_rounded, color: Color(0xFF2D3142)),
+                          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationsScreen())),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.sync, color: Color(0xFFF06292)),
+                          onPressed: () async {
+                            await PartnerSyncService().pullPartnerData();
+                            _loadPartnerData();
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  if (nudge != null) _buildNudgeAlert(nudge),
+                  _buildCycleWheel(insights, _partnerLastPeriod!),
+                  _buildSupportTipCard(insights),
+                  _buildPartnerAdviceCard(),
+                  _buildQuickLoveActions(),
+                  const SizedBox(height: 40),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Text('Tools & Management', 
+                      style: GoogleFonts.outfit(fontSize: 20, fontWeight: FontWeight.bold, color: const Color(0xFF2D3142))),
+                  ),
+                  _buildActionGrid(),
+                  _buildPartnerWaterTracker(),
+                  const SizedBox(height: 100),
+                ],
               ),
             ),
           ],
         ),
       ),
-    );
   }
 
   Widget _buildPregnancyDashboard() {
@@ -139,38 +180,68 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final insights = _partnerService.getPregnancyInsights(weeks);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFE0F2F1),
-      appBar: AppBar(
-        title: const Text('Pregnancy Journey', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.teal[600],
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.sync, color: Colors.white),
-            onPressed: () async {
-              await PartnerSyncService().pullPartnerData();
-              if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Journey data updated! ✨")));
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildPregnancyStatusCard(weeks, daysIntoWeek, insights['title']!),
-            const SizedBox(height: 16),
-            _buildSupportTipCard({
-              'tipTitle': 'Partner Support Tip',
-              'tipDesc': insights['desc']!,
-              'bonusTip': insights['bonus'],
-            }),
-            const SizedBox(height: 24),
-            const Text('Quick Actions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 12),
-            _buildActionGrid(),
-            const SizedBox(height: 32),
+      body: Container(
+        decoration: const BoxDecoration(
+          color: Color(0xFFFDF7F9),
+        ),
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(24, 60, 24, 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(color: const Color(0xFFE0F2F1), borderRadius: BorderRadius.circular(12)),
+                          child: Text("● Pregnancy Journey", style: GoogleFonts.outfit(color: Colors.teal[600], fontSize: 11, fontWeight: FontWeight.bold)),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "The Journey ✨",
+                          style: GoogleFonts.outfit(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xFF2D3142),
+                          ),
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.sync, color: Colors.teal),
+                      onPressed: () async {
+                        await PartnerSyncService().pullPartnerData();
+                        if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Journey data updated! ✨")));
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  _buildPregnancyStatusCard(weeks, daysIntoWeek, insights['title']!),
+                  _buildSupportTipCard({
+                    'tipTitle': 'Partner Support Tip',
+                    'tipDesc': insights['desc']!,
+                    'bonusTip': insights['bonus'],
+                  }),
+                  const SizedBox(height: 32),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Text('Quick Actions', style: GoogleFonts.outfit(fontSize: 20, fontWeight: FontWeight.bold, color: const Color(0xFF2D3142))),
+                  ),
+                  _buildActionGrid(),
+                  const SizedBox(height: 100),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -178,35 +249,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildPregnancyStatusCard(int weeks, int days, String title) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Row(
+    return AnimatedCard(
+      gradientColors: [const Color(0xFFB2DFDB), const Color(0xFF80CBC4)],
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), shape: BoxShape.circle),
+            child: const Icon(Icons.child_care, color: Colors.white, size: 32),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(color: Colors.teal.withOpacity(0.1), shape: BoxShape.circle),
-                  child: const Icon(Icons.child_care, color: Colors.teal, size: 32),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Week $weeks, Day $days", style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 4),
-                      Text(title, style: TextStyle(color: Colors.teal[700], fontSize: 16, fontWeight: FontWeight.w500)),
-                    ],
-                  ),
-                ),
+                Text("Week $weeks, Day $days", style: GoogleFonts.outfit(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 4),
+                Text(title, style: GoogleFonts.outfit(color: Colors.white.withOpacity(0.9), fontSize: 16, fontWeight: FontWeight.w500)),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -240,60 +303,88 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final currentDay = (diffDays % 28) + 1; // Assuming 28 for visual
     final percent = currentDay / 28;
 
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(24),
-        margin: const EdgeInsets.only(bottom: 8),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 15, offset: const Offset(0, 5))],
-        ),
-        child: Column(
-          children: [
-            const Text("Your Partner is in", style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w500)),
-            const SizedBox(height: 16),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                SizedBox(
-                  width: 180,
-                  height: 180,
-                  child: CircularProgressIndicator(
-                    value: percent,
-                    strokeWidth: 12,
-                    backgroundColor: Colors.teal.withOpacity(0.1),
-                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.teal),
-                  ),
+    return AnimatedCard(
+      child: Column(
+        children: [
+          Text("Her Progress", 
+            style: GoogleFonts.outfit(fontSize: 16, color: Colors.grey[600], fontWeight: FontWeight.bold)),
+          const SizedBox(height: 20),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(
+                width: 180,
+                height: 180,
+                child: CircularProgressIndicator(
+                  value: percent,
+                  strokeWidth: 10,
+                  backgroundColor: const Color(0xFFFDF2F4),
+                  valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFF3A8B8)),
+                  strokeCap: StrokeCap.round,
                 ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("$currentDay", style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.teal)),
-                    const Text("DAY", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 2)),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.teal.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20),
               ),
-              child: Text(
-                insights['phase']!,
-                style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.bold, fontSize: 16),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                   Text("Day", style: GoogleFonts.outfit(color: Colors.grey, fontSize: 14)),
+                  Text("$currentDay", 
+                    style: GoogleFonts.outfit(fontSize: 56, fontWeight: FontWeight.bold, color: const Color(0xFF2D3142))),
+                ],
               ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF3E5F5),
+              borderRadius: BorderRadius.circular(16),
             ),
-            const SizedBox(height: 8),
-            Text(
-              insights['alert']!,
-              style: TextStyle(color: Colors.teal.withOpacity(0.7), fontSize: 14),
+            child: Text(
+              insights['phase']!,
+              style: GoogleFonts.outfit(color: Colors.purple[800], fontWeight: FontWeight.bold, fontSize: 16),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            insights['alert']!,
+            style: GoogleFonts.outfit(color: Colors.grey[600], fontSize: 13),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPartnerWaterTracker() {
+    final double percent = (_partnerWaterIntake / 8).clamp(0.0, 1.0);
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE3F2FD).withOpacity(0.5),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: const Color(0xFF2196F3).withOpacity(0.1)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Partner's Hydration 💧", 
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: const Color(0xFF1976D2))),
+              Text("$_partnerWaterIntake / 8 Cups", 
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 12, color: const Color(0xFF1976D2))),
+            ],
+          ),
+          const SizedBox(height: 12),
+          LinearProgressIndicator(
+            value: percent,
+            backgroundColor: Colors.white,
+            valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF2196F3)),
+            borderRadius: BorderRadius.circular(6),
+            minHeight: 8,
+          ),
+        ],
       ),
     );
   }
@@ -332,41 +423,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildSupportTipCard(Map<String, dynamic> insights) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [Colors.teal[400]!, Colors.teal[800]!], begin: Alignment.topLeft, end: Alignment.bottomRight),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.teal.withOpacity(0.3), blurRadius: 10, offset: const Offset(0, 4))],
-      ),
+    return AnimatedCard(
+      gradientColors: [const Color(0xFFF3A8B8), const Color(0xFFE57373)],
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Icon(Icons.lightbulb_outline, color: Colors.white, size: 24),
-              const SizedBox(width: 8),
+              const Icon(Icons.lightbulb, color: Colors.white, size: 28),
+              const SizedBox(width: 12),
               Text(
                 insights['tipTitle']!,
-                style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                style: GoogleFonts.outfit(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           Text(
             insights['tipDesc']!,
-            style: const TextStyle(color: Colors.white, fontSize: 15, height: 1.4),
+            style: GoogleFonts.outfit(color: Colors.white.withOpacity(0.9), fontSize: 15, height: 1.5),
           ),
           if (insights['bonusTip'] != null) ...[
-            const Divider(color: Colors.white24, height: 24),
-            Text(
-              "PRO TIP",
-              style: TextStyle(color: Colors.teal[100], fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1),
+            const Divider(color: Colors.white30, height: 32),
+             Text(
+               "LUNA TIP",
+               style: GoogleFonts.outfit(color: Colors.white.withOpacity(0.6), fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.5),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 8),
             Text(
               insights['bonusTip']!,
-              style: const TextStyle(color: Colors.white, fontSize: 14, fontStyle: FontStyle.italic),
+              style: GoogleFonts.outfit(color: Colors.white, fontSize: 14, fontStyle: FontStyle.italic),
             ),
           ],
         ],
@@ -430,9 +516,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
       crossAxisSpacing: 12,
       childAspectRatio: 1.3,
       children: [
-        _buildActionItem(Icons.rss_feed, "Partner Feed", Colors.orange, () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => PartnerFeedScreen()));
-        }),
+          _buildActionItem(Icons.favorite, "Wellness", Colors.pink, () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const PartnerWellnessScreen()));
+          }),
+          _buildActionItem(Icons.rss_feed, "Partner Feed", Colors.orange, () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) => PartnerFeedScreen()));
+          }),
         _buildActionItem(Icons.message, "Messages", Colors.blue, () {
           Navigator.push(context, MaterialPageRoute(builder: (_) => const MessagingScreen()));
         }),

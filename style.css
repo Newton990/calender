@@ -1334,3 +1334,72 @@ input[type="range"] {
 }
 
 
+
+
+/* --- MOON BLOOM BRANDING OVERRIDE --- */
+
+.moon-bloom-logo {
+    font-family: 'Playfair Display', serif !important;
+    background: linear-gradient(135deg, #FF4D6D 0%, #FF85A1 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.5px !important;
+}
+
+.splash-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #FFF0F3;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: splashFadeOut 0.8s ease forwards;
+    animation-delay: 2.5s;
+    pointer-events: none;
+}
+
+.splash-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    animation: flowerSpin 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.splash-flower {
+    font-size: 3rem;
+    color: #FF4D6D;
+}
+
+.splash-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    background: linear-gradient(135deg, #FF4D6D 0%, #FF85A1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: bloomIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.5s;
+}
+
+@keyframes flowerSpin {
+    0% { transform: scale(0.5) rotate(0deg); opacity: 0; }
+    20% { opacity: 1; text-shadow: 0 0 20px rgba(255, 77, 109, 0.4); }
+    100% { transform: scale(1.1) rotate(180deg); opacity: 1; }
+}
+
+@keyframes bloomIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes splashFadeOut {
+    to { opacity: 0; visibility: hidden; }
+}

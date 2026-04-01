@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna | Partner Dashboard (Soft)</title>
+    <link rel="stylesheet" href="soft-style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f06292">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="js/common.js"></script>
+    <style>
+        .partner-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 100px 20px 120px;
+        }
+
+        /* Hero Cycle Card */
+        .cycle-hero {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 35px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+        .cycle-progress-ring {
+            width: 180px; height: 180px;
+            margin: 0 auto 20px;
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .ring-svg { transform: rotate(-90deg); }
+        .ring-bg { fill: none; stroke: rgba(255,255,255,0.5); stroke-width: 10; }
+        .ring-progress { 
+            fill: none; stroke: #f3a8b8; stroke-width: 10; 
+            stroke-linecap: round; transition: stroke-dashoffset 1s ease-out;
+        }
+        .ring-content { position: absolute; text-align: center; }
+        .ring-val { font-size: 2.2rem; font-weight: 700; color: #4a4a4a; display: block; }
+        .ring-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+
+        /* Support Action Bar */
+        .support-actions {
+            display: flex; gap: 12px;
+            overflow-x: auto; scrollbar-width: none;
+            padding: 10px 0;
+        }
+        .support-btn {
+            background: white; border-radius: 20px; padding: 12px 20px;
+            border: 1px solid rgba(255,255,255,0.8);
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+        .support-btn:hover { transform: translateY(-3px); background: #fdf2f4; border-color: #f3a8b8; }
+        .support-btn.sent { background: #f3a8b8; color: white; }
+
+        /* Insight Card */
+        .insight-card {
+            background: rgba(255,255,255,0.5);
+            border-radius: 28px; padding: 24px;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+        .insight-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; color: #333; }
+        .insight-text { font-size: 0.9rem; line-height: 1.6; color: #666; }
+        
+        .status-pill {
+            display: inline-block; padding: 4px 12px; border-radius: 12px;
+            font-size: 0.75rem; font-weight: 600; margin-bottom: 8px;
+        }
+        .status-luteal { background: #f3e5f5; color: #9c27b0; }
+        .status-connected { background: #e8f5e9; color: #2e7d32; }
+
+    </style>
+</head>
+<body class="soft-theme">
+    <!-- Animated Splash Screen -->
+    <div class="splash-overlay">
+        <div class="splash-flower">❋</div>
+        <div class="splash-bloom">Moon Bloom</div>
+    </div>
+
+    <div class="fluid-container">
+        <!-- Soft Header -->
+        <header class="soft-header">
+            <div class="header-content">
+                <span class="status-pill status-connected">● Partner Connected</span>
+                <div class="moon-bloom-logo" style="margin-top: 5px; font-size: 1.6rem; background: none; -webkit-text-fill-color: #4a4a4a;">Moon Bloom</div>
+            </div>
+            <div class="user-avatar-mini" style="background-image: url('https://api.placeholder.com/40'); border: 2px solid #f3a8b8;"></div>
+        </header>
+
+        <div class="partner-grid">
+            <!-- Hero Cycle Status -->
+            <div class="cycle-hero">
+                <div class="cycle-progress-ring">
+                    <svg class="ring-svg" width="180" height="180">
+                        <circle class="ring-bg" cx="90" cy="90" r="80"></circle>
+                        <circle id="partner-ring" class="ring-progress" cx="90" cy="90" r="80" 
+                                stroke-dasharray="502.6" stroke-dashoffset="150"></circle>
+                    </svg>
+                    <div class="ring-content">
+                        <span class="ring-val" id="days-left-val">4</span>
+                        <span class="ring-label">Days to Period</span>
+                    </div>
+                </div>
+                <div class="status-pill status-luteal">Luteal Phase</div>
+                <p style="font-size: 0.9rem; color: #777; margin-top: 10px;">Her energy might be a bit lower today. ❤️</p>
+            </div>
+
+            <!-- Support Bar -->
+            <div>
+                <h3 style="font-size: 1rem; margin: 0 0 10px 5px; color: #4a4a4a;">Support Her</h3>
+                <div class="support-actions">
+                    <div class="support-btn" id="btn-heart"><span>❤️</span> Send Love</div>
+                    <div class="support-btn" id="btn-tea"><span>🍵</span> Offer Tea</div>
+                    <div class="support-btn" id="btn-flowers"><span>🌸</span> Send Flowers</div>
+                    <div class="support-btn" id="btn-massage"><span>💆‍♂️</span> Offer Massage</div>
+                </div>
+            </div>
+
+            <!-- Real-Time Insights -->
+            <div class="insight-card">
+                <div class="insight-title">Luna's Guidance</div>
+                <p class="insight-text" id="partner-guidance">
+                    She is currently in the late luteal phase. She might feel extra sensitive or tired. Small gestures like preparing a meal or just listening go a long way today. ✨
+                </p>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dotted rgba(0,0,0,0.1);">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #f3a8b8;">LUNA TIP</span>
+                    <p style="font-size: 0.85rem; font-style: italic; color: #888; margin-top: 4px;">
+                        "Sometimes the best support is simply being present without trying to fix anything."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Duo Chat Preview -->
+            <div class="insight-card" style="cursor: pointer;" onclick="location.href='chat.html'">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <div class="insight-title" style="margin-bottom: 0;">Duo Chat</div>
+                    <span style="font-size: 0.8rem; color: #f3a8b8;">Open Chat →</span>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: #fdf2f4; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">PK</div>
+                    <p style="font-size: 0.85rem; color: #777; font-style: italic;">"Thinking of you! ✨"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Soft Bottom Nav -->
+        <nav class="soft-nav">
+            <a href="soft_partner_dashboard.html" class="nav-item active">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </a>
+            <a href="calendar.html" class="nav-item">
+                <span class="nav-icon">📅</span>
+                <span class="nav-label">Calendar</span>
+            </a>
+            <a href="chat.html" class="nav-item">
+                <span class="nav-icon">💬</span>
+                <span class="nav-label">Chat</span>
+            </a>
+            <a href="settings.html" class="nav-item">
+                <span class="nav-icon">👤</span>
+                <span class="nav-label">Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="js/soft_partner_dashboard.js"></script>
+    <script>
+        // Layout Guard: Ensure we're in the right variant
+        window.addEventListener('load', () => {
+             const layout = localStorage.getItem('current_layout') || 'roma';
+             if (layout === 'roma') window.location.href = 'partner_dashboard.html';
+        });
+    </script>
+</body>
+</html>

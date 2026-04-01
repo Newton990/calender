@@ -27,6 +27,9 @@ class PartnerSyncService {
       if (data['pregnancy_start_date'] != null) {
         await prefs.setString('partner_pregnancy_start_date', data['pregnancy_start_date']);
       }
+      if (data['water_intake'] != null) {
+        await prefs.setInt('partner_water_intake', data['water_intake']);
+      }
 
       // Sync wellness logs for reports
       if (data['wellness_logs'] != null) {

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication | Luna Soft</title>
+    <link rel="stylesheet" href="css/soft-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FDF7F9;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 24px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .auth-logo {
+            width: 80px;
+            height: 80px;
+            background: rgba(240, 98, 146, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 32px;
+            color: var(--soft-pink);
+            box-shadow: 0 10px 20px rgba(240, 98, 146, 0.1);
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 32px;
+            padding: 40px 32px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+        }
+
+        .auth-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #2D3142;
+        }
+
+        .auth-subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .auth-btn {
+            width: 100%;
+            height: 56px;
+            border-radius: 20px;
+            border: none;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--soft-pink);
+            color: white;
+            box-shadow: 0 10px 20px rgba(240, 98, 146, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(240, 98, 146, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.5);
+            color: #2D3142;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .auth-footer {
+            margin-top: 32px;
+            font-size: 13px;
+            color: #A0A0A0;
+        }
+
+        .auth-footer a {
+            color: var(--soft-pink);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Decorative background elements */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 1;
+        }
+
+        .blob-1 {
+            width: 300px;
+            height: 300px;
+            background: rgba(240, 98, 146, 0.1);
+            top: -50px;
+            left: -50px;
+        }
+
+        .blob-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(128, 203, 196, 0.1);
+            bottom: -100px;
+            right: -100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Splash Screen -->
+    <div class="splash-overlay">
+        <div class="splash-flower">❋</div>
+        <div class="splash-bloom">Moon Bloom</div>
+    </div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="auth-container">
+        <div class="auth-logo">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10l-2-2"></path><path d="M12 22a10 10 0 1 0-10-10l2 2"></path><path d="M22 12a10 10 0 0 0-10-10"></path></svg>
+        </div>
+
+        <div class="auth-card">
+            <h1 class="auth-title" style="display: flex; gap: 8px; justify-content: center; align-items: center;"><span style="color: var(--soft-pink-main);">❋</span> Moon Bloom</h1>
+            <p class="auth-subtitle">Your premium companion for every phase. Sign in to continue your journey.</p>
+
+            <button class="auth-btn btn-primary" onclick="handleLogin('biometrics')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                Continue with Biometrics
+            </button>
+
+            <button class="auth-btn btn-secondary" onclick="handleLogin('pin')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                Enter Access PIN
+            </button>
+
+            <button class="auth-btn btn-secondary" onclick="handleLogin('email')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                Email & Password
+            </button>
+        </div>
+
+        <div class="auth-footer">
+            Don't have an account? <a href="#">Request Access</a>
+        </div>
+    </div>
+
+    <script src="js/soft_auth.js"></script>
+</body>
+</html>
