@@ -1,0 +1,1 @@
+enum PartnerStyle { masculine, feminine }

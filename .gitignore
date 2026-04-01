@@ -1,0 +1,14 @@
+# Local Data
+shared_state.json
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Build / Temp
+node_modules/
+build/
+tmp/
+*.log

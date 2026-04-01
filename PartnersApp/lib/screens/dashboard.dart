@@ -4,7 +4,13 @@ import '../services/partner_cycle_service.dart';
 import '../services/sync_service.dart';
 import 'partner_feed.dart';
 import 'messaging_screen.dart';
+import 'reports.dart';
+import 'settings.dart';
 import '../widgets/share_button.dart';
+import '../models/mood.dart';
+import '../models/partner_style.dart';
+import '../models/app_mode.dart';
+import '../services/logic_engine.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -16,8 +22,10 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final PartnerCycleService _partnerService = PartnerCycleService();
   DateTime? _partnerLastPeriod;
-  bool _isPregnant = false;
   DateTime? _pregnancyStartDate;
+  AppMode _currentMode = AppMode.period;
+  Mood _userMood = Mood.neutral;
+  PartnerStyle _partnerStyle = PartnerStyle.masculine;
   bool _isLoading = true;
 
   @override
@@ -37,7 +45,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
         _partnerLastPeriod = DateTime.now().subtract(const Duration(days: 24));
       }
 
-      _isPregnant = prefs.getBool('partner_is_pregnant') ?? false;
+      final _isPregnant = prefs.getBool('partner_is_pregnant') ?? false;
+      _currentMode = _isPregnant ? AppMode.pregnancy : AppMode.period;
+      
+      _partnerStyle = PartnerStyle.values[prefs.getInt('partner_style') ?? 0];
+      
+      // Fetch user mood from shared sync
+      final wellness = prefs.getStringList('partner_wellness_logs') ?? [];
+      if (wellness.contains('irritated')) {
+        _userMood = Mood.irritated;
+      } else if (wellness.contains('sad')) {
+        _userMood = Mood.sad;
+      } else {
+        _userMood = Mood.neutral;
+      }
+      
       final psStr = prefs.getString('partner_pregnancy_start_date');
       if (psStr != null) {
         _pregnancyStartDate = DateTime.parse(psStr);
@@ -84,11 +106,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             if (nudge != null) _buildNudgeAlert(nudge),
             const SizedBox(height: 12),
-            _buildStatusCard(insights),
+            _buildCycleWheel(insights, _partnerLastPeriod!),
             const SizedBox(height: 16),
             _buildSupportTipCard(insights),
             const SizedBox(height: 24),
-            const Text('Quick Actions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            _buildPartnerAdviceCard(),
+            const SizedBox(height: 24),
+            _buildDuoHarmonyCard(),
+            const SizedBox(height: 24),
+            _buildQuickLoveActions(),
+            const SizedBox(height: 32),
+            const Text('Tools & Management', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 12),
             _buildActionGrid(),
             const SizedBox(height: 32),
@@ -206,33 +234,100 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildStatusCard(Map<String, String> insights) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Row(
+  Widget _buildCycleWheel(Map<String, String> insights, DateTime lastPeriod) {
+    final today = DateTime.now();
+    final diffDays = today.difference(lastPeriod).inDays;
+    final currentDay = (diffDays % 28) + 1; // Assuming 28 for visual
+    final percent = currentDay / 28;
+
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        margin: const EdgeInsets.only(bottom: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 15, offset: const Offset(0, 5))],
+        ),
+        child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(color: Colors.teal.withOpacity(0.1), shape: BoxShape.circle),
-              child: const Icon(Icons.favorite, color: Colors.teal, size: 32),
+            const Text("Your Partner is in", style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w500)),
+            const SizedBox(height: 16),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  width: 180,
+                  height: 180,
+                  child: CircularProgressIndicator(
+                    value: percent,
+                    strokeWidth: 12,
+                    backgroundColor: Colors.teal.withOpacity(0.1),
+                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.teal),
+                  ),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("$currentDay", style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.teal)),
+                    const Text("DAY", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 2)),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(insights['phase']!, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 4),
-                  Text(insights['alert']!, style: TextStyle(color: Colors.teal[700], fontSize: 16, fontWeight: FontWeight.w500)),
-                ],
+            const SizedBox(height: 20),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.teal.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(20),
               ),
+              child: Text(
+                insights['phase']!,
+                style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              insights['alert']!,
+              style: TextStyle(color: Colors.teal.withOpacity(0.7), fontSize: 14),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildQuickLoveActions() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('Send a gesture of support:', style: TextStyle(fontSize: 14, color: Colors.grey, fontStyle: FontStyle.italic)),
+        const SizedBox(height: 12),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              _buildLoveChip("❤️ Send Love", "Thinking of you always! ❤️"),
+              const SizedBox(width: 10),
+              _buildLoveChip("🤝 Can I help?", "Is there anything I can do to help today? 🤝"),
+              const SizedBox(width: 10),
+              _buildLoveChip("💐 Flowers", "Sent you some virtual flowers! 💐"),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLoveChip(String label, String prefill) {
+    return ActionChip(
+      label: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+      backgroundColor: Colors.white,
+      side: BorderSide(color: Colors.teal.withOpacity(0.2)),
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => MessagingScreen(prefillMessage: prefill)));
+      },
     );
   }
 
@@ -278,6 +373,53 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
+  Widget _buildDuoHarmonyCard() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 15, offset: const Offset(0, 5))],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Duo Harmony", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF2D3142))),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(color: Colors.teal.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                child: const Text("88%", style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: LinearProgressIndicator(
+                  value: 0.88,
+                  backgroundColor: Colors.teal.withOpacity(0.1),
+                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.teal),
+                  borderRadius: BorderRadius.circular(10),
+                  minHeight: 8,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Icon(Icons.favorite, color: Colors.pinkAccent, size: 16),
+            ],
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            "You've sent 3 love gestures this week! Your connection is staying strong and synchronized. ✨",
+            style: TextStyle(fontSize: 13, color: Colors.grey, height: 1.4),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildActionGrid() {
     return GridView.count(
@@ -294,8 +436,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         _buildActionItem(Icons.message, "Messages", Colors.blue, () {
           Navigator.push(context, MaterialPageRoute(builder: (_) => const MessagingScreen()));
         }),
-        _buildActionItem(Icons.calendar_month, "Reports", Colors.green, () {}),
-        _buildActionItem(Icons.settings, "Settings", Colors.blueGrey, () {}),
+        _buildActionItem(Icons.calendar_month, "Reports", Colors.green, () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const ReportsScreen()));
+        }),
+        _buildActionItem(Icons.settings, "Settings", Colors.blueGrey, () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
+        }),
       ],
     );
   }
@@ -317,6 +463,38 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildPartnerAdviceCard() {
+    final advice = LogicEngine.getPartnerAdvice(_currentMode, _userMood, _partnerStyle);
+    
+    return Container(
+      padding: const EdgeInsets.all(20),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: _partnerStyle == PartnerStyle.masculine 
+          ? [const Color(0xFF2D3142), const Color(0xFF4F5D75)] 
+          : [const Color(0xFF7E57C2), const Color(0xFF9575CD)]),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.psychology, color: Colors.white, size: 24),
+              const SizedBox(width: 12),
+              Text("Guidance for You", style: GoogleFonts.outfit(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            advice,
+            style: GoogleFonts.outfit(color: Colors.white.withOpacity(0.9), fontSize: 15, height: 1.5),
+          ),
+        ],
       ),
     );
   }

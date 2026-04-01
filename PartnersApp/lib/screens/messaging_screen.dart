@@ -3,7 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../services/messaging_service.dart';
 
 class MessagingScreen extends StatefulWidget {
-  const MessagingScreen({super.key});
+  final String? prefillMessage;
+  const MessagingScreen({super.key, this.prefillMessage});
 
   @override
   State<MessagingScreen> createState() => _MessagingScreenState();
@@ -39,6 +40,11 @@ class _MessagingScreenState extends State<MessagingScreen> {
       _quickReplies = _messagingService.getQuickReplies(currentDay, isPregnant);
       _isLoading = false;
     });
+
+    // Handle prefill message
+    if (widget.prefillMessage != null) {
+      _handleSend(widget.prefillMessage);
+    }
   }
 
   Future<void> _handleSend([String? prefill]) async {

@@ -1,17 +1,42 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
 
 class PartnerSyncService {
+
+  static const String _sharedPath = 'c:/Users/user/Desktop/calender/shared_state.json';
+
   /// Pulls the user's cycle and pregnancy data for the partner dashboard (Simulated)
   Future<void> pullPartnerData() async {
-    final prefs = await SharedPreferences.getInstance();
-    
-    // Simulate fetching from Firebase: 
-    // final doc = await FirebaseFirestore.instance.collection('users').doc(partnerId).get();
-    await Future.delayed(const Duration(milliseconds: 800));
+    try {
+      final file = File(_sharedPath);
+      if (!file.existsSync()) return;
+      final content = await file.readAsString();
+      final Map<String, dynamic> data = jsonDecode(content);
+      
+      final prefs = await SharedPreferences.getInstance();
+      
+      // Update partner keys
+      if (data['period_dates'] != null) {
+        final List<String> dates = List<String>.from(data['period_dates']);
+        if (dates.isNotEmpty) {
+          await prefs.setString('partner_last_period', dates.last);
+        }
+      }
+      await prefs.setBool('partner_is_pregnant', data['is_pregnant'] ?? false);
+      if (data['pregnancy_start_date'] != null) {
+        await prefs.setString('partner_pregnancy_start_date', data['pregnancy_start_date']);
+      }
 
-    // Mock data that has been "synced"
-    // In a real app, you'd update shared_preferences here with the fetched data.
-    print("SYNC: PartnerApp pulled latest data from cloud.");
+      // Sync wellness logs for reports
+      if (data['wellness_logs'] != null) {
+        final List<String> wellness = List<String>.from(data['wellness_logs']);
+        await prefs.setStringList('partner_wellness_logs', wellness);
+      }
+      
+      print("SYNC: PartnerApp pulled latest shared data (Cycle & Wellness).");
+    } catch (e) {
+      print("SYNC Partner Pull Error: $e");
+    }
   }
 }

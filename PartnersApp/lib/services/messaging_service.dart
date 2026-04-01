@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
 
 class ChatMessage {
   final String text;
@@ -21,20 +21,31 @@ class ChatMessage {
   );
 }
 
-class MessagingService {
-  static const String _logKey = 'chat_logs_main_user';
+  // In a real app, this would be your Firebase Firestore collection 
+  static const String _sharedPath = 'c:/Users/user/Desktop/calender/shared_chat.json';
 
   Future<List<ChatMessage>> getLogs() async {
-    final prefs = await SharedPreferences.getInstance();
-    final list = prefs.getStringList(_logKey) ?? [];
-    return list.map((s) => ChatMessage.fromJson(jsonDecode(s))).toList();
+    try {
+      final file = File(_sharedPath);
+      if (!file.existsSync()) return [];
+      final content = await file.readAsString();
+      final List<dynamic> list = jsonDecode(content);
+      return list.map((s) => ChatMessage.fromJson(s)).toList();
+    } catch (e) {
+      print("Chat Sync Error: $e");
+      return [];
+    }
   }
 
   Future<void> saveMessage(ChatMessage msg) async {
-    final prefs = await SharedPreferences.getInstance();
-    final list = prefs.getStringList(_logKey) ?? [];
-    list.add(jsonEncode(msg.toJson()));
-    await prefs.setStringList(_logKey, list);
+    try {
+      final logs = await getLogs();
+      logs.add(msg);
+      final file = File(_sharedPath);
+      await file.writeAsString(jsonEncode(logs.map((m) => m.toJson()).toList()));
+    } catch (e) {
+      print("Chat Save Error: $e");
+    }
   }
 
   List<String> getQuickReplies(int currentDay, bool isPregnant) {
