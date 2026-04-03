@@ -1,10 +1,10 @@
 /* 
-   NewLuna Soft Dashboard - Business Logic
+   New Luna Soft Dashboard - Business Logic
    Connects the standard Luna data model to the Soft Dashboard UI.
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-    const currentUser = localStorage.getItem('NewLunaSession');
+    const currentUser = localStorage.getItem('New LunaSession');
     if (!currentUser) {
         window.location.replace('login.html');
         return;

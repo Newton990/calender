@@ -1,122 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let state = {};
-    let isAppInitialized = false;
-    const currentUser = localStorage.getItem('NewLunaSession');
+    const currentUser = localStorage.getItem('New LunaSession');
 
-    // Core Elements
-    const monthDisplay = document.getElementById('month-display');
-    const calendarDays = document.getElementById('calendar-days');
-    const prevMonthBtn = document.getElementById('prev-month');
-    const nextMonthBtn = document.getElementById('next-month');
-    const heroCountdown = document.getElementById('daysLeft');
-    const fertileDateText = document.getElementById('fertile');
-    const ovulationDateText = document.getElementById('ovulation');
-    const cycleDayText = document.getElementById('cycleDay');
-    const ringElement = document.getElementById('cycle-ring-element');
-    const predictionText = document.getElementById('prediction-text');
-    const predictionDateDisplay = document.getElementById('prediction-date');
-    const markPeriodBtn = document.getElementById('mark-period-btn');
-    const avgCycleDisplay = document.getElementById('avg-cycle');
-    const avgPeriodDisplay = document.getElementById('avg-period');
-    
-    // Mode UI
-    const pregnancyBanner = document.getElementById('pregnancy-banner');
-    const menstrualStats = document.getElementById('menstrual-stats');
-    const pregnancyStats = document.getElementById('pregnancy-stats');
-    const pregnancyWeekText = document.getElementById('pregnancy-week-text');
-    const pregnancyDaysText = document.getElementById('pregnancy-days');
-    const babySizeText = document.getElementById('baby-size');
-    const dueDateText = document.getElementById('due-date-display');
-    const logKickBtn = document.getElementById('log-kick-btn');
-    const togglePeriodBtn = document.getElementById('toggle-period-btn');
+    // Elements
+    const cycleDayEl = document.getElementById('cycle-day');
+    const nextPeriodEl = document.getElementById('next-period');
+    const fertileWindowEl = document.getElementById('fertile-window');
+    const ovulationEl = document.getElementById('ovulation');
+    const hydrationEl = document.getElementById('hydration');
+    const partnerNameEl = document.getElementById('partner-name');
+    const partnerEmailEl = document.getElementById('partner-email');
+    const remindersEl = document.getElementById('reminders');
 
-    // Modals
-    const modal = document.getElementById('symptom-modal');
-    const overlay = document.getElementById('modal-overlay');
-    const closeModalBtn = document.getElementById('close-modal');
-    const saveSymptomsBtn = document.getElementById('save-symptoms');
-    const symptomButtons = document.querySelectorAll('.symptom-btn');
-    const selectedDateDisplay = document.getElementById('selected-date-display');
-    const menstrualSymptomGrid = document.getElementById('menstrual-symptoms');
-    const pregnancySymptomGrid = document.getElementById('pregnancy-symptoms');
-    
-    const predMenstruationDisplay = document.getElementById('pred-menstruation');
-    const predOvulationDisplay = document.getElementById('pred-ovulation');
-    
-    // AI Elements
-    const aiConfidenceArea = document.getElementById('ai-confidence-area');
-    const aiConfidenceScore = document.getElementById('ai-confidence-score');
-    const moodInsightEmoji = document.getElementById('mood-insight-emoji');
-    const moodInsightText = document.getElementById('mood-insight-text');
-    
-    // Kindness Corner
-    const kindnessMessage = document.getElementById('kindness-message');
-    const kindnessTitle = document.getElementById('kindness-title');
-
-    let selectedDateForSymptom = null;
-
-    const babySizes = {
-        1: "Seed 🌌", 2: "Seed 🌌", 3: "Seed 🌌", 4: "Poppy Seed 🌰",
-        5: "Apple Seed 🍎", 6: "Sweet Pea 🫛", 7: "Blueberry 🫐", 8: "Raspberry 🍓",
-        9: "Green Olive 🫒", 10: "Prune 🍇", 11: "Lime 🍋‍🟩", 12: "Lemon 🍋",
-        13: "Pea Pod 🫛", 14: "Lemon 🍋", 15: "Apple 🍎", 16: "Avocado 🥑",
-        17: "Pomegranate 🍎", 18: "Sweet Potato 🍠", 19: "Mango 🥭", 20: "Banana 🍌",
-        21: "Carrot 🥕", 22: "Papaya 🍈", 23: "Grapefruit 🍊", 24: "Corn 🌽",
-        25: "Cauliflower 🥦", 26: "Kale 🥬", 27: "Lettuce 🥬", 28: "Eggplant 🍆",
-        29: "Butternut Squash 🎃", 30: "Cucumber 🥒", 31: "Pineapple 🍍", 32: "Squash 🎃",
-        33: "Celery 🥬", 34: "Cantaloupe 🍈", 35: "Honeydew 🍈", 36: "Romaine Lettuce 🥬",
-        37: "Swiss Chard 🥬", 38: "Leek 🥬", 39: "Watermelon 🍉", 40: "Pumpkin 🎃"
+    // Mock data - in real app, fetch from storage or API
+    const mockData = {
+        cycleDay: 12,
+        nextPeriod: 'May 22',
+        fertileWindow: 'Apr 16 - 21',
+        ovulation: 'Apr 24',
+        hydration: '5 / 8',
+        partnerName: 'Alex',
+        partnerEmail: 'alex@gmail.com',
+        reminders: '- Start vitamins<br>- Buy products<br>- Track symptoms'
     };
 
+    // Populate data
+    if (cycleDayEl) cycleDayEl.textContent = `Day ${mockData.cycleDay}`;
+    if (nextPeriodEl) nextPeriodEl.textContent = mockData.nextPeriod;
+    if (fertileWindowEl) fertileWindowEl.innerHTML = `<b>${mockData.fertileWindow}</b>`;
+    if (ovulationEl) ovulationEl.innerHTML = `<b>${mockData.ovulation}</b>`;
+    if (hydrationEl) hydrationEl.innerHTML = `<b>${mockData.hydration}</b>`;
+    if (partnerNameEl) partnerNameEl.textContent = mockData.partnerName;
+    if (partnerEmailEl) partnerEmailEl.textContent = mockData.partnerEmail;
+    if (remindersEl) remindersEl.innerHTML = mockData.reminders;
 
-    function initAppFeatures() {
-        if (isAppInitialized || !currentUser) return; 
+    // Log Period function
+    window.logPeriod = () => {
+        alert('Period logged! (This would open a logging modal in the full app)');
+    };
 
-        state = {
-            currentMonth: new Date(),
-            periods: JSON.parse(localStorage.getItem(`periods_${currentUser}`)) || [],
-            symptoms: JSON.parse(localStorage.getItem(`symptoms_${currentUser}`)) || {},
-            isPregnant: JSON.parse(localStorage.getItem(`isPregnant_${currentUser}`)) || false,
-            pregnancyStartDate: localStorage.getItem(`pregnancyStartDate_${currentUser}`) || null,
-            cycleLength: JSON.parse(localStorage.getItem(`cycleLength_${currentUser}`)) || 28,
-            periodLength: JSON.parse(localStorage.getItem(`periodLength_${currentUser}`)) || 5
-        };
-
-        if(avgCycleDisplay) avgCycleDisplay.textContent = state.cycleLength + " days";
-        if(avgPeriodDisplay) avgPeriodDisplay.textContent = state.periodLength + " days";
-
-        state.periods.sort((a, b) => new Date(a) - new Date(b));
-
-        applyPregnancyMode();
-        renderCalendar();
-        updateDashboard();
-        setupAppEventListeners();
-        isAppInitialized = true;
-    }
-
-    function saveData(key, data) {
-        if (typeof data === 'object') {
-            localStorage.setItem(`${key}_${currentUser}`, JSON.stringify(data));
-        } else {
-            localStorage.setItem(`${key}_${currentUser}`, data);
-        }
-    }
-
-    function renderCalendar() {
-        if (!calendarDays) return;
-        const year = state.currentMonth.getFullYear();
-        const month = state.currentMonth.getMonth();
-        if(monthDisplay) monthDisplay.textContent = new Date(year, month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-        
-        const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-        calendarDays.innerHTML = '';
-
-        for (let i = 0; i < firstDay; i++) {
-            const emptyDiv = document.createElement('div');
-            emptyDiv.classList.add('day', 'empty');
-            calendarDays.appendChild(emptyDiv);
-        }
+    console.log('Premium Dashboard loaded for user:', currentUser);
+});
 
         const today = new Date();
         today.setHours(0,0,0,0);

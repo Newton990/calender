@@ -1,22 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Auth script loaded and DOMContentLoaded fired.");
-    
+
     // Global Debug Listener
     document.addEventListener('click', (e) => {
         console.log("Global click on:", e.target.id, e.target.className);
     });
 
-
-    // Simulate Database
-    let usersDB = {};
-    try {
-        const storedUsers = localStorage.getItem('NewLunaUsers');
-        if (storedUsers) {
-            usersDB = JSON.parse(storedUsers);
+    function showError(message) {
+        const errorEl = document.getElementById('auth-error');
+        if (errorEl) {
+            errorEl.textContent = message;
+            errorEl.classList.remove('hidden');
+            // Shake effect for feedback
+            errorEl.style.animation = 'none';
+            errorEl.offsetHeight; /* trigger reflow */
+            errorEl.style.animation = 'waterPulse 0.3s ease';
+        } else {
+            alert(message);
         }
-    } catch (e) {
-        console.error("Auth: Error parsing usersDB:", e);
-        usersDB = {};
+    }
+
+    function hideError() {
+        const errorEl = document.getElementById('auth-error');
+        if (errorEl) {
+            errorEl.classList.add('hidden');
+        }
     }
 
     function validatePassword(pass) {
@@ -30,44 +38,85 @@ document.addEventListener('DOMContentLoaded', () => {
     const signupBtn = document.getElementById('signup-btn');
     if (signupBtn) {
         console.log("Auth: Signup button found.");
-        signupBtn.addEventListener('click', () => {
+        signupBtn.addEventListener('click', async () => {
             console.log("Auth: Signup initiated.");
-            const userEl = document.getElementById('signup-username');
-            const passEl = document.getElementById('signup-password');
-            
-            if (!userEl || !passEl) {
+            const emailEl = document.getElementById('signup-email');
+            const methodEl = document.getElementById('auth-method');
+            const passwordEl = document.getElementById('signup-password');
+            const pinEl = document.getElementById('signup-pin');
+
+            if (!emailEl || !methodEl) {
                 console.error("Auth: Signup inputs missing from DOM.");
                 return;
             }
 
-            const user = userEl.value.trim();
-            const pass = passEl.value.trim();
-            
-            if (!user || !pass) {
-                showError("Please fill all fields.");
+            const email = emailEl.value.trim();
+            const method = methodEl.value;
+
+            if (!email) {
+                showError("Please enter your email.");
                 return;
             }
 
-            // Security Check
-            const passwordError = validatePassword(pass);
-            if (passwordError) {
-                showError(passwordError);
-                return;
+            let authData = { method };
+
+            if (method === 'password') {
+                const password = passwordEl ? passwordEl.value.trim() : '';
+                if (!password) {
+                    showError("Please enter a password.");
+                    return;
+                }
+                // Security Check
+                const passwordError = validatePassword(password);
+                if (passwordError) {
+                    showError(passwordError);
+                    return;
+                }
+                authData.password = password;
+            } else if (method === 'pin') {
+                const pin = pinEl ? pinEl.value.trim() : '';
+                if (!pin || pin.length !== 4 || !/^\d{4}$/.test(pin)) {
+                    showError("Please enter a valid 4-digit PIN.");
+                    return;
+                }
+                authData.pin = pin;
+            } else if (method === 'pattern') {
+                if (!window.pattern || window.pattern.length < 3) {
+                    showError("Please draw a pattern with at least 3 points.");
+                    return;
+                }
+                authData.pattern = window.pattern;
+            } else if (method === 'fingerprint') {
+                const credential = localStorage.getItem('fingerprintCredential');
+                if (!credential) {
+                    showError("Please set up fingerprint first.");
+                    return;
+                }
+                authData.fingerprint = JSON.parse(credential);
             }
 
-            if (usersDB[user]) {
-                showError("Username already exists.");
-                return;
+            try {
+                // For Firebase, we still need a password. Use a default one for non-password methods
+                const firebasePassword = method === 'password' ? authData.password : 'defaultPassword123!';
+                
+                const userCredential = await window.createUserWithEmailAndPassword(window.firebaseAuth, email, firebasePassword);
+                await window.sendEmailVerification(userCredential.user);
+                
+                // Store auth method and data
+                localStorage.setItem(`authMethod_${email}`, JSON.stringify(authData));
+                
+                showError("Account created! Please check your email for verification link. You can then log in with your chosen authentication method.");
+                // Switch to login form
+                const signupForm = document.getElementById('signup-form-container');
+                const loginForm = document.getElementById('login-form-container');
+                if (signupForm && loginForm) {
+                    signupForm.classList.add('hidden');
+                    loginForm.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error("Signup error:", error);
+                showError(error.message);
             }
-
-            // Create User
-            usersDB[user] = { password: pass };
-            localStorage.setItem('NewLunaUsers', JSON.stringify(usersDB));
-            console.log("Auth: User created successfully.");
-            
-            // Auto Login
-            localStorage.setItem('NewLunaSession', user);
-            window.location.replace('index.html');
         });
     }
 
@@ -75,33 +124,81 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginBtn = document.getElementById('login-btn');
     if (loginBtn) {
         console.log("Auth: Login button found.");
-        loginBtn.addEventListener('click', () => {
-            const userEl = document.getElementById('login-username');
-            const passEl = document.getElementById('login-password');
-            
-            if (!userEl || !passEl) {
+        loginBtn.addEventListener('click', async () => {
+            const emailEl = document.getElementById('login-email');
+
+            if (!emailEl) {
                 console.error("Auth: Login inputs missing from DOM.");
                 return;
             }
 
-            const user = userEl.value.trim();
-            const pass = passEl.value.trim();
+            const email = emailEl.value.trim();
 
-            if (!user || !pass) {
-                showError("Please fill all fields.");
+            if (!email) {
+                showError("Please enter your email.");
                 return;
             }
 
-            if (usersDB[user] && usersDB[user].password === pass) {
-                localStorage.setItem('NewLunaSession', user);
+            // Get stored auth method
+            const methodData = localStorage.getItem(`authMethod_${email}`);
+            if (!methodData) {
+                showError("No account found with this email. Please sign up first.");
+                return;
+            }
+
+            const authData = JSON.parse(methodData);
+            const method = authData.method;
+
+            let isAuthenticated = false;
+
+            if (method === 'password') {
+                const passwordEl = document.getElementById('login-password');
+                const password = passwordEl ? passwordEl.value.trim() : '';
+                if (!password) {
+                    showError("Please enter your password.");
+                    return;
+                }
+                isAuthenticated = password === authData.password;
+            } else if (method === 'pin') {
+                const pinEl = document.getElementById('login-pin');
+                const pin = pinEl ? pinEl.value.trim() : '';
+                if (!pin) {
+                    showError("Please enter your PIN.");
+                    return;
+                }
+                isAuthenticated = pin === authData.pin;
+            } else if (method === 'pattern') {
+                // Simple pattern matching - in real app, use proper algorithm
+                isAuthenticated = window.loginPattern && window.loginPattern.length >= 3;
+            } else if (method === 'fingerprint') {
+                // Fingerprint is handled separately
+                showError("Please use the fingerprint button to authenticate.");
+                return;
+            }
+
+            if (!isAuthenticated) {
+                showError("Invalid credentials.");
+                return;
+            }
+
+            try {
+                // Firebase login with default password
+                const firebasePassword = method === 'password' ? authData.password : 'defaultPassword123!';
+                const userCredential = await window.signInWithEmailAndPassword(window.firebaseAuth, email, firebasePassword);
+                if (!userCredential.user.emailVerified) {
+                    showError("Please verify your email before logging in.");
+                    return;
+                }
+                localStorage.setItem('New LunaSession', email);
                 window.location.replace('index.html');
-            } else {
-                showError("Invalid username or password.");
+            } catch (error) {
+                console.error("Login error:", error);
+                showError("Authentication failed.");
             }
         });
     }
 
-    // Toggle Logic (for login.html dual-form mode)
+    // Form switching
     const showSignup = document.getElementById('show-signup');
     const showLogin = document.getElementById('show-login');
     const loginForm = document.getElementById('login-form-container');
@@ -111,8 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showSignup.addEventListener('click', () => {
             loginForm.classList.add('hidden');
             signupForm.classList.remove('hidden');
-            const authError = document.getElementById('auth-error');
-            if (authError) authError.classList.add('hidden');
+            hideError();
         });
     }
 
@@ -120,22 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showLogin.addEventListener('click', () => {
             signupForm.classList.add('hidden');
             loginForm.classList.remove('hidden');
-            const authError = document.getElementById('auth-error');
-            if (authError) authError.classList.add('hidden');
+            hideError();
         });
-    }
-
-    function showError(msg) {
-        const authError = document.getElementById('auth-error');
-        if (authError) {
-            authError.textContent = msg;
-            authError.classList.remove('hidden');
-            // Shake effect for feedback
-            authError.style.animation = 'none';
-            authError.offsetHeight; /* trigger reflow */
-            authError.style.animation = 'waterPulse 0.3s ease';
-        } else {
-            alert(msg);
-        }
     }
 });

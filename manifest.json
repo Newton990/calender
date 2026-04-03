@@ -1,11 +1,11 @@
 {
-  "name": "NewLuna Menstrual Calendar",
-  "short_name": "NewLuna",
+  "name": "New Luna Menstrual Calendar",
+  "short_name": "New Luna",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#fff0f3",
   "theme_color": "#9d4edd",
-  "description": "Elegant and smart menstrual tracking with NewLunaAI.",
+  "description": "Elegant and smart menstrual tracking with New Luna AI.",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/2913/2913501.png",

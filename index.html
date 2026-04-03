@@ -1,53 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NewMoon Bloom | Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ff4d6d">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>New Luna | Dashboard</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f0f1a, #1c1c2e);
+  color: white;
+}
+
+/* LAYOUT */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  padding: 20px;
+}
+
+.sidebar h2 {
+  color: #ff4d6d;
+}
+
+.sidebar div {
+  margin: 15px 0;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.sidebar div:hover {
+  opacity: 1;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+/* SMALL GRID */
+.small-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* CIRCLE */
+.circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 10px solid rgba(255,255,255,0.1);
+  border-top: 10px solid #ff4d6d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* BUTTON */
+.btn {
+  background: linear-gradient(45deg, #ff0033, #ff4d6d);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  color: white;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* SMALL CARD */
+.small-card {
+  background: rgba(255,255,255,0.05);
+  padding: 15px;
+  border-radius: 15px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .small-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
     <script src="js/common.js"></script>
 </head>
+
 <body>
-    <!-- Animated Splash Screen -->
-    <div class="splash-overlay">
-        <div class="splash-content">
-            <div class="splash-flower">❋</div>
-            <div class="splash-text">Moon Bloom</div>
-        </div>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>New Luna</h2>
+    <div onclick="window.location.href='index.html'">🏠 Dashboard</div>
+    <div onclick="window.location.href='calendar.html'">📅 Calendar</div>
+    <div onclick="window.location.href='partner_dashboard.html'">❤️ Partner</div>
+    <div onclick="window.location.href='profile.html'">👤 Profile</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOP -->
+    <div class="grid">
+
+      <div class="card">
+        <h3>Cycle Status</h3>
+        <div class="circle" id="cycle-day">Day --</div>
+        <button class="btn" onclick="logPeriod()">Log Period</button>
+      </div>
+
+      <div class="card">
+        <h3>Upcoming</h3>
+        <h1 id="next-period">MAY 22</h1>
+        <p>Next Period</p>
+      </div>
+
     </div>
 
-    <div id="app-container" class="app-container">
-    <div id="global-header"></div>
-    <!-- Bottom Navigation -->
-    <!-- Global Bottom Navigation Placeholder -->
-    <div id="global-bottom-nav"></div>
+    <!-- MIDDLE -->
+    <div class="small-grid">
 
-        <main id="main-content" style="display: block;">
-            <div id="dashboard-view">
-                <section class="dashboard" style="max-width: 600px; margin: 0 auto;">
-                    <div id="partner-mode-banner" class="banner hidden">Partner Mode: Read-Only</div>
-                    
-                    <div style="padding: 10px 20px; text-align: right;">
-                        <label style="font-size: 0.9rem; font-weight: 600; color: var(--primary); cursor: pointer; display: flex; align-items: center; justify-content: flex-end; gap: 8px;">
-                            <input type="checkbox" id="pregMode" onchange="togglePregnancy()" style="width: 18px; height: 18px; cursor: pointer;">
-                            Pregnancy Mode ✨
-                        </label>
-                    </div>
+      <div class="small-card">
+        🌱 Fertile Window<br><b id="fertile-window">Apr 16 - 21</b>
+      </div>
 
-                    <!-- Pregnancy Specific Dashboard -->
-                    <div id="pregnancyDashboard" style="display: none; padding: 25px; background: white; border-radius: 20px; margin: 20px; animation: slideUpFade 0.6s ease;" class="glass">
-                        <h2 id="pregnancy-week-text" style="color: var(--primary-dark); margin-bottom: 10px; font-weight: 700;">Pregnancy Week 8</h2>
-                        <p id="baby-size" style="font-size: 1.1rem; margin-bottom: 8px; font-weight: 600;">Baby size: Raspberry</p>
-                        <p id="pregnancy-tip" style="font-size: 0.95rem; color: var(--text-muted); font-style: italic; line-height: 1.5;">Tip: Stay hydrated and eat iron rich foods.</p>
-                        
-                        <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <button id="log-kick-btn" class="btn-primary" style="flex: 1; padding: 12px; border-radius: 12px;">Log Kick 🦶</button>
-                            <a href="pregnancy.html" class="btn-primary" style="flex: 1; text-decoration: none; display: flex; align-items: center; justify-content: center; background: #bc8a5f; color: white; border-radius: 12px; font-weight: 600;">Journey ✨</a>
+      <div class="small-card">
+        ❤️ Ovulation<br><b id="ovulation">Apr 24</b>
+      </div>
+
+      <div class="small-card">
+        💧 Hydration<br><b id="hydration">0 / 8</b>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="grid" style="margin-top:20px;">
+
+      <div class="card">
+        ❤️ Partner<br><br>
+        <span id="partner-name">Alex</span><br>
+        <span id="partner-email">alex@gmail.com</span>
+      </div>
+
+      <div class="card">
+        🔔 Reminders<br><br>
+        <div id="reminders">
+          - Start vitamins<br>
+          - Buy products
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>
                         </div>
                     </div>
 

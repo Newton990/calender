@@ -3,13 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NewMoon Bloom | Login</title>
+    <title>New Luna | Login</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ff4d6d">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
+
+        // Firebase config (replace with your actual config)
+        const firebaseConfig = {
+            apiKey: "your-api-key",
+            authDomain: "your-project.firebaseapp.com",
+            projectId: "your-project",
+            storageBucket: "your-project.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "your-app-id"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        window.firebaseAuth = auth;
+        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.sendEmailVerification = sendEmailVerification;
+    </script>
     <script src="js/common.js"></script>
 </head>
 <body>
@@ -17,27 +39,29 @@
     <div class="splash-overlay">
         <div class="splash-content">
             <div class="splash-flower">❋</div>
-            <div class="splash-text">Moon Bloom</div>
+            <div class="splash-text">New Luna</div>
         </div>
     </div>
 
     <!-- Authentication Screen -->
     <div id="auth-container" class="auth-wrapper">
         <div class="auth-card glass">
-            <h1 class="logo auth-title moon-bloom-logo">❋ Moon Bloom</h1>
+            <h1 class="logo auth-title moon-bloom-logo">❋ New Luna</h1>
             <p class="auth-subtitle">Your elegant health companion.</p>
             
             <div id="login-form-container">
                 <h2>Welcome Back</h2>
-                <input type="text" id="login-username" class="auth-input" placeholder="Username">
-                <input type="password" id="login-password" class="auth-input" placeholder="Password">
+                <input type="email" id="login-email" class="auth-input" placeholder="Email">
+                <div id="auth-input-container">
+                    <input type="password" id="login-password" class="auth-input" placeholder="Password">
+                </div>
                 <button id="login-btn" class="btn-primary auth-btn">Log In</button>
                 <p class="auth-switch">Don't have an account? <span id="show-signup">Sign up</span></p>
             </div>
 
             <div id="signup-form-container" class="hidden">
                 <h2>Create Account</h2>
-                <input type="text" id="signup-username" class="auth-input" placeholder="Choose a Username">
+                <input type="email" id="signup-email" class="auth-input" placeholder="Enter your Email">
                 <input type="password" id="signup-password" class="auth-input" placeholder="Create a Password">
                 <button id="signup-btn" class="btn-primary auth-btn">Sign Up</button>
                 <p class="auth-switch">Already have an account? <span id="show-login">Log in</span></p>
@@ -46,6 +70,111 @@
             <p id="auth-error" class="auth-error hidden">Invalid credentials</p>
         </div>
     </div>
-    <script src="js/auth.js"></script>
-</body>
+    <script src="js/auth.js"></script>    <script>
+        function updateAuthInput(email) {
+            const container = document.getElementById('auth-input-container');
+            const methodData = localStorage.getItem(`authMethod_${email}`);
+            if (methodData) {
+                const authData = JSON.parse(methodData);
+                const method = authData.method;
+                
+                if (method === 'password') {
+                    container.innerHTML = '<input type="password" id="login-password" class="auth-input" placeholder="Password">';
+                } else if (method === 'pin') {
+                    container.innerHTML = '<input type="password" id="login-pin" class="auth-input" placeholder="Enter 4-digit PIN" maxlength="4" pattern="[0-9]{4}">';
+                } else if (method === 'pattern') {
+                    container.innerHTML = '<canvas id="login-pattern-canvas" width="200" height="200" style="border: 1px solid #ccc; margin: 10px auto; display: block;"></canvas><button type="button" id="clear-login-pattern" class="btn" style="width: 100%; margin-top: 10px;">Clear Pattern</button>';
+                    initLoginPattern();
+                } else if (method === 'fingerprint') {
+                    container.innerHTML = '<button type="button" id="login-fingerprint" class="btn" style="width: 100%; margin-top: 10px;">Use Fingerprint</button>';
+                    document.getElementById('login-fingerprint').addEventListener('click', () => authenticateFingerprint(email));
+                }
+            } else {
+                // Default to password if no method stored
+                container.innerHTML = '<input type="password" id="login-password" class="auth-input" placeholder="Password">';
+            }
+        }
+
+        document.getElementById('login-email').addEventListener('blur', (e) => {
+            const email = e.target.value.trim();
+            if (email) {
+                updateAuthInput(email);
+            }
+        });
+
+        // Pattern drawing for login
+        let loginPattern = [];
+        function initLoginPattern() {
+            const canvas = document.getElementById('login-pattern-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                ctx.strokeStyle = '#ff4d6d';
+                ctx.lineWidth = 4;
+                ctx.lineCap = 'round';
+
+                let isDrawing = false;
+
+                canvas.addEventListener('mousedown', (e) => {
+                    isDrawing = true;
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    loginPattern.push({x, y});
+                });
+
+                canvas.addEventListener('mousemove', (e) => {
+                    if (!isDrawing) return;
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    loginPattern.push({x, y});
+                });
+
+                canvas.addEventListener('mouseup', () => {
+                    isDrawing = false;
+                    ctx.closePath();
+                });
+
+                document.getElementById('clear-login-pattern').addEventListener('click', () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    loginPattern = [];
+                });
+            }
+        }
+
+        async function authenticateFingerprint(email) {
+            const methodData = localStorage.getItem(`authMethod_${email}`);
+            if (methodData) {
+                const authData = JSON.parse(methodData);
+                if (authData.fingerprint) {
+                    try {
+                        const credential = await navigator.credentials.get({
+                            publicKey: {
+                                challenge: new Uint8Array(32),
+                                allowCredentials: [{
+                                    id: new Uint8Array(authData.fingerprint.rawId),
+                                    type: 'public-key'
+                                }],
+                                timeout: 60000,
+                            }
+                        });
+                        // If successful, proceed to login
+                        window.location.replace('index.html');
+                        localStorage.setItem('New LunaSession', email);
+                    } catch (error) {
+                        alert('Fingerprint authentication failed: ' + error.message);
+                    }
+                }
+            }
+        }
+
+        // Make functions global
+        window.updateAuthInput = updateAuthInput;
+        window.authenticateFingerprint = authenticateFingerprint;
+        window.loginPattern = loginPattern;
+    </script></body>
 </html>

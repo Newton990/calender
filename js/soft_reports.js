@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initReportsUI() {
-    const currentUser = localStorage.getItem('NewLunaSession') || 'demo_user';
+    const currentUser = localStorage.getItem('New LunaSession') || 'demo_user';
     
     // 1. Load Data
     const periods = JSON.parse(localStorage.getItem(`periods_${currentUser}`)) || [];

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const currentUser = localStorage.getItem('NewLunaSession') || 'demo_user';
+    const currentUser = localStorage.getItem('New LunaSession') || 'demo_user';
     
     const chatList = document.getElementById('chatList');
     const chatInput = document.getElementById('chatInput');

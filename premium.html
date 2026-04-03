@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>New Luna Premium</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f0f1a, #1c1c2e);
+  color: white;
+}
+
+/* LAYOUT */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  padding: 20px;
+}
+
+.sidebar h2 {
+  color: #ff4d6d;
+}
+
+.sidebar div {
+  margin: 15px 0;
+  opacity: 0.8;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+/* SMALL GRID */
+.small-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* CIRCLE */
+.circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 10px solid rgba(255,255,255,0.1);
+  border-top: 10px solid #ff4d6d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+/* BUTTON */
+.btn {
+  background: linear-gradient(45deg, #ff0033, #ff4d6d);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  color: white;
+  margin-top: 15px;
+}
+
+/* SMALL CARD */
+.small-card {
+  background: rgba(255,255,255,0.05);
+  padding: 15px;
+  border-radius: 15px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .small-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>New Luna</h2>
+    <div>🏠 Dashboard</div>
+    <div>📅 Calendar</div>
+    <div>❤️ Partner</div>
+    <div>👤 Profile</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOP -->
+    <div class="grid">
+
+      <div class="card">
+        <h3>Cycle Status</h3>
+        <div class="circle">Day --</div>
+        <button class="btn">Log Period</button>
+      </div>
+
+      <div class="card">
+        <h3>Upcoming</h3>
+        <h1>MAY 22</h1>
+        <p>Next Period</p>
+      </div>
+
+    </div>
+
+    <!-- MIDDLE -->
+    <div class="small-grid">
+
+      <div class="small-card">
+        🌱 Fertile Window<br><b>Apr 16 - 21</b>
+      </div>
+
+      <div class="small-card">
+        ❤️ Ovulation<br><b>Apr 24</b>
+      </div>
+
+      <div class="small-card">
+        💧 Hydration<br><b>0 / 8</b>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="grid" style="margin-top:20px;">
+
+      <div class="card">
+        ❤️ Partner<br><br>
+        Alex<br>
+        alex@gmail.com
+      </div>
+
+      <div class="card">
+        🔔 Reminders<br><br>
+        - Start vitamins<br>
+        - Buy products
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
