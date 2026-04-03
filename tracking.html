@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NewLuna - Tracking</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f0f1a, #1c1c2e);
+  color: white;
+}
+
+/* LAYOUT */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  padding: 20px;
+}
+
+.sidebar h2 {
+  color: #ff4d6d;
+}
+
+.nav-item {
+  cursor: pointer;
+  padding: 8px 0;
+  margin: 15px 0;
+  opacity: 0.8;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255,73,109,0.2);
+}
+
+.nav-item.active {
+  background: rgba(255,73,109,0.3);
+  font-weight: 600;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  margin-bottom: 20px;
+}
+
+.card h3 {
+  margin-top: 0;
+  color: #ff4d6d;
+}
+
+/* BUTTON */
+.btn {
+  background: linear-gradient(45deg, #ff0033, #ff4d6d);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(255,77,109,0.4);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* GRID */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 15px 0;
+}
+
+/* EMOJI BUTTONS */
+.emoji-btn {
+  background: rgba(255,77,109,0.1);
+  border: 2px solid rgba(255,77,109,0.3);
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 24px;
+}
+
+.emoji-btn:hover {
+  background: rgba(255,77,109,0.2);
+  border-color: rgba(255,77,109,0.6);
+}
+
+.emoji-btn.selected {
+  background: rgba(255,77,109,0.5);
+  border-color: #ff4d6d;
+  box-shadow: 0 0 15px rgba(255,77,109,0.5);
+}
+
+.emoji-label {
+  font-size: 12px;
+  margin-top: 5px;
+  opacity: 0.8;
+}
+
+/* SLIDER */
+.slider-group {
+  margin: 20px 0;
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.slider-label span:last-child {
+  color: #ff4d6d;
+  font-weight: 600;
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: rgba(255,77,109,0.2);
+  outline: none;
+  -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff4d6d;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255,77,109,0.5);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff4d6d;
+  cursor: pointer;
+  border: none;
+}
+
+/* CHECKBOX */
+input[type="checkbox"] {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.checkbox-label:hover {
+  background: rgba(255,77,109,0.1);
+}
+
+/* TEXTAREA */
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  resize: vertical;
+  min-height: 80px;
+  box-sizing: border-box;
+}
+
+textarea::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+/* DATE INPUT */
+input[type="date"] {
+  padding: 10px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+/* SECTION TITLE */
+.section-title {
+  color: #ff4d6d;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+  .grid-2,
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>NewLuna</h2>
+    <div class="nav-item" data-page="dashboard">🏠 Dashboard</div>
+    <div class="nav-item" data-page="calendar">📅 Calendar</div>
+    <div class="nav-item" data-page="partner">❤️ Partner</div>
+    <div class="nav-item" data-page="profile">👤 Profile</div>
+    <div class="nav-item active" data-page="tracking">📝 Tracking</div>
+    <div class="nav-item" data-page="settings">⚙️ Settings</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- DATE SELECTOR -->
+    <div class="card">
+      <h3>Log Entry</h3>
+      <label>Select Date:</label>
+      <input type="date" id="logDate">
+    </div>
+
+    <!-- MOOD -->
+    <div class="card">
+      <h3>Mood & Emotions</h3>
+      <p style="opacity: 0.8; margin-top: 0;">How are you feeling today?</p>
+      <div class="grid-4">
+        <button class="emoji-btn" data-mood="happy" title="Happy">
+          <div style="font-size: 32px;">😊</div>
+          <div class="emoji-label">Happy</div>
+        </button>
+        <button class="emoji-btn" data-mood="calm" title="Calm">
+          <div style="font-size: 32px;">😌</div>
+          <div class="emoji-label">Calm</div>
+        </button>
+        <button class="emoji-btn" data-mood="tired" title="Tired">
+          <div style="font-size: 32px;">😴</div>
+          <div class="emoji-label">Tired</div>
+        </button>
+        <button class="emoji-btn" data-mood="anxious" title="Anxious">
+          <div style="font-size: 32px;">😰</div>
+          <div class="emoji-label">Anxious</div>
+        </button>
+        <button class="emoji-btn" data-mood="sad" title="Sad">
+          <div style="font-size: 32px;">😢</div>
+          <div class="emoji-label">Sad</div>
+        </button>
+        <button class="emoji-btn" data-mood="angry" title="Angry">
+          <div style="font-size: 32px;">😡</div>
+          <div class="emoji-label">Angry</div>
+        </button>
+        <button class="emoji-btn" data-mood="moody" title="Moody">
+          <div style="font-size: 32px;">🎭</div>
+          <div class="emoji-label">Moody</div>
+        </button>
+        <button class="emoji-btn" data-mood="lazy" title="Lazy">
+          <div style="font-size: 32px;">🛋️</div>
+          <div class="emoji-label">Lazy</div>
+        </button>
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Energy Level</span>
+          <span id="energyValue">5</span>
+        </div>
+        <input type="range" id="energySlider" min="1" max="10" value="5">
+      </div>
+    </div>
+
+    <!-- PERIOD -->
+    <div class="card">
+      <h3>Period Status</h3>
+      <p style="opacity: 0.8; margin-top: 0;">Track your menstrual flow</p>
+      
+      <label style="display: block; margin: 15px 0;">
+        <input type="checkbox" id="onPeriod"> Currently on period
+      </label>
+
+      <div id="flowSection" style="display: none;">
+        <p style="opacity: 0.8; margin-bottom: 15px;">Flow Intensity:</p>
+        <div class="grid-2">
+          <button class="emoji-btn" data-flow="spotting" title="Spotting">
+            <div style="font-size: 28px;">💧</div>
+            <div class="emoji-label">Spotting</div>
+          </button>
+          <button class="emoji-btn" data-flow="light" title="Light">
+            <div style="font-size: 28px;">🩸</div>
+            <div class="emoji-label">Light</div>
+          </button>
+          <button class="emoji-btn" data-flow="medium" title="Medium">
+            <div style="font-size: 28px;">🩸🩸</div>
+            <div class="emoji-label">Medium</div>
+          </button>
+          <button class="emoji-btn" data-flow="heavy" title="Heavy">
+            <div style="font-size: 28px;">🩸🩸🩸</div>
+            <div class="emoji-label">Heavy</div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SYMPTOMS -->
+    <div class="card">
+      <h3>Physical Symptoms</h3>
+      <p style="opacity: 0.8; margin-top: 0;">Check any symptoms you're experiencing</p>
+      
+      <div style="margin: 15px 0;">
+        <label class="checkbox-label">
+          <input type="checkbox" data-symptom="cramps"> 🤕 Cramps/Pain
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" data-symptom="bloating"> 🎈 Bloating
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" data-symptom="headache"> 🤯 Headache
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" data-symptom="acne"> ✨ Acne/Pimples
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" data-symptom="cravings"> 🍕 Food Cravings
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" data-symptom="nausea"> 🤢 Nausea
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" data-symptom="backpain"> 🔴 Back Pain
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" data-symptom="sore_breast"> 🔴 Sore Breast
+        </label>
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Pain Level</span>
+          <span id="painValue">0</span>
+        </div>
+        <input type="range" id="painSlider" min="0" max="10" value="0">
+      </div>
+    </div>
+
+    <!-- LIFESTYLE -->
+    <div class="card">
+      <h3>Lifestyle & Health</h3>
+      
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Sleep (hours)</span>
+          <span id="sleepValue">7</span>
+        </div>
+        <input type="range" id="sleepSlider" min="0" max="12" value="7" step="0.5">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Sex Drive</span>
+          <span id="driveValue">5</span>
+        </div>
+        <input type="range" id="driveSlider" min="1" max="10" value="5">
+      </div>
+
+      <div style="margin: 20px 0;">
+        <p style="opacity: 0.8; margin-bottom: 15px;">Exercise Today:</p>
+        <label class="checkbox-label">
+          <input type="checkbox" data-exercise="walking"> 🚶 Walking
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" data-exercise="yoga"> 🧘 Yoga
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" data-exercise="cardio"> 🏃 Cardio
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" data-exercise="strength"> 💪 Strength
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" data-exercise="sports"> ⚽ Sports
+        </label>
+      </div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="card">
+      <h3>Personal Notes</h3>
+      <textarea id="notes" placeholder="Add any additional notes about today..."></textarea>
+    </div>
+
+    <!-- SAVE BUTTON -->
+    <div class="card" style="text-align: center;">
+      <button class="btn" id="saveBtn" style="width: 100%; padding: 15px 20px; font-size: 16px;">Save Entry</button>
+    </div>
+
+    <!-- PAST ENTRIES -->
+    <div class="card">
+      <h3>Recent Entries</h3>
+      <div id="entriesList" style="max-height: 300px; overflow-y: auto;">
+        <p style="opacity: 0.7; text-align: center;">No entries yet</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+let state = {
+  selectedDate: new Date().toISOString().split('T')[0],
+  entries: {}
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadState();
+  setupNavigation();
+  setupTracking();
+  setupDate();
+  loadEntryData();
+  displayEntries();
+});
+
+function setupNavigation() {
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const page = item.dataset.page;
+      if (page === 'dashboard') {
+        window.location.href = 'premium.html';
+      } else if (page === 'calendar') {
+        window.location.href = 'calendar.html';
+      } else if (page === 'partner') {
+        window.location.href = 'partner.html';
+      } else if (page === 'profile') {
+        window.location.href = 'profile.html';
+      } else if (page === 'settings') {
+        window.location.href = 'premium.html';
+      }
+    });
+  });
+}
+
+function setupDate() {
+  const dateInput = document.getElementById('logDate');
+  
+  // Check for date parameter in URL
+  const params = new URLSearchParams(window.location.search);
+  const dateParam = params.get('date');
+  
+  if (dateParam) {
+    state.selectedDate = dateParam;
+  }
+  
+  dateInput.value = state.selectedDate;
+  dateInput.addEventListener('change', (e) => {
+    state.selectedDate = e.target.value;
+    loadEntryData();
+  });
+}
+
+function setupTracking() {
+  // Mood buttons
+  document.querySelectorAll('[data-mood]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-mood]').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+
+  // Flow buttons
+  document.querySelectorAll('[data-flow]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-flow]').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+
+  // Period checkbox
+  document.getElementById('onPeriod').addEventListener('change', (e) => {
+    document.getElementById('flowSection').style.display = e.target.checked ? 'block' : 'none';
+  });
+
+  // Sliders
+  document.getElementById('energySlider').addEventListener('input', (e) => {
+    document.getElementById('energyValue').textContent = e.target.value;
+  });
+
+  document.getElementById('painSlider').addEventListener('input', (e) => {
+    document.getElementById('painValue').textContent = e.target.value;
+  });
+
+  document.getElementById('sleepSlider').addEventListener('input', (e) => {
+    document.getElementById('sleepValue').textContent = e.target.value;
+  });
+
+  document.getElementById('driveSlider').addEventListener('input', (e) => {
+    document.getElementById('driveValue').textContent = e.target.value;
+  });
+
+  // Save button
+  document.getElementById('saveBtn').addEventListener('click', saveEntry);
+}
+
+function loadEntryData() {
+  const entry = state.entries[state.selectedDate] || {};
+
+  // Reset UI
+  document.querySelectorAll('[data-mood], [data-flow]').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+
+  // Load mood
+  if (entry.mood) {
+    const moodBtn = document.querySelector(`[data-mood="${entry.mood}"]`);
+    if (moodBtn) moodBtn.classList.add('selected');
+  }
+
+  // Load flow
+  if (entry.flow) {
+    const flowBtn = document.querySelector(`[data-flow="${entry.flow}"]`);
+    if (flowBtn) flowBtn.classList.add('selected');
+  }
+
+  // Load period
+  const onPeriod = document.getElementById('onPeriod');
+  onPeriod.checked = entry.onPeriod || false;
+  document.getElementById('flowSection').style.display = entry.onPeriod ? 'block' : 'none';
+
+  // Load symptoms
+  if (entry.symptoms) {
+    entry.symptoms.forEach(symptom => {
+      const checkbox = document.querySelector(`[data-symptom="${symptom}"]`);
+      if (checkbox) checkbox.checked = true;
+    });
+  }
+
+  // Load exercises
+  if (entry.exercises) {
+    entry.exercises.forEach(exercise => {
+      const checkbox = document.querySelector(`[data-exercise="${exercise}"]`);
+      if (checkbox) checkbox.checked = true;
+    });
+  }
+
+  // Load sliders
+  document.getElementById('energySlider').value = entry.energy || 5;
+  document.getElementById('energyValue').textContent = entry.energy || 5;
+  document.getElementById('painSlider').value = entry.pain || 0;
+  document.getElementById('painValue').textContent = entry.pain || 0;
+  document.getElementById('sleepSlider').value = entry.sleep || 7;
+  document.getElementById('sleepValue').textContent = entry.sleep || 7;
+  document.getElementById('driveSlider').value = entry.drive || 5;
+  document.getElementById('driveValue').textContent = entry.drive || 5;
+
+  // Load notes
+  document.getElementById('notes').value = entry.notes || '';
+}
+
+function saveEntry() {
+  const entry = {
+    mood: document.querySelector('[data-mood].selected')?.dataset.mood,
+    flow: document.querySelector('[data-flow].selected')?.dataset.flow,
+    onPeriod: document.getElementById('onPeriod').checked,
+    energy: parseInt(document.getElementById('energySlider').value),
+    pain: parseInt(document.getElementById('painSlider').value),
+    sleep: parseFloat(document.getElementById('sleepSlider').value),
+    drive: parseInt(document.getElementById('driveSlider').value),
+    symptoms: Array.from(document.querySelectorAll('[data-symptom]:checked')).map(c => c.dataset.symptom),
+    exercises: Array.from(document.querySelectorAll('[data-exercise]:checked')).map(c => c.dataset.exercise),
+    notes: document.getElementById('notes').value,
+    timestamp: new Date().toLocaleString()
+  };
+
+  state.entries[state.selectedDate] = entry;
+  saveState();
+  displayEntries();
+  showNotification('Entry saved successfully! ✓');
+}
+
+function displayEntries() {
+  const entriesList = document.getElementById('entriesList');
+  const entries = Object.entries(state.entries)
+    .sort(([dateA], [dateB]) => dateB.localeCompare(dateA))
+    .slice(0, 5);
+
+  if (entries.length === 0) {
+    entriesList.innerHTML = '<p style="opacity: 0.7; text-align: center;">No entries yet</p>';
+    return;
+  }
+
+  entriesList.innerHTML = entries.map(([date, entry]) => `
+    <div style="background: rgba(255,77,109,0.1); padding: 12px; border-radius: 10px; margin-bottom: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <strong>${new Date(date).toLocaleDateString()}</strong>
+          <p style="margin: 5px 0; opacity: 0.7; font-size: 12px;">
+            ${entry.mood ? `${entry.mood} · ` : ''}
+            Energy: ${entry.energy}/10 · Sleep: ${entry.sleep}h
+          </p>
+        </div>
+        <div style="text-align: right;">
+          ${entry.symptoms?.length ? `<p style="margin: 0; font-size: 12px; opacity: 0.7;">${entry.symptoms.length} symptom(s)</p>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function showNotification(message) {
+  const notification = document.createElement('div');
+  notification.textContent = message;
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,77,109,0.9);
+    padding: 15px 20px;
+    border-radius: 10px;
+    color: white;
+    z-index: 2000;
+    animation: slideIn 0.3s ease;
+  `;
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+function saveState() {
+  localStorage.setItem('lunaTrackingState', JSON.stringify(state));
+}
+
+function loadState() {
+  const saved = localStorage.getItem('lunaTrackingState');
+  if (saved) {
+    state = JSON.parse(saved);
+  }
+}
+
+// Animations
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+  }
+`;
+document.head.appendChild(style);
+</script>
+
+</body>
+</html>

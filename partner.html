@@ -1,48 +1,478 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Luna | Partner View</title>
-    <link rel="stylesheet" href="style.css">
-    <meta name="theme-color" content="#ff4d6d">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <script src="js/common.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NewLuna - Partner</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f0f1a, #1c1c2e);
+  color: white;
+}
+
+/* LAYOUT */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  padding: 20px;
+}
+
+.sidebar h2 {
+  color: #ff4d6d;
+}
+
+.nav-item {
+  cursor: pointer;
+  padding: 8px 0;
+  margin: 15px 0;
+  opacity: 0.8;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255,73,109,0.2);
+}
+
+.nav-item.active {
+  background: rgba(255,73,109,0.3);
+  font-weight: 600;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  margin-bottom: 20px;
+}
+
+.card h3 {
+  margin-top: 0;
+  color: #ff4d6d;
+}
+
+/* BUTTON */
+.btn {
+  background: linear-gradient(45deg, #ff0033, #ff4d6d);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(255,77,109,0.4);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: #1c1c2e;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  max-width: 400px;
+  width: 90%;
+}
+
+.modal-content h2 {
+  color: #ff4d6d;
+  margin-top: 0;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  color: white;
+  box-sizing: border-box;
+}
+
+.modal-content input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+.close-btn {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.close-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* PARTNER CARD */
+.partner-card {
+  background: rgba(255,77,109,0.1);
+  border: 2px solid rgba(255,77,109,0.3);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.partner-card h4 {
+  margin: 0 0 10px 0;
+  color: #ff4d6d;
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+  background: #4caf50;
+}
+
+.status-dot.offline {
+  background: #999;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+}
+</style>
 </head>
-<body class="partner-mode">
-    <!-- Animated Splash Screen -->
-    <div class="splash-overlay">
-        <div class="splash-content">
-            <div class="splash-flower">❋</div>
-            <div class="splash-text">New Luna</div>
-        </div>
+
+<body>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>NewLuna</h2>
+    <div class="nav-item" data-page="dashboard">🏠 Dashboard</div>
+    <div class="nav-item" data-page="calendar">📅 Calendar</div>
+    <div class="nav-item active" data-page="partner">❤️ Partner</div>
+    <div class="nav-item" data-page="profile">👤 Profile</div>
+    <div class="nav-item" data-page="settings">⚙️ Settings</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- HEADER -->
+    <div class="card">
+      <h3>Partner Connection</h3>
+      <p>Invite your partner to share your cycle information and stay connected.</p>
+      <button class="btn" id="inviteBtn">Invite Partner</button>
     </div>
 
-    <div id="app-container" class="app-container partner-mode">
-    <div id="global-header"></div>
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <a href="index.html" class="nav-item">
-            <span class="nav-icon">🏠</span>
-            <span>Home</span>
-        </a>
-        <a href="calendar.html" class="nav-item">
-            <span class="nav-icon">📅</span>
-            <span>Calendar</span>
-        </a>
-        <div id="quick-log-btn" class="log-btn-nav" title="Quick Log">+</div>
-        <a href="report.html" class="nav-item">
-            <span class="nav-icon">📊</span>
-            <span>Insights</span>
-        </a>
-        <a href="settings.html" class="nav-item">
-            <span class="nav-icon">⚙️</span>
-            <span>Settings</span>
-        </a>
-    </nav>
+    <!-- CURRENT PARTNER -->
+    <div id="partnerSection" class="partner-card" style="display: none;">
+      <h4>😍 Connected Partner</h4>
+      <div id="partnerInfo"></div>
+      <button class="btn" id="disconnectBtn" style="background: rgba(255,77,109,0.3);">Disconnect</button>
+    </div>
 
-        <main id="main-content">
-            <div id="dashboard-view">
+    <!-- SHARING SETTINGS -->
+    <div class="card">
+      <h3>What You're Sharing</h3>
+      <label style="display: block; margin: 15px 0;">
+        <input type="checkbox" id="shareCycle" checked> Cycle Information
+      </label>
+      <label style="display: block; margin: 15px 0;">
+        <input type="checkbox" id="shareSymptoms" checked> Symptoms & Notes
+      </label>
+      <label style="display: block; margin: 15px 0;">
+        <input type="checkbox" id="shareMood" checked> Mood & Well-being
+      </label>
+      <label style="display: block; margin: 15px 0;">
+        <input type="checkbox" id="shareReminders"> Reminders & Goals
+      </label>
+      <button class="btn" id="saveShareBtn" style="margin-top: 20px;">Save Preferences</button>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="card">
+      <h3>💬 Messages</h3>
+      <div id="messagesContainer" style="max-height: 300px; overflow-y: auto; margin: 15px 0; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 10px;">
+        <p style="opacity: 0.7;">Start a conversation with your partner</p>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <input type="text" id="messageInput" placeholder="Send a message..." style="flex: 1; padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;">
+        <button class="btn" id="sendMessageBtn" style="margin-top: 0;">Send</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- INVITE MODAL -->
+<div class="modal" id="inviteModal">
+  <div class="modal-content">
+    <h2>Invite Partner</h2>
+    <p>Share your connection code or invite by email</p>
+    <input type="email" id="partnerEmail" placeholder="Partner's email">
+    <button class="btn" id="sendInviteBtn" style="width: 100%; text-align: center;">Send Invite</button>
+    <button class="close-btn" id="closeInviteModal" style="width: 100%; margin-top: 10px;">Cancel</button>
+  </div>
+</div>
+
+<script>
+let state = {
+  partner: null,
+  messages: [],
+  sharing: {
+    cycle: true,
+    symptoms: true,
+    mood: true,
+    reminders: false
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadState();
+  setupNavigation();
+  setupButtons();
+  displayPartner();
+  displayMessages();
+});
+
+function setupNavigation() {
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const page = item.dataset.page;
+      if (page === 'dashboard') {
+        window.location.href = 'premium.html';
+      } else if (page === 'calendar') {
+        window.location.href = 'calendar.html';
+      } else if (page === 'profile') {
+        window.location.href = 'profile.html';
+      } else if (page === 'settings') {
+        window.location.href = 'premium.html';
+      }
+    });
+  });
+}
+
+function setupButtons() {
+  const inviteBtn = document.getElementById('inviteBtn');
+  const sendInviteBtn = document.getElementById('sendInviteBtn');
+  const closeInviteModal = document.getElementById('closeInviteModal');
+  const disconnectBtn = document.getElementById('disconnectBtn');
+  const saveShareBtn = document.getElementById('saveShareBtn');
+  const sendMessageBtn = document.getElementById('sendMessageBtn');
+  const messageInput = document.getElementById('messageInput');
+
+  inviteBtn.addEventListener('click', () => {
+    document.getElementById('inviteModal').classList.add('active');
+  });
+
+  closeInviteModal.addEventListener('click', () => {
+    document.getElementById('inviteModal').classList.remove('active');
+  });
+
+  sendInviteBtn.addEventListener('click', () => {
+    const email = document.getElementById('partnerEmail').value;
+    if (email) {
+      state.partner = {
+        name: email.split('@')[0],
+        email: email,
+        status: 'Connected',
+        connectedDate: new Date().toLocaleDateString()
+      };
+      saveState();
+      document.getElementById('inviteModal').classList.remove('active');
+      document.getElementById('partnerEmail').value = '';
+      displayPartner();
+      showNotification(`Invitation sent to ${email}!`);
+    }
+  });
+
+  if (disconnectBtn) {
+    disconnectBtn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to disconnect from your partner?')) {
+        state.partner = null;
+        saveState();
+        displayPartner();
+        showNotification('Partner disconnected');
+      }
+    });
+  }
+
+  saveShareBtn.addEventListener('click', () => {
+    state.sharing = {
+      cycle: document.getElementById('shareCycle').checked,
+      symptoms: document.getElementById('shareSymptoms').checked,
+      mood: document.getElementById('shareMood').checked,
+      reminders: document.getElementById('shareReminders').checked
+    };
+    saveState();
+    showNotification('Sharing preferences saved!');
+  });
+
+  sendMessageBtn.addEventListener('click', sendMessage);
+  messageInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+  });
+}
+
+function sendMessage() {
+  const messageInput = document.getElementById('messageInput');
+  const text = messageInput.value.trim();
+  
+  if (text && state.partner) {
+    state.messages.push({
+      author: 'You',
+      text: text,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    });
+    messageInput.value = '';
+    saveState();
+    displayMessages();
+  }
+}
+
+function displayPartner() {
+  const partnerSection = document.getElementById('partnerSection');
+  const partnerInfo = document.getElementById('partnerInfo');
+
+  if (state.partner) {
+    partnerSection.style.display = 'block';
+    partnerInfo.innerHTML = `
+      <p><strong>Name:</strong> ${state.partner.name}</p>
+      <p><strong>Email:</strong> ${state.partner.email}</p>
+      <p><span class="status-dot"></span><strong>Status:</strong> ${state.partner.status}</p>
+      <p><strong>Connected:</strong> ${state.partner.connectedDate}</p>
+    `;
+  } else {
+    partnerSection.style.display = 'none';
+  }
+}
+
+function displayMessages() {
+  const container = document.getElementById('messagesContainer');
+  
+  if (state.messages.length === 0) {
+    container.innerHTML = '<p style="opacity: 0.7;">Start a conversation with your partner</p>';
+    return;
+  }
+
+  const messagesHTML = state.messages.map(msg => `
+    <div style="background: rgba(255,77,109,0.1); padding: 10px; border-radius: 8px; margin: 10px 0;">
+      <strong>${msg.author}</strong> <span style="opacity: 0.6; font-size: 12px;">${msg.timestamp}</span>
+      <p style="margin: 5px 0 0 0;">${msg.text}</p>
+    </div>
+  `).join('');
+
+  container.innerHTML = messagesHTML;
+  container.scrollTop = container.scrollHeight;
+}
+
+function showNotification(message) {
+  const notification = document.createElement('div');
+  notification.textContent = message;
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,77,109,0.9);
+    padding: 15px 20px;
+    border-radius: 10px;
+    color: white;
+    z-index: 2000;
+    animation: slideIn 0.3s ease;
+  `;
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+function saveState() {
+  localStorage.setItem('lunaPartnerState', JSON.stringify(state));
+}
+
+function loadState() {
+  const saved = localStorage.getItem('lunaPartnerState');
+  if (saved) {
+    state = JSON.parse(saved);
+  }
+}
+
+// Animations
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+  }
+`;
+document.head.appendChild(style);
+</script>
+
+</body>
+</html>
+
                 <section class="dashboard">
                 <div id="partner-mode-banner" class="banner">Partner Mode Connected: Read-Only</div>
                 <div id="pregnancy-banner" class="banner pregnancy hidden">Pregnancy Journey 👶</div>

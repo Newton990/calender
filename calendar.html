@@ -1,147 +1,474 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Luna | Calendar</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ff4d6d">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <script src="js/common.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NewLuna - Calendar</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f0f1a, #1c1c2e);
+  color: white;
+}
+
+/* LAYOUT */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  padding: 20px;
+}
+
+.sidebar h2 {
+  color: #ff4d6d;
+}
+
+.nav-item {
+  cursor: pointer;
+  padding: 8px 0;
+  margin: 15px 0;
+  opacity: 0.8;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255,73,109,0.2);
+}
+
+.nav-item.active {
+  background: rgba(255,73,109,0.3);
+  font-weight: 600;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  margin-bottom: 20px;
+}
+
+.card h3 {
+  margin-top: 0;
+  color: #ff4d6d;
+}
+
+/* CALENDAR */
+.calendar-container {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-header h2 {
+  margin: 0;
+  color: #ff4d6d;
+}
+
+.calendar-header button {
+  background: rgba(255,77,109,0.3);
+  border: 1px solid rgba(255,77,109,0.5);
+  color: white;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.calendar-header button:hover {
+  background: rgba(255,77,109,0.5);
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.weekday {
+  text-align: center;
+  padding: 10px;
+  font-weight: 600;
+  color: #ff4d6d;
+  opacity: 0.7;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  border: 2px solid transparent;
+}
+
+.day:hover {
+  border-color: rgba(255,77,109,0.5);
+}
+
+.day.period {
+  background: rgba(255,77,109,0.6);
+  color: white;
+}
+
+.day.fertile {
+  background: rgba(144,202,102,0.5);
+  color: white;
+}
+
+.day.ovulation {
+  background: rgba(255,193,7,0.5);
+  color: white;
+}
+
+.day.other-month {
+  opacity: 0.3;
+}
+
+.day.today {
+  border-color: #ff4d6d;
+  border-width: 2px;
+}
+
+.day.has-entry {
+  position: relative;
+}
+
+.day.has-entry::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: #ff4d6d;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255,77,109,0.8);
+}
+
+.legend {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-color {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .weekdays, .days {
+    gap: 2px;
+  }
+}
+</style>
 </head>
 <body>
-    <!-- Animated Splash Screen -->
-    <div class="splash-overlay">
-        <div class="splash-content">
-            <div class="splash-flower">❋</div>
-            <div class="splash-text">New Luna</div>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>NewLuna</h2>
+    <div class="nav-item" data-page="dashboard">🏠 Dashboard</div>
+    <div class="nav-item active" data-page="calendar">📅 Calendar</div>
+    <div class="nav-item" data-page="partner">❤️ Partner</div>
+    <div class="nav-item" data-page="profile">👤 Profile</div>
+    <div class="nav-item" data-page="settings">⚙️ Settings</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- CALENDAR -->
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <h2 id="monthYear">April 2026</h2>
+        <div>
+          <button id="prevMonth">← Prev</button>
+          <button id="nextMonth" style="margin-left: 10px;">Next →</button>
         </div>
+      </div>
+
+      <div class="weekdays">
+        <div class="weekday">Sun</div>
+        <div class="weekday">Mon</div>
+        <div class="weekday">Tue</div>
+        <div class="weekday">Wed</div>
+        <div class="weekday">Thu</div>
+        <div class="weekday">Fri</div>
+        <div class="weekday">Sat</div>
+      </div>
+
+      <div class="days" id="calendarDays"></div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-color" style="background: rgba(255,77,109,0.6);"></div>
+          <span>Period</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: rgba(255,193,7,0.5);"></div>
+          <span>Ovulation</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: rgba(144,202,102,0.5);"></div>
+          <span>Fertile</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: transparent; border: 2px solid #ff4d6d; border-radius: 50%; position: relative;">
+            <div style="position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; background: #ff4d6d; border-radius: 50%;"></div>
+          </div>
+          <span>Has Entry</span>
+        </div>
+      </div>
     </div>
 
-    <div id="app-container" class="app-container">
-    <div id="global-header"></div>
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <a href="index.html" class="nav-item">
-            <span class="nav-icon">🏠</span>
-            <span>Home</span>
-        </a>
-        <a href="calendar.html" class="nav-item active">
-            <span class="nav-icon">📅</span>
-            <span>Calendar</span>
-        </a>
-        <div id="quick-log-btn" class="log-btn-nav" title="Quick Log">+</div>
-        <a href="report.html" class="nav-item">
-            <span class="nav-icon">📊</span>
-            <span>Insights</span>
-        </a>
-        <a href="settings.html" class="nav-item">
-            <span class="nav-icon">⚙️</span>
-            <span>Settings</span>
-        </a>
-    </nav>
-
-        <main style="display: block;">
-            <div class="calendar-card glass">
-                <div class="calendar-header">
-                    <button id="prev-month" class="nav-btn">&lt;</button>
-                    <h3 id="month-display">--</h3>
-                    <button id="next-month" class="nav-btn">&gt;</button>
-                </div>
-                <div class="calendar-grid">
-                    <div class="weekday">Sun</div>
-                    <div class="weekday">Mon</div>
-                    <div class="weekday">Tue</div>
-                    <div class="weekday">Wed</div>
-                    <div class="weekday">Thu</div>
-                    <div class="weekday">Fri</div>
-                    <div class="weekday">Sat</div>
-                </div>
-                <div id="calendar-days" class="calendar-days"></div>
-            </div>
-        </main>
-
-        <div id="modal-overlay" class="overlay hidden"></div>
-        <div id="symptom-modal" class="modal hidden glass">
-            <h3>Date Details</h3>
-            <p id="selected-date-display" style="font-weight: 600; font-size: 1.1rem; color: var(--primary); margin-bottom: 5px;"></p>
-            <div class="predictions-panel" style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 12px; margin-bottom: 15px; font-size: 0.9rem;">
-                <p><strong>Next Period:</strong> <span id="pred-menstruation" style="color: var(--primary);">Calculating...</span></p>
-                <p><strong>Ovulation:</strong> <span id="pred-ovulation" style="color: var(--primary-dark);">Calculating...</span></p>
-            </div>
-            <!-- Tab Navigation -->
-            <div class="modal-tabs" style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 10px;">
-                <button class="tab-btn active" data-tab="emotional">🧠 Emotional</button>
-                <button class="tab-btn" data-tab="physical">🩸 Physical</button>
-                <button class="tab-btn" data-tab="lifestyle">🌿 Lifestyle</button>
-            </div>
-
-            <!-- Emotional Tab -->
-            <div id="tab-emotional" class="tab-pane">
-                <h4 style="margin-bottom: 10px; text-align: left;">Mood & Energy</h4>
-                <div class="mood-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px;">
-                    <button class="metric-btn mood-btn" data-mood="happy">😊 Happy</button>
-                    <button class="metric-btn mood-btn" data-mood="sad">😢 Sad</button>
-                    <button class="metric-btn mood-btn" data-mood="anxious">😰 Anxious</button>
-                    <button class="metric-btn mood-btn" data-mood="angry">😡 Angry</button>
-                    <button class="metric-btn mood-btn" data-mood="calm">😌 Calm</button>
-                    <button class="metric-btn mood-btn" data-mood="tired">😴 Tired</button>
-                    <button class="metric-btn mood-btn" data-mood="moody">🎭 Mood Swings</button>
-                </div>
-                <div class="scale-group" style="margin-bottom: 15px;">
-                    <label style="display: block; font-size: 0.9rem; margin-bottom: 5px;">Energy Level (1-5):</label>
-                    <input type="range" id="energy-range" min="1" max="5" step="1" style="width: 100%;">
-                </div>
-            </div>
-
-            <!-- Physical Tab -->
-            <div id="tab-physical" class="tab-pane hidden">
-                <h4 style="margin-bottom: 10px; text-align: left;">Cramps & Flow</h4>
-                <div class="scale-group" style="margin-bottom: 15px;">
-                    <label style="display: block; font-size: 0.9rem; margin-bottom: 5px;">Pain/Cramps (1-5):</label>
-                    <input type="range" id="pain-range" min="1" max="5" step="1" style="width: 100%;">
-                </div>
-                <div class="flow-selector" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px;">
-                    <button class="metric-btn flow-btn" data-flow="spotting">💧 Spotting</button>
-                    <button class="metric-btn flow-btn" data-flow="light">🩸 Light</button>
-                    <button class="metric-btn flow-btn" data-flow="medium">🩸 Medium</button>
-                    <button class="metric-btn flow-btn" data-flow="heavy">🩸 Heavy</button>
-                </div>
-                <div id="menstrual-symptoms" class="symptom-grid">
-                    <button class="symptom-btn" data-symptom="bloating">🎈 Bloating</button>
-                    <button class="symptom-btn" data-symptom="headache">🤕 Headache</button>
-                    <button class="symptom-btn" data-symptom="acne">✨ Acne</button>
-                    <button class="symptom-btn" data-symptom="cravings">🍕 Cravings</button>
-                </div>
-                <div id="pregnancy-symptoms" class="symptom-grid hidden">
-                    <button class="symptom-btn" data-symptom="nausea">🤢 Nausea</button>
-                    <button class="symptom-btn" data-symptom="fatigue">😴 Fatigue</button>
-                </div>
-            </div>
-
-            <!-- Lifestyle Tab -->
-            <div id="tab-lifestyle" class="tab-pane hidden">
-                <h4 style="margin-bottom: 10px; text-align: left;">Sleep & Drive</h4>
-                <div class="input-group" style="margin-bottom: 15px;">
-                    <label style="display: block; font-size: 0.9rem; margin-bottom: 5px;">Sleep (Hours):</label>
-                    <input type="number" id="sleep-hours" placeholder="8" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #ddd;">
-                </div>
-                <div class="drive-selector" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                    <button class="metric-btn drive-btn" data-drive="low">📉 Low</button>
-                    <button class="metric-btn drive-btn" data-drive="med">📊 Med</button>
-                    <button class="metric-btn drive-btn" data-drive="high">📈 High</button>
-                </div>
-            </div>
-            <div class="modal-actions" style="flex-wrap: wrap; gap: 10px;">
-                <button id="toggle-period-btn" class="btn-primary" style="flex: 1 1 100%; margin-bottom: 5px; background: var(--primary-dark);">Mark as Period Start</button>
-                <button id="close-modal" class="btn-secondary" style="flex: 1;">Cancel</button>
-                <button id="save-symptoms" class="btn-primary" style="flex: 1;">Save Symptoms</button>
-            </div>
-        </div>
+    <!-- CYCLE STATS -->
+    <div class="card">
+      <h3>Cycle Information</h3>
+      <p><strong>Last Period:</strong> <span id="lastPeriod">Not logged</span></p>
+      <p><strong>Average Cycle Length:</strong> <span id="avgCycle">28 days</span></p>
+      <p><strong>Period Duration:</strong> <span id="periodDuration">5 days</span></p>
+      <p><strong>Next Period:</strong> <span id="nextPeriod">May 1</span></p>
+      <p><strong>Days Until:</strong> <span id="daysUntil">30 days</span></p>
     </div>
-    <script src="js/dashboard.js"></script>
+
+  </div>
+
+</div>
+
+<script>
+let currentDate = new Date();
+let state = {
+  cycleDay: 12,
+  periodDate: null,
+  settings: {
+    avgCycleLength: 28,
+    periodDuration: 5
+  }
+};
+let trackingEntries = {};
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadState();
+  loadTrackingData();
+  setupNavigation();
+  renderCalendar();
+  updateCycleInfo();
+  setupCalendarButtons();
+});
+
+function setupNavigation() {
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const page = item.dataset.page;
+      if (page === 'dashboard') {
+        window.location.href = 'premium.html';
+      } else if (page === 'partner') {
+        window.location.href = 'partner.html';
+      } else if (page === 'profile') {
+        window.location.href = 'profile.html';
+      } else if (page === 'tracking') {
+        window.location.href = 'tracking.html';
+      } else if (page === 'settings') {
+        window.location.href = 'premium.html';
+      }
+    });
+  });
+}
+
+function setupCalendarButtons() {
+  document.getElementById('prevMonth').addEventListener('click', () => {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar();
+  });
+
+  document.getElementById('nextMonth').addEventListener('click', () => {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    renderCalendar();
+  });
+}
+
+function renderCalendar() {
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  
+  document.getElementById('monthYear').textContent = 
+    currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const prevLastDay = new Date(year, month, 0);
+  
+  const firstDayOfWeek = firstDay.getDay();
+  const lastDateOfMonth = lastDay.getDate();
+  const lastDayOfWeek = lastDay.getDay();
+  const prevLastDate = prevLastDay.getDate();
+
+  let html = '';
+
+  // Previous month days
+  for (let i = firstDayOfWeek; i > 0; i--) {
+    html += `<div class="day other-month">${prevLastDate - i + 1}</div>`;
+  }
+
+  // Current month days
+  for (let date = 1; date <= lastDateOfMonth; date++) {
+    const dayDate = new Date(year, month, date);
+    const dateStr = dayDate.toISOString().split('T')[0];
+    const today = new Date().toISOString().split('T')[0];
+    
+    let classes = 'day';
+    if (dateStr === today) classes += ' today';
+    
+    // Mark period days (simplified)
+    if (state.periodDate) {
+      const periodStart = new Date(state.periodDate);
+      const periodEnd = new Date(periodStart);
+      periodEnd.setDate(periodEnd.getDate() + state.settings.periodDuration);
+      
+      if (dayDate >= periodStart && dayDate < periodEnd) {
+        classes += ' period';
+      }
+      
+      // Mark ovulation
+      const nextCycleStart = new Date(periodStart);
+      nextCycleStart.setDate(nextCycleStart.getDate() + state.settings.avgCycleLength);
+      const ovulationDay = new Date(nextCycleStart);
+      ovulationDay.setDate(ovulationDay.getDate() - 14);
+      
+      const ovulationDateStr = ovulationDay.toISOString().split('T')[0];
+      if (dateStr === ovulationDateStr) {
+        classes += ' ovulation';
+      }
+      
+      // Mark fertile window
+      const fertileStart = new Date(ovulationDay);
+      fertileStart.setDate(fertileStart.getDate() - 5);
+      const fertileEnd = new Date(ovulationDay);
+      fertileEnd.setDate(fertileEnd.getDate() + 1);
+      
+      if (dayDate >= fertileStart && dayDate < fertileEnd && dateStr !== ovulationDateStr) {
+        classes += ' fertile';
+      }
+    }
+    
+    // Check if this date has a tracking entry
+    if (trackingEntries[dateStr]) {
+      classes += ' has-entry';
+    }
+    
+    html += `<div class="${classes}" data-date="${dateStr}">${date}</div>`;
+  }
+
+  // Next month days
+  for (let date = 1; date <= (7 - lastDayOfWeek - 1); date++) {
+    html += `<div class="day other-month">${date}</div>`;
+  }
+
+  document.getElementById('calendarDays').innerHTML = html;
+  
+  // Setup click handlers for dates with entries
+  document.querySelectorAll('.day.has-entry').forEach(day => {
+    day.addEventListener('click', () => {
+      const date = day.dataset.date;
+      window.location.href = `tracking.html?date=${date}`;
+    });
+  });
+}
+
+function updateCycleInfo() {
+  if (state.periodDate) {
+    document.getElementById('lastPeriod').textContent = new Date(state.periodDate).toLocaleDateString();
+    
+    const nextPeriod = new Date(state.periodDate);
+    nextPeriod.setDate(nextPeriod.getDate() + state.settings.avgCycleLength);
+    
+    document.getElementById('nextPeriod').textContent = nextPeriod.toLocaleDateString();
+    
+    const today = new Date();
+    const daysUntil = Math.ceil((nextPeriod - today) / (1000 * 60 * 60 * 24));
+    document.getElementById('daysUntil').textContent = daysUntil > 0 ? `${daysUntil} days` : 'Today!';
+  }
+  
+  document.getElementById('avgCycle').textContent = `${state.settings.avgCycleLength} days`;
+  document.getElementById('periodDuration').textContent = `${state.settings.periodDuration} days`;
+}
+
+function loadState() {
+  const saved = localStorage.getItem('lunaState');
+  if (saved) {
+    state = { ...state, ...JSON.parse(saved) };
+  }
+}
+
+function loadTrackingData() {
+  const saved = localStorage.getItem('lunaTrackingState');
+  if (saved) {
+    const trackingState = JSON.parse(saved);
+    trackingEntries = trackingState.entries || {};
+  }
+}
+</script>
+
 </body>
 </html>

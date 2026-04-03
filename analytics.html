@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NewLuna - Analytics</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f0f1a, #1c1c2e);
+  color: white;
+}
+
+/* LAYOUT */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  padding: 20px;
+}
+
+.sidebar h2 {
+  color: #ff4d6d;
+}
+
+.nav-item {
+  cursor: pointer;
+  padding: 8px 0;
+  margin: 15px 0;
+  opacity: 0.8;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255,73,109,0.2);
+}
+
+.nav-item.active {
+  background: rgba(255,73,109,0.3);
+  font-weight: 600;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  margin-bottom: 20px;
+}
+
+.card h3 {
+  margin-top: 0;
+  color: #ff4d6d;
+}
+
+/* STAT BOX */
+.stat-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.stat-item {
+  background: rgba(255,77,109,0.1);
+  border: 1px solid rgba(255,77,109,0.3);
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #ff4d6d;
+  margin: 10px 0;
+}
+
+.stat-label {
+  font-size: 12px;
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
+/* CHART */
+.chart-container {
+  margin: 20px 0;
+  background: rgba(255,77,109,0.05);
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 200px;
+  gap: 10px;
+}
+
+.bar {
+  flex: 1;
+  background: linear-gradient(180deg, #ff4d6d, #ff0033);
+  border-radius: 8px 8px 0 0;
+  position: relative;
+  min-height: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.bar:hover {
+  background: linear-gradient(180deg, #ff6d8d, #ff2053);
+  box-shadow: 0 0 15px rgba(255,77,109,0.6);
+}
+
+.bar-label {
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.bar-value {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ff4d6d;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* MOOD CHART */
+.mood-distribution {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.mood-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mood-label {
+  width: 80px;
+  font-size: 14px;
+}
+
+.mood-progress {
+  flex: 1;
+  height: 20px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.mood-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff4d6d, #ff0033);
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.mood-count {
+  width: 40px;
+  text-align: right;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* SYMPTOM LIST */
+.symptom-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.symptom-tag {
+  background: rgba(255,77,109,0.2);
+  border: 1px solid rgba(255,77,109,0.4);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.symptom-tag:hover {
+  background: rgba(255,77,109,0.3);
+  border-color: rgba(255,77,109,0.6);
+}
+
+.symptom-count {
+  display: block;
+  font-weight: 600;
+  color: #ff4d6d;
+  margin-top: 5px;
+}
+
+/* TREND */
+.trend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.trend-label {
+  flex: 1;
+}
+
+.trend-value {
+  font-weight: 600;
+  color: #ff4d6d;
+}
+
+.trend-arrow {
+  font-size: 20px;
+}
+
+.trend.up {
+  color: #90ca66;
+}
+
+.trend.down {
+  color: #ff6b6b;
+}
+
+.trend.stable {
+  color: #ffc107;
+}
+
+/* INSIGHTS */
+.insight {
+  background: rgba(255,77,109,0.1);
+  border-left: 4px solid #ff4d6d;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+  .stat-box {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mood-distribution {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>NewLuna</h2>
+    <div class="nav-item" data-page="dashboard">🏠 Dashboard</div>
+    <div class="nav-item" data-page="calendar">📅 Calendar</div>
+    <div class="nav-item" data-page="partner">❤️ Partner</div>
+    <div class="nav-item" data-page="profile">👤 Profile</div>
+    <div class="nav-item" data-page="tracking">📝 Tracking</div>
+    <div class="nav-item active" data-page="analytics">📊 Analytics</div>
+    <div class="nav-item" data-page="settings">⚙️ Settings</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- OVERVIEW -->
+    <div class="card">
+      <h3>Overall Statistics</h3>
+      <div class="stat-box">
+        <div class="stat-item">
+          <div class="stat-label">Total Entries</div>
+          <div class="stat-value" id="totalEntries">0</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Avg Energy</div>
+          <div class="stat-value" id="avgEnergy">-</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Avg Sleep</div>
+          <div class="stat-value" id="avgSleep">-</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Most Common Symptom</div>
+          <div class="stat-value" id="topSymptom" style="font-size: 18px;">-</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOOD TRENDS -->
+    <div class="card">
+      <h3>Mood Distribution</h3>
+      <p style="opacity: 0.8; margin-top: 0;">How often you've felt each mood</p>
+      <div id="moodDistribution"></div>
+    </div>
+
+    <!-- SYMPTOM ANALYSIS -->
+    <div class="card">
+      <h3>Top Symptoms This Cycle</h3>
+      <p style="opacity: 0.8; margin-top: 0;">Most frequently reported physical symptoms</p>
+      <div id="symptomList" class="symptom-list"></div>
+    </div>
+
+    <!-- ENERGY TRENDS -->
+    <div class="card">
+      <h3>Energy Level Trends</h3>
+      <p style="opacity: 0.8; margin-top: 0;">Average energy levels over time</p>
+      <div class="chart-container">
+        <div class="bar-chart" id="energyChart"></div>
+      </div>
+    </div>
+
+    <!-- SLEEP PATTERNS -->
+    <div class="card">
+      <h3>Sleep Patterns</h3>
+      <p style="opacity: 0.8; margin-top: 0;">Average hours of sleep logged</p>
+      <div class="chart-container">
+        <div class="bar-chart" id="sleepChart"></div>
+      </div>
+    </div>
+
+    <!-- SEX DRIVE TRENDS -->
+    <div class="card">
+      <h3>Sex Drive Trends</h3>
+      <p style="opacity: 0.8; margin-top: 0;">Sexual desire patterns throughout cycle</p>
+      <div class="chart-container">
+        <div class="bar-chart" id="driveChart"></div>
+      </div>
+    </div>
+
+    <!-- EXERCISE ANALYSIS -->
+    <div class="card">
+      <h3>Exercise Types Logged</h3>
+      <p style="opacity: 0.8; margin-top: 0;">Most common exercises you've done</p>
+      <div id="exerciseList" class="symptom-list"></div>
+    </div>
+
+    <!-- INSIGHTS -->
+    <div class="card">
+      <h3>Health Insights</h3>
+      <div id="insightsList"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+let trackingData = {};
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadTrackingData();
+  setupNavigation();
+  generateAnalytics();
+});
+
+function setupNavigation() {
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const page = item.dataset.page;
+      if (page === 'dashboard') {
+        window.location.href = 'premium.html';
+      } else if (page === 'calendar') {
+        window.location.href = 'calendar.html';
+      } else if (page === 'partner') {
+        window.location.href = 'partner.html';
+      } else if (page === 'profile') {
+        window.location.href = 'profile.html';
+      } else if (page === 'tracking') {
+        window.location.href = 'tracking.html';
+      } else if (page === 'settings') {
+        window.location.href = 'premium.html';
+      }
+    });
+  });
+}
+
+function loadTrackingData() {
+  const saved = localStorage.getItem('lunaTrackingState');
+  if (saved) {
+    tracking Data = JSON.parse(saved);
+  }
+}
+
+function generateAnalytics() {
+  const entries = trackingData.entries || {};
+  
+  if (Object.keys(entries).length === 0) {
+    document.querySelector('.main').innerHTML += '<div class="card"><p style="text-align: center; opacity: 0.7;">No tracking data yet. Start logging in the Tracking page to see analytics!</p></div>';
+    return;
+  }
+
+  // Calculate statistics
+  const entryArray = Object.values(entries);
+  const stats = calculateStats(entryArray);
+
+  // Update UI
+  displayOverallStats(stats);
+  displayMoodDistribution(stats);
+  displaySymptomAnalysis(stats);
+  displayEnergyChart(stats);
+  displaySleepChart(stats);
+  displayDriveChart(stats);
+  displayExerciseAnalysis(stats);
+  displayInsights(stats);
+}
+
+function calculateStats(entries) {
+  const stats = {
+    totalEntries: entries.length,
+    moods: {},
+    symptoms: {},
+    exercises: {},
+    energyLevels: [],
+    sleepHours: [],
+    driveLevels: [],
+    painLevels: [],
+    onPeriodCount: 0
+  };
+
+  entries.forEach(entry => {
+    // Mood
+    if (entry.mood) {
+      stats.moods[entry.mood] = (stats.moods[entry.mood] || 0) + 1;
+    }
+
+    // Symptoms
+    if (entry.symptoms && Array.isArray(entry.symptoms)) {
+      entry.symptoms.forEach(symptom => {
+        stats.symptoms[symptom] = (stats.symptoms[symptom] || 0) + 1;
+      });
+    }
+
+    // Exercises
+    if (entry.exercises && Array.isArray(entry.exercises)) {
+      entry.exercises.forEach(exercise => {
+        stats.exercises[exercise] = (stats.exercises[exercise] || 0) + 1;
+      });
+    }
+
+    // Metrics
+    if (entry.energy) stats.energyLevels.push(entry.energy);
+    if (entry.sleep) stats.sleepHours.push(entry.sleep);
+    if (entry.drive) stats.driveLevels.push(entry.drive);
+    if (entry.pain) stats.painLevels.push(entry.pain);
+    if (entry.onPeriod) stats.onPeriodCount++;
+  });
+
+  // Calculate averages
+  stats.avgEnergy = stats.energyLevels.length ? (stats.energyLevels.reduce((a, b) => a + b, 0) / stats.energyLevels.length).toFixed(1) : 0;
+  stats.avgSleep = stats.sleepHours.length ? (stats.sleepHours.reduce((a, b) => a + b, 0) / stats.sleepHours.length).toFixed(1) : 0;
+  stats.avgDrive = stats.driveLevels.length ? (stats.driveLevels.reduce((a, b) => a + b, 0) / stats.driveLevels.length).toFixed(1) : 0;
+  stats.avgPain = stats.painLevels.length ? (stats.painLevels.reduce((a, b) => a + b, 0) / stats.painLevels.length).toFixed(1) : 0;
+  
+  return stats;
+}
+
+function displayOverallStats(stats) {
+  document.getElementById('totalEntries').textContent = stats.totalEntries;
+  document.getElementById('avgEnergy').textContent = stats.avgEnergy;
+  document.getElementById('avgSleep').textContent = stats.avgSleep + 'h';
+  
+  const topSymptom = Object.entries(stats.symptoms).sort(([, a], [, b]) => b - a)[0];
+  document.getElementById('topSymptom').textContent = topSymptom ? topSymptom[0].replace('_', ' ') : '-';
+}
+
+function displayMoodDistribution(stats) {
+  const moodEmojis = {
+    happy: '😊',
+    calm: '😌',
+    tired: '😴',
+    anxious: '😰',
+    sad: '😢',
+    angry: '😡',
+    moody: '🎭',
+    lazy: '🛋️'
+  };
+
+  const maxMood = Math.max(...Object.values(stats.moods), 1);
+  let html = '';
+
+  Object.entries(stats.moods).forEach(([mood, count]) => {
+    const percentage = (count / maxMood) * 100;
+    html += `
+      <div class="mood-bar">
+        <div class="mood-label">${moodEmojis[mood] || mood}</div>
+        <div class="mood-progress">
+          <div class="mood-fill" style="width: ${percentage}%"></div>
+        </div>
+        <div class="mood-count">${count}</div>
+      </div>
+    `;
+  });
+
+  document.getElementById('moodDistribution').innerHTML = html;
+}
+
+function displaySymptomAnalysis(stats) {
+  const sorted = Object.entries(stats.symptoms)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 8);
+
+  const html = sorted.map(([symptom, count]) => `
+    <div class="symptom-tag">
+      <div>${symptom.replace('_', ' ')}</div>
+      <span class="symptom-count">${count}</span>
+    </div>
+  `).join('');
+
+  document.getElementById('symptomList').innerHTML = html || '<p style="opacity: 0.7;">No symptoms logged yet</p>';
+}
+
+function displayExerciseAnalysis(stats) {
+  const exerciseEmojis = {
+    walking: '🚶',
+    yoga: '🧘',
+    cardio: '🏃',
+    strength: '💪',
+    sports: '⚽'
+  };
+
+  const sorted = Object.entries(stats.exercises)
+    .sort(([, a], [, b]) => b - a);
+
+  const html = sorted.map(([exercise, count]) => `
+    <div class="symptom-tag">
+      <div>${exerciseEmojis[exercise] || '🏋️'} ${exercise}</div>
+      <span class="symptom-count">${count}</span>
+    </div>
+  `).join('');
+
+  document.getElementById('exerciseList').innerHTML = html || '<p style="opacity: 0.7;">No exercises logged yet</p>';
+}
+
+function displayEnergyChart(stats) {
+  if (stats.energyLevels.length === 0) {
+    document.getElementById('energyChart').innerHTML = '<p style="opacity: 0.7; text-align: center;">No data</p>';
+    return;
+  }
+
+  const buckets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // 1-10
+  stats.energyLevels.forEach(level => {
+    if (level >= 1 && level <= 10) buckets[level - 1]++;
+  });
+
+  const maxBucket = Math.max(...buckets, 1);
+  let html = '';
+
+  buckets.forEach((count, index) => {
+    const height = (count / maxBucket) * 100;
+    html += `
+      <div class="bar" style="height: ${height}%; ${height === 0 ? 'opacity: 0.2;' : ''}">
+        <div class="bar-value">${count}</div>
+        <div class="bar-label">${index + 1}</div>
+      </div>
+    `;
+  });
+
+  document.getElementById('energyChart').innerHTML = html;
+}
+
+function displaySleepChart(stats) {
+  if (stats.sleepHours.length === 0) {
+    document.getElementById('sleepChart').innerHTML = '<p style="opacity: 0.7; text-align: center;">No data</p>';
+    return;
+  }
+
+  const buckets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // 0-12 hours
+  stats.sleepHours.forEach(hours => {
+    const bucket = Math.floor(hours);
+    if (bucket >= 0 && bucket <= 12) buckets[bucket]++;
+  });
+
+  const maxBucket = Math.max(...buckets, 1);
+  let html = '';
+
+  buckets.forEach((count, index) => {
+    const height = (count / maxBucket) * 100;
+    html += `
+      <div class="bar" style="height: ${height}%; ${height === 0 ? 'opacity: 0.2;' : ''}">
+        <div class="bar-value">${count}</div>
+        <div class="bar-label">${index}h</div>
+      </div>
+    `;
+  });
+
+  document.getElementById('sleepChart').innerHTML = html;
+}
+
+function displayDriveChart(stats) {
+  if (stats.driveLevels.length === 0) {
+    document.getElementById('driveChart').innerHTML = '<p style="opacity: 0.7; text-align: center;">No data</p>';
+    return;
+  }
+
+  const buckets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // 1-10
+  stats.driveLevels.forEach(level => {
+    if (level >= 1 && level <= 10) buckets[level - 1]++;
+  });
+
+  const maxBucket = Math.max(...buckets, 1);
+  let html = '';
+
+  buckets.forEach((count, index) => {
+    const height = (count / maxBucket) * 100;
+    html += `
+      <div class="bar" style="height: ${height}%; ${height === 0 ? 'opacity: 0.2;' : ''}">
+        <div class="bar-value">${count}</div>
+        <div class="bar-label">${index + 1}</div>
+      </div>
+    `;
+  });
+
+  document.getElementById('driveChart').innerHTML = html;
+}
+
+function displayInsights(stats) {
+  const insights = [];
+
+  // Insight 1: Energy patterns
+  if (stats.avgEnergy > 7) {
+    insights.push('💪 You have high energy levels on average! Great time for intense workouts.');
+  } else if (stats.avgEnergy < 4) {
+    insights.push('😴 Your energy levels are lower on average. Consider gentle exercises like yoga.');
+  }
+
+  // Insight 2: Sleep patterns
+  if (stats.avgSleep >= 7) {
+    insights.push('😴 Your sleep schedule is excellent! Keep it consistent for optimal health.');
+  } else if (stats.avgSleep < 6) {
+    insights.push('⏰ You\'re getting less sleep than recommended. Aim for 7-9 hours.');
+  }
+
+  // Insight 3: Common symptoms
+  const topSymptom = Object.entries(stats.symptoms).sort(([, a], [, b]) => b - a)[0];
+  if (topSymptom) {
+    insights.push(`📍 Your most common symptom is ${topSymptom[0]}. Consider tracking triggers.`);
+  }
+
+  // Insight 4: Period tracking
+  if (stats.onPeriodCount > 0) {
+    const estimatedCycleDays = stats.totalEntries;
+    insights.push(`📅 You logged your period on ${stats.onPeriodCount} day(s). Track consistently for better predictions.`);
+  }
+
+  // Insight 5: Exercise habits
+  const exerciseCount = Object.values(stats.exercises).reduce((a, b) => a + b, 0);
+  if (exerciseCount > stats.totalEntries * 0.5) {
+    insights.push(`🏃 You\'re very active! You exercised on over half your tracked days.`);
+  }
+
+  const html = insights.map(insight => `<div class="insight">${insight}</div>`).join('');
+  document.getElementById('insightsList').innerHTML = html || '<p style="opacity: 0.7;">Log more entries to unlock insights!</p>';
+}
+</script>
+
+</body>
+</html>

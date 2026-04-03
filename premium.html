@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>New Luna Premium</title>
+<title>NewLuna Premium</title>
 
 <style>
 body {
@@ -97,6 +97,96 @@ body {
   border-radius: 15px;
 }
 
+/* SIDEBAR NAV ITEM */
+.nav-item {
+  cursor: pointer;
+  padding: 8px 0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255,73,109,0.2);
+}
+
+.nav-item.active {
+  background: rgba(255,73,109,0.3);
+  font-weight: 600;
+}
+
+/* BUTTON HOVER */
+.btn:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255,77,109,0.4);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: #1c1c2e;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  max-width: 400px;
+  width: 90%;
+}
+
+.modal-content h2 {
+  color: #ff4d6d;
+  margin-top: 0;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  color: white;
+  box-sizing: border-box;
+}
+
+.modal-content input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+.close-btn {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.close-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
 /* RESPONSIVE */
 @media(max-width:768px){
   .container {
@@ -126,11 +216,12 @@ body {
 
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <h2>New Luna</h2>
-    <div>🏠 Dashboard</div>
-    <div>📅 Calendar</div>
-    <div>❤️ Partner</div>
-    <div>👤 Profile</div>
+    <h2>NewLuna</h2>
+    <div class="nav-item active" data-page="dashboard">🏠 Dashboard</div>
+    <div class="nav-item" data-page="calendar">📅 Calendar</div>
+    <div class="nav-item" data-page="partner">❤️ Partner</div>
+    <div class="nav-item" data-page="profile">👤 Profile</div>
+    <div class="nav-item" data-page="settings">⚙️ Settings</div>
   </div>
 
   <!-- MAIN -->
@@ -141,8 +232,8 @@ body {
 
       <div class="card">
         <h3>Cycle Status</h3>
-        <div class="circle">Day --</div>
-        <button class="btn">Log Period</button>
+        <div class="circle" id="cycleDay">Day 12</div>
+        <button class="btn" id="logPeriodBtn">Log Period</button>
       </div>
 
       <div class="card">
@@ -165,7 +256,8 @@ body {
       </div>
 
       <div class="small-card">
-        💧 Hydration<br><b>0 / 8</b>
+        💧 Hydration<br><b id="hydrationLevel">0 / 8</b>
+        <button class="btn" id="addWaterBtn" style="font-size: 14px; padding: 8px 14px; margin-top: 10px;">+ Add Water</button>
       </div>
 
     </div>
@@ -191,5 +283,283 @@ body {
 
 </div>
 
-</body>
-</html>
+<!-- LOG PERIOD MODAL -->
+<div class="modal" id="logPeriodModal">
+  <div class="modal-content">
+    <h2>Log Period</h2>
+    <p>When did your period start?</p>
+    <input type="date" id="periodDate">
+    <p>Flow intensity:</p>
+    <select id="flowIntensity" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; margin-bottom: 15px;">
+      <option value="light">Light</option>
+      <option value="normal" selected>Normal</option>
+      <option value="heavy">Heavy</option>
+    </select>
+    <button class="btn" id="submitPeriodBtn" style="width: 100%; text-align: center;">Save</button>
+    <button class="close-btn" id="closePeriodModal" style="width: 100%;">Cancel</button>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal" id="settingsModal">
+  <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
+    <h2>Settings</h2>
+    
+    <h3 style="color: #ff4d6d; margin-top: 20px; font-size: 14px; text-transform: uppercase; opacity: 0.8;">Health Goals</h3>
+    <label style="display: block; margin: 10px 0;">
+      <input type="checkbox" id="hydrationReminder" style="margin-right: 10px;"> Daily Hydration Reminders
+    </label>
+    <label style="display: block; margin: 10px 0;">
+      <input type="checkbox" id="vitaminReminder" style="margin-right: 10px;"> Vitamin Reminder
+    </label>
+    <label style="display: block; margin: 10px 0;">
+      <input type="number" id="hydrationGoal" min="1" max="20" placeholder="Hydration goal (glasses)" style="padding: 8px; width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; box-sizing: border-box; margin-top: 5px;">
+    </label>
+    
+    <h3 style="color: #ff4d6d; margin-top: 20px; font-size: 14px; text-transform: uppercase; opacity: 0.8;">Cycle Preferences</h3>
+    <label style="display: block; margin: 10px 0;">
+      <input type="number" id="avgCycleLength" min="20" max="45" placeholder="Average cycle length (days)" style="padding: 8px; width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; box-sizing: border-box;">
+    </label>
+    <label style="display: block; margin: 10px 0;">
+      <input type="number" id="periodDuration" min="2" max="10" placeholder="Period duration (days)" style="padding: 8px; width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; box-sizing: border-box;">
+    </label>
+    
+    <h3 style="color: #ff4d6d; margin-top: 20px; font-size: 14px; text-transform: uppercase; opacity: 0.8;">Notifications</h3>
+    <label style="display: block; margin: 10px 0;">
+      <input type="checkbox" id="periodNotification" style="margin-right: 10px;" checked> Period Starting Notification
+    </label>
+    <label style="display: block; margin: 10px 0;">
+      <input type="checkbox" id="ovulationNotification" style="margin-right: 10px;" checked> Ovulation Notification
+    </label>
+    <label style="display: block; margin: 10px 0;">
+      <input type="checkbox" id="fertileWindowNotification" style="margin-right: 10px;" checked> Fertile Window Notification
+    </label>
+    
+    <h3 style="color: #ff4d6d; margin-top: 20px; font-size: 14px; text-transform: uppercase; opacity: 0.8;">Privacy & Partner</h3>
+    <label style="display: block; margin: 10px 0;">
+      <input type="checkbox" id="partnerSharing" style="margin-right: 10px;"> Allow Partner Access
+    </label>
+    <label style="display: block; margin: 10px 0;">
+      <input type="checkbox" id="dataPrivacy" style="margin-right: 10px;" checked> Hide Data on Lock Screen
+    </label>
+    
+    <h3 style="color: #ff4d6d; margin-top: 20px; font-size: 14px; text-transform: uppercase; opacity: 0.8;">App</h3>
+    <label style="display: block; margin: 10px 0;">
+      <span>Dark Mode: </span>
+      <input type="checkbox" id="darkMode" style="margin-left: 10px;" checked>
+    </label>
+    <button class="btn" id="clearDataBtn" style="width: 100%; text-align: center; background: rgba(255,77,109,0.3); margin-top: 15px;">Clear All Data</button>
+    
+    <button class="btn" id="saveSettingsBtn" style="width: 100%; text-align: center; margin-top: 15px;">Save Settings</button>
+    <button class="close-btn" id="closeSettingsModal" style="width: 100%;">Close</button>
+  </div>
+</div>
+
+<script>
+// State management
+let state = {
+  hydration: 0,
+  cycleDay: 12,
+  periodDate: null,
+  currentPage: 'dashboard',
+  settings: {
+    hydrationGoal: 8,
+    avgCycleLength: 28,
+    periodDuration: 5,
+    hydrationReminder: true,
+    vitaminReminder: true,
+    periodNotification: true,
+    ovulationNotification: true,
+    fertileWindowNotification: true,
+    partnerSharing: false,
+    dataPrivacy: true,
+    darkMode: true
+  }
+};
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  setupNavigation();
+  setupButtons();
+  loadState();
+});
+
+// Navigation
+function setupNavigation() {
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      state.currentPage = item.dataset.page;
+      navigateTo(item.dataset.page);
+    });
+  });
+}
+
+function navigateTo(page) {
+  console.log('Navigating to:', page);
+  if (page === 'settings') {
+    // Load settings into modal before opening
+    document.getElementById('hydrationGoal').value = state.settings.hydrationGoal;
+    document.getElementById('avgCycleLength').value = state.settings.avgCycleLength;
+    document.getElementById('periodDuration').value = state.settings.periodDuration;
+    document.getElementById('hydrationReminder').checked = state.settings.hydrationReminder;
+    document.getElementById('vitaminReminder').checked = state.settings.vitaminReminder;
+    document.getElementById('periodNotification').checked = state.settings.periodNotification;
+    document.getElementById('ovulationNotification').checked = state.settings.ovulationNotification;
+    document.getElementById('fertileWindowNotification').checked = state.settings.fertileWindowNotification;
+    document.getElementById('partnerSharing').checked = state.settings.partnerSharing;
+    document.getElementById('dataPrivacy').checked = state.settings.dataPrivacy;
+    document.getElementById('darkMode').checked = state.settings.darkMode;
+    
+    document.getElementById('settingsModal').classList.add('active');
+  } else {
+    // In a real app, this would load different content
+    // For now, just show a notification
+    showNotification(`Navigated to ${page.toUpperCase()}`);
+  }
+}
+
+// Buttons
+function setupButtons() {
+  const logPeriodBtn = document.getElementById('logPeriodBtn');
+  const submitPeriodBtn = document.getElementById('submitPeriodBtn');
+  const closePeriodModal = document.getElementById('closePeriodModal');
+  const addWaterBtn = document.getElementById('addWaterBtn');
+  const periodDateInput = document.getElementById('periodDate');
+  const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+  const closeSettingsModal = document.getElementById('closeSettingsModal');
+  const clearDataBtn = document.getElementById('clearDataBtn');
+  
+  // Set today's date as default
+  const today = new Date().toISOString().split('T')[0];
+  periodDateInput.value = today;
+  
+  logPeriodBtn.addEventListener('click', () => {
+    document.getElementById('logPeriodModal').classList.add('active');
+  });
+  
+  closePeriodModal.addEventListener('click', () => {
+    document.getElementById('logPeriodModal').classList.remove('active');
+  });
+  
+  submitPeriodBtn.addEventListener('click', () => {
+    const date = periodDateInput.value;
+    const intensity = document.getElementById('flowIntensity').value;
+    
+    if (date) {
+      state.periodDate = date;
+      state.cycleDay = 1;
+      document.getElementById('cycleDay').textContent = 'Day 1';
+      document.getElementById('logPeriodModal').classList.remove('active');
+      showNotification(`Period logged on ${date} (${intensity})`);
+      saveState();
+    }
+  });
+  
+  addWaterBtn.addEventListener('click', () => {
+    const goal = state.settings.hydrationGoal || 8;
+    if (state.hydration < goal) {
+      state.hydration++;
+      updateHydration();
+      saveState();
+    } else {
+      showNotification('Great hydration goal reached! 💪');
+    }
+  });
+  
+  saveSettingsBtn.addEventListener('click', () => {
+    state.settings.hydrationGoal = parseInt(document.getElementById('hydrationGoal').value) || 8;
+    state.settings.avgCycleLength = parseInt(document.getElementById('avgCycleLength').value) || 28;
+    state.settings.periodDuration = parseInt(document.getElementById('periodDuration').value) || 5;
+    state.settings.hydrationReminder = document.getElementById('hydrationReminder').checked;
+    state.settings.vitaminReminder = document.getElementById('vitaminReminder').checked;
+    state.settings.periodNotification = document.getElementById('periodNotification').checked;
+    state.settings.ovulationNotification = document.getElementById('ovulationNotification').checked;
+    state.settings.fertileWindowNotification = document.getElementById('fertileWindowNotification').checked;
+    state.settings.partnerSharing = document.getElementById('partnerSharing').checked;
+    state.settings.dataPrivacy = document.getElementById('dataPrivacy').checked;
+    state.settings.darkMode = document.getElementById('darkMode').checked;
+    
+    saveState();
+    document.getElementById('settingsModal').classList.remove('active');
+    showNotification('Settings saved successfully!');
+  });
+  
+  closeSettingsModal.addEventListener('click', () => {
+    document.getElementById('settingsModal').classList.remove('active');
+  });
+  
+  clearDataBtn.addEventListener('click', () => {
+    if (confirm('Are you sure? This will clear all your data.')) {
+      localStorage.removeItem('lunaState');
+      state = {
+        hydration: 0,
+        cycleDay: 12,
+        periodDate: null,
+        currentPage: 'dashboard',
+        settings: state.settings
+      };
+      document.getElementById('hydrationLevel').textContent = '0 / 8';
+      document.getElementById('cycleDay').textContent = 'Day 12';
+      showNotification('All data cleared!');
+      document.getElementById('settingsModal').classList.remove('active');
+    }
+  });
+}
+
+function updateHydration() {
+  document.getElementById('hydrationLevel').textContent = `${state.hydration} / 8`;
+}
+
+// Notifications
+function showNotification(message) {
+  const notification = document.createElement('div');
+  notification.textContent = message;
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,77,109,0.9);
+    padding: 15px 20px;
+    border-radius: 10px;
+    color: white;
+    z-index: 2000;
+    animation: slideIn 0.3s ease;
+  `;
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+// Local storage
+function saveState() {
+  localStorage.setItem('lunaState', JSON.stringify(state));
+}
+
+function loadState() {
+  const saved = localStorage.getItem('lunaState');
+  if (saved) {
+    state = { ...state, ...JSON.parse(saved) };
+    document.getElementById('hydrationLevel').textContent = `${state.hydration} / 8`;
+    document.getElementById('cycleDay').textContent = `Day ${state.cycleDay}`;
+  }
+}
+
+// Animations
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+  }
+`;
+document.head.appendChild(style);
+</script>
