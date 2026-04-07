@@ -3,156 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A / NewLuna | Login</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Moon Bloom | Sign In</title>
+    <meta name="description" content="Sign in to Moon Bloom — your premium cycle & wellness companion.">
+    <meta name="theme-color" content="#f06292">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ff4d6d">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <script src="js/common.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+
+    <style>
+        :root {
+            --pink: #f06292;
+            --pink-dark: #ce4993;
+            --pink-pale: #fce4ec;
+            --teal: #4db6ac;
+            --text: #3d2c35;
+            --muted: #9e7d8a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* ── DECORATIVE LEFT PANEL ── */
+        .left-panel {
+            display: none;
+            width: 45%;
+            background: linear-gradient(160deg, #f06292 0%, #ce4993 50%, #ab47bc 100%);
+            padding: 60px;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (min-width: 900px) { .left-panel { display: flex; } }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 350px; height: 350px;
+            background: rgba(255,255,255,.1);
+            border-radius: 50%;
+        }
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -120px; left: -60px;
+            width: 400px; height: 400px;
+            background: rgba(255,255,255,.07);
+            border-radius: 50%;
+        }
+
+        .panel-brand { z-index: 2; }
+        .panel-flower { font-size: 3rem; margin-bottom: 16px; display: block; }
+        .panel-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem; font-weight: 700;
+            color: white; line-height: 1.1;
+            margin-bottom: 14px;
+        }
+        .panel-tagline { color: rgba(255,255,255,.82); font-size: 1.05rem; line-height: 1.6; }
+
+        .panel-features { z-index: 2; }
+        .feature-item {
+            display: flex; align-items: center; gap: 14px;
+            padding: 14px 18px; margin-bottom: 12px;
+            background: rgba(255,255,255,.14);
+            backdrop-filter: blur(8px);
+            border-radius: 18px; color: white;
+            font-size: .95rem; font-weight: 500;
+        }
+        .feature-icon { font-size: 1.4rem; }
+
+        .panel-footer { color: rgba(255,255,255,.55); font-size: .8rem; z-index: 2; }
+
+        /* ── RIGHT AUTH PANEL ── */
+        .right-panel {
+            flex: 1;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 40px 24px;
+            background: #fff8fb;
+            overflow-y: auto;
+        }
+
+        .auth-box {
+            width: 100%; max-width: 420px;
+        }
+
+        /* Mobile branding (hidden on desktop) */
+        .mobile-brand {
+            text-align: center; margin-bottom: 32px;
+        }
+        .mobile-brand .flower { font-size: 2.5rem; }
+        .mobile-brand .name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-top: 8px;
+        }
+        @media (min-width: 900px) { .mobile-brand { display: none; } }
+
+        .auth-headline { font-size: 1.7rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+        .auth-sub { color: var(--muted); font-size: .95rem; margin-bottom: 32px; }
+
+        /* Form */
+        .form-group { margin-bottom: 18px; }
+        .form-label { font-size: .82rem; font-weight: 600; color: var(--text); margin-bottom: 6px; display: block; }
+        .form-input {
+            width: 100%; padding: 14px 18px;
+            border: 1.5px solid #f0dce4; border-radius: 14px;
+            font-family: 'Outfit', sans-serif; font-size: .95rem;
+            color: var(--text); background: white;
+            outline: none; transition: border-color .2s, box-shadow .2s;
+        }
+        .form-input:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 4px rgba(240,98,146,.12);
+        }
+        .form-input::placeholder { color: #cbb8bf; }
+
+        .btn-auth {
+            width: 100%; padding: 15px;
+            border-radius: 14px; border: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem; font-weight: 700;
+            cursor: pointer; transition: all .25s;
+            margin-bottom: 12px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+            color: white;
+            box-shadow: 0 8px 24px rgba(240,98,146,.3);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(240,98,146,.4); }
+        .btn-primary:active { transform: translateY(0); }
+
+        .btn-toggle {
+            background: var(--pink-pale); color: var(--pink-dark);
+            border: 1.5px solid rgba(240,98,146,.2);
+        }
+        .btn-toggle:hover { background: #f8d0de; }
+
+        .auth-divider {
+            display: flex; align-items: center; gap: 12px;
+            margin: 22px 0; color: var(--muted); font-size: .85rem;
+        }
+        .auth-divider::before, .auth-divider::after {
+            content: ''; flex: 1; height: 1px;
+            background: #f0dce4;
+        }
+
+        .auth-switch {
+            text-align: center; font-size: .88rem; color: var(--muted);
+            margin-top: 20px;
+        }
+        .auth-switch .link {
+            color: var(--pink); font-weight: 700; cursor: pointer;
+        }
+        .auth-switch .link:hover { text-decoration: underline; }
+
+        .error-msg {
+            background: #fff0f4; border: 1px solid #ffc2d4;
+            color: #c0185a; padding: 12px 16px; border-radius: 12px;
+            font-size: .88rem; margin-bottom: 18px; display: none;
+        }
+
+        /* View toggling */
+        .form-view { display: none; }
+        .form-view.active { display: block; }
+
+        /* Loading state */
+        .btn-auth.loading {
+            opacity: .75; pointer-events: none;
+            position: relative;
+        }
+        .btn-auth.loading::after {
+            content: '';
+            position: absolute; right: 18px; top: 50%;
+            transform: translateY(-50%);
+            width: 18px; height: 18px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,.4);
+            border-top-color: white;
+            animation: spin .7s linear infinite;
+        }
+        @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+
+        .auth-footer {
+            text-align: center; margin-top: 32px;
+            color: var(--muted); font-size: .78rem;
+        }
+    </style>
 </head>
 <body>
-    <!-- Animated Splash Screen -->
-    <div class="splash-overlay">
-        <div class="splash-content">
-            <div class="splash-flower">❋</div>
-            <div class="splash-text">NewLuna ✨</div>
+
+    <!-- LEFT DECORATIVE PANEL (desktop only) -->
+    <div class="left-panel">
+        <div class="panel-brand">
+            <span class="panel-flower">❋</span>
+            <div class="panel-name">Moon<br>Bloom</div>
+            <p class="panel-tagline">Your premium wellness companion — beautifully tracking every phase of your journey.</p>
+        </div>
+
+        <div class="panel-features">
+            <div class="feature-item">
+                <span class="feature-icon">🌙</span>
+                Intelligent cycle predictions
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">✨</span>
+                Luna AI — your personal health coach
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">❤️</span>
+                Partner sync & duo chat
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">📊</span>
+                Deep wellness analytics
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            Moon Bloom v2.1.0 · All data is encrypted and private.
         </div>
     </div>
 
-    <!-- Authentication Screen -->
-    <div id="auth-container" class="auth-wrapper">
-        <div class="auth-card glass">
-            <h1 class="logo auth-title moon-bloom-logo">NewLuna ✨</h1>
-            <p class="auth-subtitle">Your elegant health companion.</p>
-            
-            <div id="login-form-container">
-                <h2>Welcome Back</h2>
-                <input type="email" id="login-email" class="auth-input" placeholder="Email">
-                <div id="auth-input-container">
-                    <input type="password" id="login-password" class="auth-input" placeholder="Password">
+    <!-- RIGHT AUTH PANEL -->
+    <div class="right-panel">
+        <div class="auth-box">
+
+            <!-- Mobile brand -->
+            <div class="mobile-brand">
+                <div class="flower">❋</div>
+                <div class="name">Moon Bloom</div>
+            </div>
+
+            <p id="auth-error" class="error-msg"></p>
+
+            <!-- LOGIN VIEW -->
+            <div id="view-login" class="form-view active">
+                <h1 class="auth-headline">Welcome back 👋</h1>
+                <p class="auth-sub">Sign in to continue your journey.</p>
+
+                <div class="form-group">
+                    <label class="form-label" for="login-email">Email address</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="hello@example.com" autocomplete="email">
                 </div>
-                <button id="login-btn" class="btn-primary auth-btn">Log In</button>
-                <p class="auth-switch">Don't have an account? <span id="show-signup">Sign up</span></p>
+                <div class="form-group">
+                    <label class="form-label" for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="Your password" autocomplete="current-password">
+                </div>
+
+                <button id="login-btn" class="btn-auth btn-primary">Sign In →</button>
+
+                <div class="auth-divider">or</div>
+
+                <button class="btn-auth btn-toggle" onclick="showView('signup')">Create a new account</button>
+
+                <p class="auth-switch">
+                    <span class="link" onclick="showView('signup')">Don't have an account? Sign up</span>
+                </p>
             </div>
 
-            <div id="signup-form-container" class="hidden">
-                <h2>Create Account</h2>
-                <input type="email" id="signup-email" class="auth-input" placeholder="Enter your Email">
-                <input type="password" id="signup-password" class="auth-input" placeholder="Create a Password">
-                <button id="signup-btn" class="btn-primary auth-btn">Sign Up</button>
-                <p class="auth-switch">Already have an account? <span id="show-login">Log in</span></p>
+            <!-- SIGNUP VIEW -->
+            <div id="view-signup" class="form-view">
+                <h1 class="auth-headline">Join Moon Bloom 🌸</h1>
+                <p class="auth-sub">Start your personalised wellness journey today.</p>
+
+                <div class="form-group">
+                    <label class="form-label" for="signup-nickname">Your first name or nickname</label>
+                    <input type="text" id="signup-nickname" class="form-input" placeholder="e.g. Sarah" autocomplete="given-name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="signup-email">Email address</label>
+                    <input type="email" id="signup-email" class="form-input" placeholder="hello@example.com" autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="signup-password">Create a password</label>
+                    <input type="password" id="signup-password" class="form-input" placeholder="Min. 6 characters" autocomplete="new-password">
+                </div>
+
+                <button id="signup-btn" class="btn-auth btn-primary">Create Account →</button>
+
+                <div class="auth-divider">already have an account?</div>
+
+                <button class="btn-auth btn-toggle" onclick="showView('login')">Sign in instead</button>
             </div>
-            
-            <p id="auth-error" class="auth-error hidden">Invalid credentials</p>
+
+            <div class="auth-footer">
+                🔒 Your data is private, encrypted, and never shared.
+            </div>
         </div>
     </div>
-    <script src="js/auth.js"></script>    <script>
-        function updateAuthInput(email) {
-            const container = document.getElementById('auth-input-container');
-            const methodData = localStorage.getItem(`authMethod_${email}`);
-            if (methodData) {
-                const authData = JSON.parse(methodData);
-                const method = authData.method;
-                
-                if (method === 'password') {
-                    container.innerHTML = '<input type="password" id="login-password" class="auth-input" placeholder="Password">';
-                } else if (method === 'pin') {
-                    container.innerHTML = '<input type="password" id="login-pin" class="auth-input" placeholder="Enter 4-digit PIN" maxlength="4" pattern="[0-9]{4}">';
-                } else if (method === 'pattern') {
-                    container.innerHTML = '<canvas id="login-pattern-canvas" width="200" height="200" style="border: 1px solid #ccc; margin: 10px auto; display: block;"></canvas><button type="button" id="clear-login-pattern" class="btn" style="width: 100%; margin-top: 10px;">Clear Pattern</button>';
-                    initLoginPattern();
-                } else if (method === 'fingerprint') {
-                    container.innerHTML = '<button type="button" id="login-fingerprint" class="btn" style="width: 100%; margin-top: 10px;">Use Fingerprint</button>';
-                    document.getElementById('login-fingerprint').addEventListener('click', () => authenticateFingerprint(email));
-                }
-            } else {
-                // Default to password if no method stored
-                container.innerHTML = '<input type="password" id="login-password" class="auth-input" placeholder="Password">';
-            }
+
+    <script>
+        function showView(view) {
+            document.querySelectorAll('.form-view').forEach(v => v.classList.remove('active'));
+            document.getElementById('view-' + view).classList.add('active');
+            clearError();
         }
 
-        document.getElementById('login-email').addEventListener('blur', (e) => {
-            const email = e.target.value.trim();
-            if (email) {
-                updateAuthInput(email);
+        function showError(msg) {
+            const el = document.getElementById('auth-error');
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+
+        function clearError() {
+            const el = document.getElementById('auth-error');
+            el.style.display = 'none';
+        }
+
+        function setLoading(btn, loading) {
+            if (loading) btn.classList.add('loading');
+            else btn.classList.remove('loading');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Login
+            const loginBtn = document.getElementById('login-btn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', async () => {
+                    const email = document.getElementById('login-email').value.trim();
+                    const pass = document.getElementById('login-password').value;
+
+                    if (!email || !pass) { showError('Please fill in all fields.'); return; }
+                    clearError();
+                    setLoading(loginBtn, true);
+
+                    try {
+                        await firebase.auth().signInWithEmailAndPassword(email, pass);
+                        // common.js auth listener will handle redirect
+                    } catch (err) {
+                        const msgs = {
+                            'auth/user-not-found': 'No account found with this email.',
+                            'auth/wrong-password': 'Incorrect password. Please try again.',
+                            'auth/invalid-email': 'Please enter a valid email address.',
+                            'auth/too-many-requests': 'Too many attempts. Please wait a moment.'
+                        };
+                        showError(msgs[err.code] || 'Sign in failed. Please try again.');
+                        setLoading(loginBtn, false);
+                    }
+                });
+
+                document.getElementById('login-password').addEventListener('keypress', e => {
+                    if (e.key === 'Enter') loginBtn.click();
+                });
+            }
+
+            // Signup
+            const signupBtn = document.getElementById('signup-btn');
+            if (signupBtn) {
+                signupBtn.addEventListener('click', async () => {
+                    const nickname = document.getElementById('signup-nickname').value.trim();
+                    const email = document.getElementById('signup-email').value.trim();
+                    const pass = document.getElementById('signup-password').value;
+
+                    if (!nickname || !email || !pass) { showError('Please fill in all fields.'); return; }
+                    if (pass.length < 6) { showError('Password must be at least 6 characters.'); return; }
+                    clearError();
+                    setLoading(signupBtn, true);
+
+                    try {
+                        const cred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
+                        // Save profile
+                        const profile = { name: nickname, email };
+                        localStorage.setItem(`profile_${email}`, JSON.stringify(profile));
+                        await firebase.firestore().collection('users').doc(cred.user.uid).set(profile);
+                        // common.js will redirect
+                    } catch (err) {
+                        const msgs = {
+                            'auth/email-already-in-use': 'This email is already registered. Sign in instead.',
+                            'auth/invalid-email': 'Please enter a valid email address.',
+                            'auth/weak-password': 'Password is too weak. Use at least 6 characters.'
+                        };
+                        showError(msgs[err.code] || 'Sign up failed. Please try again.');
+                        setLoading(signupBtn, false);
+                    }
+                });
             }
         });
+    </script>
 
-        // Pattern drawing for login
-        let loginPattern = [];
-        function initLoginPattern() {
-            const canvas = document.getElementById('login-pattern-canvas');
-            if (canvas) {
-                const ctx = canvas.getContext('2d');
-                ctx.strokeStyle = '#ff4d6d';
-                ctx.lineWidth = 4;
-                ctx.lineCap = 'round';
-
-                let isDrawing = false;
-
-                canvas.addEventListener('mousedown', (e) => {
-                    isDrawing = true;
-                    const rect = canvas.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    ctx.beginPath();
-                    ctx.moveTo(x, y);
-                    loginPattern.push({x, y});
-                });
-
-                canvas.addEventListener('mousemove', (e) => {
-                    if (!isDrawing) return;
-                    const rect = canvas.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    ctx.lineTo(x, y);
-                    ctx.stroke();
-                    loginPattern.push({x, y});
-                });
-
-                canvas.addEventListener('mouseup', () => {
-                    isDrawing = false;
-                    ctx.closePath();
-                });
-
-                document.getElementById('clear-login-pattern').addEventListener('click', () => {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    loginPattern = [];
-                });
-            }
-        }
-
-        async function authenticateFingerprint(email) {
-            const methodData = localStorage.getItem(`authMethod_${email}`);
-            if (methodData) {
-                const authData = JSON.parse(methodData);
-                if (authData.fingerprint) {
-                    try {
-                        const credential = await navigator.credentials.get({
-                            publicKey: {
-                                challenge: new Uint8Array(32),
-                                allowCredentials: [{
-                                    id: new Uint8Array(authData.fingerprint.rawId),
-                                    type: 'public-key'
-                                }],
-                                timeout: 60000,
-                            }
-                        });
-                        // If successful, proceed to login
-                        window.location.replace('index.html');
-                        localStorage.setItem('New LunaSession', email);
-                    } catch (error) {
-                        alert('Fingerprint authentication failed: ' + error.message);
-                    }
-                }
-            }
-        }
-
-        // Make functions global
-        window.updateAuthInput = updateAuthInput;
-        window.authenticateFingerprint = authenticateFingerprint;
-        window.loginPattern = loginPattern;
-    </script></body>
+    <script src="js/auth.js"></script>
+    <script src="js/common.js"></script>
+</body>
 </html>

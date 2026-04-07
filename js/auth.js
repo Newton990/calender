@@ -20,37 +20,46 @@ document.addEventListener('DOMContentLoaded', () => {
     // Signup Action
     const signupBtn = document.getElementById('signup-btn');
     if (signupBtn) {
-        signupBtn.addEventListener('click', () => {
+        signupBtn.addEventListener('click', async () => {
             const emailEl = document.getElementById('signup-email');
             const passwordEl = document.getElementById('signup-password');
+            const nicknameEl = document.getElementById('signup-nickname'); // Expecting this field in HTML
 
             if (!emailEl || !passwordEl) return;
 
             const email = emailEl.value.trim();
             const password = passwordEl.value.trim();
+            const nickname = nicknameEl ? nicknameEl.value.trim() : "New User";
 
             if (!email || !password) {
                 showError("Please enter both email and password.");
                 return;
             }
 
-            if (password.length < 6) {
-                showError("Password must be at least 6 characters.");
-                return;
-            }
+            try {
+                const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Create profile in Firestore
+                await firebase.firestore().collection('users').doc(user.uid).set({
+                    email: email,
+                    nickname: nickname,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    mood_boosting_theme: 'blush'
+                });
 
-            // LocalStorage Mock Auth 
-            const authData = { method: 'password', password: password };
-            localStorage.setItem(`authMethod_${email}`, JSON.stringify(authData));
-            
-            showError("Account created! You can now log in.");
-            
-            const signupForm = document.getElementById('signup-form-container');
-            const loginForm = document.getElementById('login-form-container');
-            if (signupForm && loginForm) {
-                signupForm.classList.add('hidden');
-                loginForm.classList.remove('hidden');
-                document.getElementById('login-email').value = email;
+                showError("Account created! Verifying session...");
+                localStorage.setItem('New LunaSession', email);
+                
+                const returnUrl = sessionStorage.getItem('returnUrl');
+                if (returnUrl && returnUrl !== 'login.html') {
+                    sessionStorage.removeItem('returnUrl');
+                    window.location.replace(returnUrl);
+                } else {
+                    window.location.replace('index.html');
+                }
+            } catch (error) {
+                showError(error.message);
             }
         });
     }
@@ -58,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Login Action
     const loginBtn = document.getElementById('login-btn');
     if (loginBtn) {
-        loginBtn.addEventListener('click', () => {
+        loginBtn.addEventListener('click', async () => {
             const emailEl = document.getElementById('login-email');
             const passwordEl = document.getElementById('login-password');
 
@@ -72,22 +81,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const methodData = localStorage.getItem(`authMethod_${email}`);
-            if (!methodData) {
-                showError("No account found with this email. Please sign up.");
-                return;
+            try {
+                await firebase.auth().signInWithEmailAndPassword(email, password);
+                localStorage.setItem('New LunaSession', email);
+                
+                const returnUrl = sessionStorage.getItem('returnUrl');
+                if (returnUrl && returnUrl !== 'login.html') {
+                    sessionStorage.removeItem('returnUrl');
+                    window.location.replace(returnUrl);
+                } else {
+                    window.location.replace('index.html');
+                }
+            } catch (error) {
+                showError("Invalid credentials or user not found.");
             }
-
-            const authData = JSON.parse(methodData);
-            
-            if (password !== authData.password) {
-                showError("Invalid credentials.");
-                return;
-            }
-
-            // Login successful
-            localStorage.setItem('New LunaSession', email);
-            window.location.replace('dashboard.html');
         });
     }
 

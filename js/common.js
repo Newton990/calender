@@ -6,51 +6,81 @@ window.parseDateLocal = function(str) {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    const currentUser = localStorage.getItem('New LunaSession');
-    
-    // 0. Sentient Theme Engine (Mood-to-Theme)
-    if (currentUser) {
-        const isAutoTheme = JSON.parse(localStorage.getItem(`autoTheme_${currentUser}`)) || false;
-        let activeTheme = localStorage.getItem(`theme_${currentUser}`) || 'blush';
+    // 0. Firebase Auth Listener
+    firebase.auth().onAuthStateChanged(async (user) => {
+        const path = window.location.pathname;
+        const isAuthPage = path.includes('login.html') || path.includes('register.html');
 
-        if (isAutoTheme) {
-            // Find latest mood from symptoms
-            const symptoms = JSON.parse(localStorage.getItem(`symptoms_${currentUser}`)) || {};
-            const dates = Object.keys(symptoms).sort().reverse();
-            let latestMood = null;
+        if (!user && !isAuthPage) {
+            // Memory: Remember the entry point if redirecting to login
+            const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+            if (currentPath !== 'login.html') {
+                sessionStorage.setItem('returnUrl', currentPath);
+                console.log(`Entry Point Saved: ${currentPath} 🤝`);
+            }
+            window.location.replace('login.html');
+            return;
+        }
+
+        if (user) {
+            // Store legacy email session for backward compatibility with existing JS
+            localStorage.setItem('New LunaSession', user.email);
             
-            for (let date of dates) {
-                if (symptoms[date].mood) {
-                    latestMood = symptoms[date].mood.toLowerCase();
-                    break;
+            // 0.1 Sentient Theme Engine (Mood-to-Theme)
+            const isAutoTheme = JSON.parse(localStorage.getItem(`autoTheme_${user.email}`)) || false;
+            let activeTheme = localStorage.getItem(`theme_${user.email}`) || 'blush';
+
+            if (isAutoTheme) {
+                const symptoms = JSON.parse(localStorage.getItem(`symptoms_${user.email}`)) || {};
+                const dates = Object.keys(symptoms).sort().reverse();
+                let latestMood = null;
+                for (let date of dates) {
+                    if (symptoms[date].mood) {
+                        latestMood = symptoms[date].mood.toLowerCase();
+                        break;
+                    }
+                }
+
+                if (latestMood) {
+                    const moodMap = {
+                        'happy': 'glow', 'energized': 'glow', 'stressed': 'calm', 
+                        'anxious': 'calm', 'tired': 'blush', 'sensitive': 'blush', 
+                        'productive': 'health', 'sad': 'deep', 'moody': 'deep', 'calm': 'calm'
+                    };
+                    activeTheme = moodMap[latestMood] || activeTheme;
                 }
             }
+            document.body.setAttribute('data-theme', activeTheme);
 
-            if (latestMood) {
-                const moodMap = {
-                    'happy': 'glow',
-                    'energized': 'glow',
-                    'stressed': 'calm',
-                    'anxious': 'calm',
-                    'tired': 'blush',
-                    'sensitive': 'blush',
-                    'productive': 'health',
-                    'sad': 'deep',
-                    'moody': 'deep',
-                    'calm': 'calm'
-                };
-                activeTheme = moodMap[latestMood] || activeTheme;
-                console.log(`Sentient UI: Auto-switched to ${activeTheme} based on mood: ${latestMood}`);
+            if (isAuthPage) {
+                const returnUrl = sessionStorage.getItem('returnUrl');
+                if (returnUrl && returnUrl !== 'login.html') {
+                    console.log(`Returning to Entry Point: ${returnUrl} ✨`);
+                    sessionStorage.removeItem('returnUrl');
+                    window.location.replace(returnUrl);
+                } else {
+                    window.location.replace('index.html');
+                }
+                return;
+            }
+
+            // Fetch Nickname if missing in profile
+            if (!localStorage.getItem(`profile_${user.email}`)) {
+                const userDoc = await firebase.firestore().collection('users').doc(user.uid).get();
+                if (userDoc.exists) {
+                    localStorage.setItem(`profile_${user.email}`, JSON.stringify(userDoc.data()));
+                }
             }
         }
-        
-        document.body.setAttribute('data-theme', activeTheme);
-    }
+    });
+
+    const currentUser = localStorage.getItem('New LunaSession');
 
     const path = window.location.pathname;
     const isAuthPage = path.includes('login.html') || path.includes('register.html');
 
-    // 1. Auth Guard
+    // Legacy Auth Guard (Disabled, now handled by Firebase listener)
+    /*
     if (!currentUser && !isAuthPage) {
         window.location.replace('login.html');
         return;
@@ -59,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.replace('index.html');
         return;
     }
+    */
 
     // 1.1 Layout Variant Guard (Soft vs Roma)
     const layout = localStorage.getItem('current_layout') || 'roma';
@@ -275,8 +306,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (logoutBtn) {
             logoutBtn.addEventListener('click', () => {
                 if (confirm("Are you sure you want to logout?")) {
-                    localStorage.removeItem('New LunaSession');
-                    window.location.replace('login.html');
+                    firebase.auth().signOut().then(() => {
+                        localStorage.removeItem('New LunaSession');
+                        window.location.replace('login.html');
+                    });
                 }
             });
         }

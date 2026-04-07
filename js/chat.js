@@ -1,73 +1,138 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const currentUser = localStorage.getItem('New LunaSession');
-    if (!currentUser) return;
-
     const chatWindow = document.getElementById('chat-window');
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('msg-send-btn');
     const suggestionContainer = document.getElementById('ai-suggestion-chips');
 
-    // 1. Initial Logic & Schema Simulation
+    // 1. Firebase Initial Logic
     const urlParams = new URLSearchParams(window.location.search);
-    const prefill = urlParams.get('prefill');
-    
-    // Deterministic ChatID Simulation
-    function getChatId(uid1, uid2) {
-        return [uid1, uid2].sort().join('_');
-    }
-    
     const partnerId = "partner_123"; // Mock partner link
-    const chatId = getChatId(currentUser, partnerId);
+    let chatId = null;
+    let currentUser = null;
 
-    function addMsg(text, senderId, imageUrl = null, audioUrl = null) {
-        const messageId = "msg_" + new Date().getTime();
-        const msg = {
-            messageId,
+    firebase.auth().onAuthStateChanged(user => {
+        if (!user) return;
+        currentUser = user;
+        chatId = [user.uid, partnerId].sort().join('_');
+        
+        loadRealtimeLogs();
+        listenTypingStatus();
+        updateChatBackground();
+        fetchUserContextForSuggestions();
+        handlePrefill();
+    });
+
+    function handlePrefill() {
+        const prefill = urlParams.get('prefill');
+        const prefillMap = {
+            'love': "Thinking of you! ❤️",
+            'help': "Can I help with anything? 🤝",
+            'flowers': "Sent you virtual flowers! 💐",
+            'tea': "I'm making tea. Want a cup? 🍵"
+        };
+        if (prefill && prefillMap[prefill]) {
+            chatInput.value = prefillMap[prefill];
+            // Auto-send if it's a quick gesture
+            setTimeout(handleSend, 500);
+        }
+    }
+
+    async function addMsg(text, imageUrl = null, audioUrl = null) {
+        if (!chatId || !currentUser) return;
+
+        const msgData = {
             chatId,
-            senderId,
+            senderId: currentUser.uid,
+            senderEmail: currentUser.email,
             text,
             imageUrl,
             audioUrl,
-            timestamp: new Date().getTime()
+            status: 'sent',
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
         };
 
-        // Save to logs (Simulating Firestore subcollection: chats/{chatId}/messages)
-        const storageKey = `chats/${chatId}/messages`;
-        const messages = JSON.parse(localStorage.getItem(storageKey)) || [];
-        messages.push(msg);
-        localStorage.setItem(storageKey, JSON.stringify(messages));
-        
-        renderMsg(msg);
+        await firebase.firestore().collection('chats').doc(chatId).collection('messages').add(msgData);
     }
 
-    function renderMsg(msg) {
+    function renderMsg(msg, docId) {
         const div = document.createElement('div');
-        const type = msg.senderId === currentUser ? 'sent' : 'received';
+        const type = msg.senderId === currentUser.uid ? 'sent' : 'received';
         div.className = `msg ${type}`;
         
         let content = msg.text;
         if (msg.imageUrl) content += `<br><img src="${msg.imageUrl}" style="max-width: 100%; border-radius: 10px; margin-top: 5px;">`;
-        if (msg.audioUrl) content += `<br><span style="font-size: 0.8rem; opacity: 0.7;">🎵 Audio message</span>`;
         
-        div.innerHTML = content;
+        // Status indicator (Read Receipts)
+        let statusHtml = '';
+        if (type === 'sent') {
+            if (msg.status === 'sent') statusHtml = '<span class="status">✔</span>';
+            else if (msg.status === 'delivered') statusHtml = '<span class="status">✔✔</span>';
+            else if (msg.status === 'seen') statusHtml = '<span class="status">💖</span>';
+        }
+
+        div.innerHTML = `${content} <div class="msg-meta">${statusHtml}</div>`;
         chatWindow.appendChild(div);
         chatWindow.scrollTop = chatWindow.scrollHeight;
+
+        // Mark as seen if received
+        if (type === 'received' && msg.status !== 'seen') {
+            firebase.firestore().collection('chats').doc(chatId).collection('messages').doc(docId).update({ status: 'seen' });
+        }
     }
 
-    function loadLogs() {
-        const storageKey = `chats/${chatId}/messages`;
-        const messages = JSON.parse(localStorage.getItem(storageKey)) || [];
-        chatWindow.innerHTML = '';
-        messages.forEach(renderMsg);
+    function loadRealtimeLogs() {
+        firebase.firestore().collection('chats').doc(chatId).collection('messages')
+            .orderBy('timestamp', 'asc')
+            .onSnapshot(snapshot => {
+                chatWindow.innerHTML = '';
+                snapshot.forEach(doc => renderMsg(doc.data(), doc.id));
+            });
     }
 
-    function renderAISuggestions() {
-        const periods = JSON.parse(localStorage.getItem(`periods_${currentUser}`)) || [];
-        const cycleLen = JSON.parse(localStorage.getItem(`cycleLength_${currentUser}`)) || 28;
+    function listenTypingStatus() {
+        // Shared typing indicator using doc metadata
+        firebase.firestore().collection('chats').doc(chatId).onSnapshot(doc => {
+            if (doc.exists && doc.data().typing && doc.data().typing !== currentUser.uid) {
+                document.getElementById('typing-indicator').classList.remove('hidden');
+            } else {
+                document.getElementById('typing-indicator').classList.add('hidden');
+            }
+        });
+
+        chatInput.addEventListener('input', () => {
+            firebase.firestore().collection('chats').doc(chatId).set({ typing: currentUser.uid }, { merge: true });
+            clearTimeout(window.typingTimer);
+            window.typingTimer = setTimeout(() => {
+                firebase.firestore().collection('chats').doc(chatId).set({ typing: null }, { merge: true });
+            }, 2000);
+        });
+    }
+
+    function updateChatBackground() {
+        const theme = document.body.getAttribute('data-theme') || 'blush';
+        const chatContainer = document.querySelector('.chat-wrapper');
+        if (chatContainer) {
+            chatContainer.style.background = `var(--bg-${theme})`;
+            // Add emotion-layered overlay
+            chatContainer.classList.add(`chat-mood-${theme}`);
+        }
+    }
+
+    async function fetchUserContextForSuggestions() {
+        if (!currentUser) return;
+        const userDoc = await firebase.firestore().collection('users').doc(currentUser.uid).get();
+        if (userDoc.exists) {
+            renderAISuggestions(userDoc.data());
+        }
+    }
+
+    function renderAISuggestions(userData) {
+        const periods = userData.periods || [];
+        const cycleLen = userData.cycleLength || 28;
         
         if (periods.length === 0) return;
 
-        const lastPeriod = window.parseDateLocal(periods[periods.length - 1]);
+        const lastPeriod = new Date(periods[periods.length - 1]);
         const today = new Date();
         const diffDays = Math.floor((today - lastPeriod) / (1000 * 60 * 60 * 24)) + 1;
         const currentDay = ((diffDays - 1) % cycleLen) + 1;
@@ -98,14 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleSend() {
         const text = chatInput.value.trim();
         if (!text) return;
-        addMsg(text, currentUser);
+        addMsg(text);
         chatInput.value = '';
+        firebase.firestore().collection('chats').doc(chatId).set({ typing: null }, { merge: true });
     }
 
     sendBtn.addEventListener('click', handleSend);
     chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
 
-    loadLogs();
     renderAISuggestions();
-    window.addEventListener('storage', loadLogs);
 });

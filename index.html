@@ -1,217 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moon Bloom | Loading...</title>
+    <meta name="description" content="Moon Bloom — Your premium cycle & wellness companion.">
 
-<title>A / NewLuna | Dashboard</title>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f0f1a, #1c1c2e);
-  color: white;
-}
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
 
-/* LAYOUT */
-.container {
-  display: flex;
-  min-height: 100vh;
-}
-
-/* SIDEBAR */
-.sidebar {
-  width: 220px;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(15px);
-  padding: 20px;
-}
-
-.sidebar h2 {
-  color: #ff4d6d;
-}
-
-.sidebar div {
-  margin: 15px 0;
-  opacity: 0.8;
-  cursor: pointer;
-  transition: opacity 0.3s;
-}
-
-.sidebar div:hover {
-  opacity: 1;
-}
-
-/* MAIN */
-.main {
-  flex: 1;
-  padding: 20px;
-}
-
-/* CARD */
-.card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-}
-
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 20px;
-}
-
-/* SMALL GRID */
-.small-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 15px;
-  margin-top: 20px;
-}
-
-/* CIRCLE */
-.circle {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  border: 10px solid rgba(255,255,255,0.1);
-  border-top: 10px solid #ff4d6d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* BUTTON */
-.btn {
-  background: linear-gradient(45deg, #ff0033, #ff4d6d);
-  border: none;
-  padding: 12px 20px;
-  border-radius: 25px;
-  color: white;
-  margin-top: 15px;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.btn:hover {
-  transform: scale(1.05);
-}
-
-/* SMALL CARD */
-.small-card {
-  background: rgba(255,255,255,0.05);
-  padding: 15px;
-  border-radius: 15px;
-}
-
-/* RESPONSIVE */
-@media(max-width:768px){
-  .container {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .small-grid {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
-    <script src="js/common.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fce4ec, #fff8fb, #fce4ec);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            font-family: 'Outfit', sans-serif;
+        }
+        .bloom-mark {
+            font-size: 5rem;
+            animation: spin 3s cubic-bezier(.175,.885,.32,1.275) infinite;
+        }
+        .bloom-title {
+            margin-top: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem; font-weight: 700;
+            background: linear-gradient(135deg, #f06292, #ce4993);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .bloom-subtitle {
+            margin-top: 10px; color: #9e7d8a;
+            font-size: 1rem; letter-spacing: .5px;
+        }
+        .dots { margin-top: 24px; display: flex; gap: 8px; }
+        .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: #f06292; opacity: .3;
+            animation: blink 1.2s ease infinite;
+        }
+        .dot:nth-child(2) { animation-delay: .2s; }
+        .dot:nth-child(3) { animation-delay: .4s; }
+        @keyframes blink { 0%,80%,100%{opacity:.3} 40%{opacity:1} }
+        @keyframes spin {
+            0%   { transform: rotate(0deg) scale(1); }
+            50%  { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+    </style>
 </head>
-
 <body>
-
-<div class="container">
-
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <h2>NewLuna ✨</h2>
-    <div onclick="window.location.href='index.html'">🏠 Dashboard</div>
-    <div onclick="window.location.href='calendar.html'">📅 Calendar</div>
-    <div onclick="window.location.href='partner_dashboard.html'">❤️ Partner</div>
-    <div onclick="window.location.href='profile.html'">👤 Profile</div>
-  </div>
-
-  <!-- MAIN -->
-  <div class="main">
-
-    <!-- TOP -->
-    <div class="grid">
-
-      <div class="card">
-        <h3>Cycle Status</h3>
-        <div class="circle" id="cycle-day">Day --</div>
-        <button class="btn" onclick="logPeriod()">Log Period</button>
-      </div>
-
-      <div class="card">
-        <h3>Upcoming</h3>
-        <h1 id="next-period">MAY 22</h1>
-        <p>Next Period</p>
-      </div>
-
+    <div class="bloom-mark">❋</div>
+    <div class="bloom-title">Moon Bloom</div>
+    <div class="bloom-subtitle">Your wellness, beautifully tracked</div>
+    <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
     </div>
 
-    <!-- MIDDLE -->
-    <div class="small-grid">
+    <script>
+        // This page acts as the entry router.
+        // Firebase common.js handles auth and redirects.
+        // If Firebase isn't available yet, fall back to session check.
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                // Fallback: if common.js hasn't redirected yet after 2.5s
+                const user = localStorage.getItem('New LunaSession');
+                if (user) {
+                    const layout = localStorage.getItem('current_layout') || 'soft';
+                    if (layout === 'roma') {
+                        window.location.replace('dashboard.html');
+                    } else {
+                        window.location.replace('soft_dashboard.html');
+                    }
+                } else {
+                    window.location.replace('login.html');
+                }
+            }, 2500);
+        });
+    </script>
 
-      <div class="small-card">
-        🌱 Fertile Window<br><b id="fertile-window">Apr 16 - 21</b>
-      </div>
-
-      <div class="small-card">
-        ❤️ Ovulation<br><b id="ovulation">Apr 24</b>
-      </div>
-
-      <div class="small-card">
-        💧 Hydration<br><b id="hydration">0 / 8</b>
-      </div>
-
-    </div>
-
-    <!-- BOTTOM -->
-    <div class="grid" style="margin-top:20px;">
-
-      <div class="card">
-        ❤️ Partner<br><br>
-        <span id="partner-name">Alex</span><br>
-        <span id="partner-email">alex@gmail.com</span>
-      </div>
-
-      <div class="card">
-        🔔 Reminders<br><br>
-        <div id="reminders">
-          - Start vitamins<br>
-          - Buy products
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<script src="js/dashboard.js"></script>
+    <script src="js/common.js"></script>
 </body>
 </html>

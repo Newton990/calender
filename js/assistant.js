@@ -1,6 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const currentUser = localStorage.getItem('New LunaSession');
-    if (!currentUser) return;
+    let currentUser = null;
+    let userContext = null;
+
+    firebase.auth().onAuthStateChanged(async (user) => {
+        if (!user) return;
+        currentUser = user;
+        userContext = await SentientAI.getContext(user);
+        
+        // Initial Greeting
+        const greeting = `Hey ${userContext.nickname}... I'm here. ${userContext.isSensitivePhase ? "I know things can feel a bit heavier today. How are you holding up?" : "How is your day going? ✨"}`;
+        addMessage(greeting, 'ai');
+    });
 
     const chatMessages = document.getElementById('chat-messages');
     const chatInput = document.getElementById('chat-input');
@@ -21,13 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Load cycle context for "AI" smarts
-    const stats = {
-        periods: JSON.parse(localStorage.getItem(`periods_${currentUser}`)) || [],
-        cycleLength: JSON.parse(localStorage.getItem(`cycleLength_${currentUser}`)) || 28,
-        isPregnant: JSON.parse(localStorage.getItem(`isPregnant_${currentUser}`)) || false
-    };
-
     function addMessage(text, sender) {
         const msgDiv = document.createElement('div');
         msgDiv.classList.add('message', sender);
@@ -36,19 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    function getCyclePhase() {
-        if (stats.isPregnant) return "Pregnancy";
-        if (stats.periods.length === 0) return "Unknown";
-        
-        const lastPeriod = window.parseDateLocal(stats.periods[stats.periods.length - 1]);
-        const today = new Date();
-        const diff = Math.floor((today - lastPeriod) / (1000 * 60 * 60 * 24));
-        
-        if (diff < 5) return "Menstrual";
-        if (diff < 12) return "Follicular";
-        if (diff < 16) return "Ovulation";
-        return "Luteal";
-    }
+    // Context helpers moved to SentientAI module
 
     function detectMood(q) {
         const moods = {
@@ -67,80 +58,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function generateAIResponse(query) {
         const q = query.toLowerCase();
-        const phase = getCyclePhase();
-        const mood = detectMood(q);
-
-        let response = {
-            acknowledgment: "",
-            validation: "",
-            action: "",
-            reinforcement: ""
-        };
-
-        // --- Core Knowledge Base & Empathetic Logic ---
-
-        // 1. Anxiety / Stress / Mood Support
-        if (mood === 'anxious' || q.includes('worry')) {
-            response.acknowledgment = "I can hear that you're feeling a bit anxious today. 😔";
-            response.validation = phase === 'Luteal' || phase === 'Menstrual' 
-                ? "It's completely natural—hormonal shifts in your " + phase + " phase can often make us feel more sensitive or on edge."
-                : "It's okay to feel this way; our bodies and minds go through so much every day.";
-            response.action = "Try focusing on your breath for just 2 minutes, or maybe some gentle stretching. It helps quiet the noise.";
-            response.reinforcement = "You're doing great, and this feeling will pass. I'm right here with you. 💛";
-        }
+        const context = userContext || { nickname: "there", phase: "Follicular", mood: "Calm" };
         
-        // 2. Tired / Fatigue
-        else if (mood === 'tired' || q.includes('energy')) {
-            response.acknowledgment = "I see you're feeling a little drained today. 😴";
-            response.validation = phase === 'Luteal' 
-                ? "Your metabolism actually speeds up during the Luteal phase, which can leave you feeling extra tired. Your body is working hard!"
-                : "Rest is a productive activity too. Your body is telling you it needs a little recharge.";
-            response.action = "Maybe try a short 15-minute power nap or an extra glass of water with lemon for a natural boost.";
-            response.reinforcement = "Be gentle with yourself today. You deserve the rest! ✨";
-        }
+        let response = "";
 
-        // 3. Cramps / Pain
-        else if (q.includes('cramp') || q.includes('pain') || q.includes('hurt')) {
-            response.acknowledgment = "I'm so sorry you're dealing with cramps right now. 😔";
-            response.validation = "Cramps can be so disruptive, and it's frustrating when they get in the way of your day.";
-            response.action = "A warm compress or some ginger tea can really help relax those muscles. Gentle movements like 'child's pose' are also great.";
-            response.reinforcement = "Hang in there—you're so strong, and this discomfort is only temporary. 💪💛";
+        // Emotional Intelligence Check
+        const isHeartbreakMode = q.includes('breakup') || q.includes('heartbreak') || q.includes('argument') || q.includes('lonely');
+        
+        if (isHeartbreakMode) {
+            response = `I'm so sorry you're hurting, ${context.nickname}. 🕊️ Remember, you're not alone, even at 2am. It's okay to feel this way. With your cycle in the ${context.phase} phase, emotions can sometimes feel even more intense. Want to tell me more about what's on your heart?`;
+        } 
+        else if (q.includes('mood') || q.includes('feeling')) {
+            response = `I see you logged a **${context.mood}** mood recently. In your **${context.phase}** phase, it's very common to feel this way. How can I help you feel more comfortable right now? Maybe a warm tea or some quiet music? 🌸`;
         }
-
-        // 4. Period / Cycle Predictions
-        else if (q.includes('late') || q.includes('when') || q.includes('period')) {
-            const periods = stats.periods;
-            if (periods.length > 0) {
-                response.acknowledgment = "Let me check your cycle history for you... 🔍";
-                response.validation = "It looks like you're right on track based on your typical " + stats.cycleLength + "-day cycle. However, small shifts due to stress or travel are totally normal!";
-                response.action = "Keep logging your moods—it helps me give you even more accurate insights!";
-                response.reinforcement = "Your body has its own unique rhythm, and you're doing an amazing job listening to it. ✨";
-            } else {
-                response.acknowledgment = "I'd love to help with that! 🌸";
-                response.validation = "Since we don't have much history logged yet, my predictions are still learning about you.";
-                response.action = "Try to mark your last few period start dates in the calendar to get things started.";
-                response.reinforcement = "Every piece of data helps us understand your beautiful rhythm better. 💛";
-            }
+        else if (q.includes('cramp') || q.includes('period') || q.includes('hormone')) {
+            response = `Dealing with ${context.phase} phase shifts is tough. 🌿 As your soulful companion, I want to remind you to take it slow. Have you tried a magnesium-rich snack or a light walk? Your health comes first, queen. ✨`;
         }
-
-        // 5. Cravings / Food
-        else if (q.includes('crav') || q.includes('eat') || q.includes('chocolate')) {
-            response.acknowledgment = "Aha, those cravings are talking! 🍫";
-            response.validation = "During the " + phase + " phase, your body might crave more calories or specific treats. It's not just you—it's biology!";
-            response.action = "Go ahead and enjoy that treat, or try some dark chocolate and magnesium-rich nuts for a balanced boost.";
-            response.reinforcement = "Listening to your body's needs is a form of self-love. Enjoy every bite! ✨";
-        }
-
-        // Fallback / General Conversation
         else {
-            response.acknowledgment = "That's a great question! I'm listening. ✨";
-            response.validation = "It's so important to stay curious about our health and how we feel.";
-            response.action = "While I'm still learning, focusing on hydration and mindful rest is always a winning strategy.";
-            response.reinforcement = "Is there anything else on your mind? I'm here to support you in any way I can. 💛";
+            response = `I hear you, ${context.nickname}. ✨ It's interesting you mention that while you're in your **${context.phase}** phase. I'm here to listen and learn with you. What else is on your mind?`;
         }
 
-        // Combine for a natural, flowing response
-        return `${response.acknowledgment}<br><br>${response.validation}<br><br>${response.action}<br><br>${response.reinforcement}`;
+        return response;
     }
 
     function handleSend() {

@@ -3,155 +3,735 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luna | Soft Dashboard</title>
-    
+    <title>Moon Bloom | Dashboard</title>
+    <meta name="description" content="Moon Bloom — Your premium cycle tracking and wellness companion.">
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="soft-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+
+    <style>
+        :root {
+            --bloom-pink: #f06292;
+            --bloom-light: #f8a5c2;
+            --bloom-pale: #fce4ec;
+            --bloom-teal: #4db6ac;
+            --bloom-sage: #a5d6a7;
+            --bg: #f9eef3;
+            --card: #ffffff;
+            --text: #3d2c35;
+            --muted: #9e7d8a;
+            --border: rgba(240, 98, 146, 0.12);
+            --sidebar-w: 270px;
+            --shadow-soft: 0 8px 32px rgba(240, 98, 146, 0.10);
+            --shadow-hover: 0 16px 48px rgba(240, 98, 146, 0.18);
+            --glass: rgba(255,255,255,0.72);
+            --radius: 24px;
+            --radius-sm: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── SPLASH ── */
+        .splash-overlay {
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: linear-gradient(135deg, #fce4ec, #fff8fb);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            z-index: 9999;
+            animation: splashOut 0.7s ease-in-out 1.8s forwards;
+        }
+        .splash-flower {
+            font-size: 4.5rem;
+            animation: flowerBlooms 1.8s cubic-bezier(.175,.885,.32,1.275) forwards;
+            opacity: 0;
+        }
+        .splash-title {
+            margin-top: 18px;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--bloom-pink), var(--bloom-light));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: riseIn 1.4s cubic-bezier(.175,.885,.32,1.275) 0.3s forwards;
+        }
+        .splash-sub {
+            margin-top: 10px;
+            font-size: 1rem; color: var(--muted); font-weight: 400;
+            opacity: 0;
+            animation: riseIn 1s ease 0.8s forwards;
+        }
+        @keyframes flowerBlooms {
+            0%   { opacity:0; transform: scale(.4) rotate(-30deg); }
+            60%  { opacity:1; transform: scale(1.15) rotate(8deg); }
+            100% { opacity:1; transform: scale(1) rotate(0); }
+        }
+        @keyframes riseIn {
+            from { opacity:0; transform: translateY(18px); }
+            to   { opacity:1; transform: translateY(0); }
+        }
+        @keyframes splashOut {
+            0%   { opacity:1; pointer-events:all; }
+            100% { opacity:0; pointer-events:none; visibility:hidden; }
+        }
+
+        /* ── LAYOUT ── */
+        .app-shell { display: flex; min-height: 100vh; }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: linear-gradient(180deg, #f06292 0%, #ce4993 60%, #a83283 100%);
+            padding: 40px 28px;
+            display: flex; flex-direction: column;
+            position: sticky; top: 0; height: 100vh;
+            box-shadow: 4px 0 24px rgba(206,73,147,.18);
+            z-index: 100;
+        }
+        .sidebar-brand {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 48px;
+        }
+        .brand-flower { font-size: 2rem; }
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.55rem; font-weight: 700; color: white;
+            letter-spacing: -.5px; line-height: 1.2;
+        }
+        .brand-name span { font-weight: 400; font-size: 1rem; opacity: .8; display: block; }
+
+        .sidebar-nav { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        .nav-link {
+            display: flex; align-items: center; gap: 14px;
+            padding: 13px 16px; border-radius: var(--radius-sm);
+            color: rgba(255,255,255,0.82); font-size: 1rem; font-weight: 500;
+            text-decoration: none; transition: all .25s ease;
+            cursor: pointer;
+        }
+        .nav-link:hover { background: rgba(255,255,255,.15); color: white; transform: translateX(4px); }
+        .nav-link.active { background: rgba(255,255,255,.22); color: white; font-weight: 600; }
+        .nav-link .nav-icon { font-size: 1.25rem; width: 28px; text-align: center; }
+
+        .sidebar-footer {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,.2);
+            font-size: .82rem; opacity: .65; color: white;
+            line-height: 1.6;
+        }
+        .sidebar-user {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+        }
+        .sidebar-avatar {
+            width: 38px; height: 38px; border-radius: 12px;
+            background: rgba(255,255,255,.25); display: flex;
+            align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1rem; color: white;
+        }
+        .sidebar-user-info .name { font-size: .9rem; font-weight: 600; color: white; }
+        .sidebar-user-info .plan { font-size: .72rem; opacity: .7; color: white; }
+
+        /* ── MAIN ── */
+        .main {
+            flex: 1; padding: 40px 36px;
+            overflow-y: auto; overflow-x: hidden;
+            max-height: 100vh;
+        }
+
+        /* ── TOP HEADER ── */
+        .top-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 36px;
+        }
+        .greeting-date {
+            font-size: .78rem; font-weight: 600; color: var(--bloom-pink);
+            text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px;
+        }
+        .greeting-name {
+            font-size: 1.9rem; font-weight: 700; color: var(--text); line-height: 1.2;
+        }
+        .greeting-name span { color: var(--bloom-pink); }
+        .header-actions { display: flex; align-items: center; gap: 12px; }
+        .header-avatar {
+            width: 48px; height: 48px; border-radius: 16px;
+            background: linear-gradient(135deg, var(--bloom-pink), var(--bloom-light));
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; color: white; font-size: 1.1rem;
+            box-shadow: 0 4px 16px rgba(240,98,146,.35);
+            cursor: pointer; transition: transform .2s;
+        }
+        .header-avatar:hover { transform: scale(1.05); }
+        .pro-badge {
+            background: linear-gradient(135deg, #ffd700, #ffb300);
+            color: #5a3a00; font-size: .68rem; font-weight: 800;
+            padding: 4px 10px; border-radius: 8px;
+            letter-spacing: .5px;
+        }
+
+        /* ── CARD BASE ── */
+        .card {
+            background: var(--card); border-radius: var(--radius);
+            padding: 28px; box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border);
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        .card-title {
+            font-size: 1rem; font-weight: 600; color: var(--muted);
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;
+        }
+
+        /* ── MAIN GRID ── */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 24px;
+        }
+        .left-col { display: flex; flex-direction: column; gap: 24px; }
+        .right-col { display: flex; flex-direction: column; gap: 24px; }
+
+        /* ── HERO CYCLE CARD ── */
+        .hero-card {
+            background: linear-gradient(135deg, #f06292 0%, #ce4993 55%, #ab47bc 100%);
+            border: none; color: white; overflow: hidden; position: relative;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 32px 30px;
+        }
+        .hero-card::before {
+            content: ''; position: absolute;
+            top: -60px; right: -60px;
+            width: 220px; height: 220px; border-radius: 50%;
+            background: rgba(255,255,255,.08);
+        }
+        .hero-card::after {
+            content: ''; position: absolute;
+            bottom: -80px; left: 30%;
+            width: 200px; height: 200px; border-radius: 50%;
+            background: rgba(255,255,255,.06);
+        }
+        .hero-content { z-index: 2; }
+        .hero-badge {
+            display: inline-block; background: rgba(255,255,255,.22);
+            backdrop-filter: blur(8px); padding: 5px 14px; border-radius: 20px;
+            font-size: .8rem; font-weight: 600; margin-bottom: 14px;
+        }
+        .hero-day { font-size: 3.2rem; font-weight: 700; line-height: 1; margin-bottom: 8px; }
+        .hero-subtitle { font-size: 1rem; opacity: .88; margin-bottom: 24px; }
+        .hero-log-btn {
+            background: rgba(255,255,255,.95); color: var(--bloom-pink);
+            border: none; padding: 12px 24px; border-radius: 14px;
+            font-weight: 700; font-size: .95rem; cursor: pointer;
+            transition: all .2s ease; box-shadow: 0 4px 16px rgba(0,0,0,.1);
+        }
+        .hero-log-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+
+        /* SVG Ring */
+        .ring-wrap { position: relative; width: 165px; height: 165px; flex-shrink: 0; z-index: 2; }
+        .ring-svg { transform: rotate(-90deg); }
+        .ring-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 10; }
+        .ring-progress {
+            fill: none; stroke: white; stroke-width: 10; stroke-linecap: round;
+            transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1);
+        }
+        .ring-center {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .ring-phase { font-size: .72rem; opacity: .8; text-transform: uppercase; letter-spacing: 1px; }
+        .ring-day-num { font-size: 2rem; font-weight: 700; line-height: 1; }
+
+        /* ── 3-COL STATS ── */
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .stat-card {
+            background: var(--card); border-radius: var(--radius-sm);
+            padding: 20px 18px; box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border);
+            transition: transform .3s; text-align: center;
+        }
+        .stat-card:hover { transform: translateY(-3px); }
+        .stat-icon { font-size: 1.6rem; margin-bottom: 8px; }
+        .stat-label { font-size: .75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 4px; }
+        .stat-value { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+
+        /* ── HYDRATION ── */
+        .hydration-card { padding: 24px; }
+        .hydration-header {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 16px;
+        }
+        .hydration-controls { display: flex; align-items: center; gap: 12px; }
+        .water-btn {
+            width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--bloom-pale);
+            background: white; color: var(--bloom-pink); font-size: 1.3rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all .2s; font-weight: 700;
+        }
+        .water-btn:hover { background: var(--bloom-pale); transform: scale(1.1); }
+        .water-count { font-size: 1rem; font-weight: 700; color: var(--text); min-width: 52px; text-align: center; }
+        .water-track { height: 8px; background: #f5e6eb; border-radius: 8px; overflow: hidden; margin-top: 8px; }
+        .water-fill {
+            height: 100%; background: linear-gradient(90deg, var(--bloom-teal), #80cbc4);
+            border-radius: 8px; transition: width .5s ease;
+        }
+        .water-cups-row {
+            display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap;
+        }
+        .water-cup {
+            width: 28px; height: 28px; border-radius: 8px; font-size: 1rem;
+            border: 2px solid #e8d5dc; background: white;
+            display: flex; align-items: center; justify-content: center;
+            transition: all .2s;
+        }
+        .water-cup.filled { background: var(--bloom-teal); border-color: var(--bloom-teal); }
+
+        /* ── QUICK ACTIONS ── */
+        .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .action-btn {
+            display: flex; align-items: center; gap: 12px;
+            padding: 16px 18px; border-radius: var(--radius-sm);
+            background: var(--bloom-pale); border: 1px solid rgba(240,98,146,.15);
+            cursor: pointer; transition: all .25s; text-decoration: none;
+            color: var(--text);
+        }
+        .action-btn:hover { background: #f8d0de; transform: translateY(-2px); }
+        .action-btn .act-icon { font-size: 1.5rem; }
+        .action-btn .act-label { font-size: .88rem; font-weight: 600; }
+        .action-btn .act-sub { font-size: .75rem; color: var(--muted); margin-top: 2px; }
+
+        /* ── AI INSIGHT CARD ── */
+        .insight-card { position: relative; overflow: hidden; }
+        .insight-glow {
+            position: absolute; top: -40px; right: -40px;
+            width: 140px; height: 140px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(240,98,146,.15), transparent 70%);
+            pointer-events: none;
+        }
+        .insight-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .insight-header .ai-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--bloom-pink); box-shadow: 0 0 8px var(--bloom-pink);
+            animation: pulse 2s ease infinite;
+        }
+        @keyframes pulse { 0%,100% { box-shadow: 0 0 6px var(--bloom-pink); } 50% { box-shadow: 0 0 16px var(--bloom-pink); } }
+
+        .insight-pill {
+            background: linear-gradient(135deg, #fce4ec, #fff);
+            border-left: 4px solid var(--bloom-pink);
+            border-radius: 14px; padding: 16px 18px; margin-bottom: 12px;
+        }
+        .insight-pill.teal { border-left-color: var(--bloom-teal); }
+        .insight-pill.sage { border-left-color: var(--bloom-sage); }
+        .insight-pill h6 { font-size: .78rem; color: var(--bloom-pink); font-weight: 700; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 5px; }
+        .insight-pill.teal h6 { color: var(--bloom-teal); }
+        .insight-pill.sage h6 { color: #6aaf6e; }
+        .insight-pill p { font-size: .9rem; color: var(--text); line-height: 1.55; }
+        .phase-badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            background: var(--bloom-pink); color: white; font-size: .75rem; font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        /* ── UPCOMING CARD ── */
+        .upcoming-card {
+            background: linear-gradient(135deg, #fce4ec 0%, #fff 100%);
+            text-align: center; padding: 28px;
+        }
+        .upcoming-label { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .upcoming-date { font-size: 3rem; font-weight: 700; color: var(--bloom-pink); line-height: 1; }
+        .upcoming-sub { font-size: .9rem; color: var(--muted); margin-top: 8px; }
+        .days-pill {
+            display: inline-block; margin-top: 16px; padding: 8px 20px;
+            background: white; border-radius: 20px; font-size: .85rem; font-weight: 600;
+            color: var(--bloom-pink); box-shadow: 0 2px 12px rgba(240,98,146,.15);
+        }
+
+        /* ── MINI CALENDAR ── */
+        .mini-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .mini-cal-header h5 { font-size: 1rem; font-weight: 600; }
+        .mini-nav { display: flex; gap: 6px; }
+        .mini-nav button {
+            background: var(--bloom-pale); border: none; width: 30px; height: 30px;
+            border-radius: 8px; cursor: pointer; color: var(--bloom-pink); font-weight: 700;
+            transition: background .2s;
+        }
+        .mini-nav button:hover { background: #f8d0de; }
+        .mini-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+        .mini-day-hdr { font-size: .7rem; font-weight: 700; color: var(--muted); padding: 4px; }
+        .mini-day {
+            aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+            border-radius: 8px; font-size: .78rem; cursor: pointer;
+            transition: all .15s;
+        }
+        .mini-day:hover { background: var(--bloom-pale); }
+        .mini-day.today { background: var(--bloom-pink); color: white; font-weight: 700; }
+        .mini-day.period { background: rgba(240,98,146,.22); color: var(--bloom-pink); font-weight: 600; }
+        .mini-day.fertile { background: rgba(77,182,172,.15); }
+
+        /* ── PARTNER SYNC ── */
+        .partner-card { display: flex; align-items: center; gap: 16px; }
+        .partner-avatar {
+            width: 52px; height: 52px; border-radius: 16px;
+            background: linear-gradient(135deg, #4db6ac, #80cbc4);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; flex-shrink: 0; box-shadow: 0 4px 12px rgba(77,182,172,.3);
+        }
+        .partner-info { flex: 1; }
+        .partner-info h4 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+        .partner-info p { font-size: .82rem; color: var(--muted); }
+        .partner-link {
+            display: inline-block; margin-top: 8px; color: var(--bloom-pink);
+            font-size: .82rem; font-weight: 700; text-decoration: none;
+            transition: opacity .2s;
+        }
+        .partner-link:hover { opacity: .7; }
+
+        /* ── KINDNESS CORNER ── */
+        .kindness-card {
+            text-align: center;
+            border: 1.5px dashed rgba(240,98,146,.3);
+            background: linear-gradient(135deg, #fce4ec10, white);
+        }
+        .kindness-icon { font-size: 2.4rem; margin-bottom: 10px; display: block; }
+        .kindness-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 10px; }
+        .kindness-msg { font-size: .9rem; color: var(--muted); line-height: 1.65; font-style: italic; }
+
+        /* ── REMINDERS ── */
+        .reminder-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 0; border-bottom: 1px solid var(--border);
+            font-size: .9rem;
+        }
+        .reminder-item:last-child { border-bottom: none; }
+        .reminder-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--bloom-pink); flex-shrink: 0; }
+
+        /* ── ANIMATIONS ── */
+        .fade-in { animation: fadeUp .6s ease both; }
+        .delay-1 { animation-delay: .1s; }
+        .delay-2 { animation-delay: .2s; }
+        .delay-3 { animation-delay: .3s; }
+        .delay-4 { animation-delay: .4s; }
+        .delay-5 { animation-delay: .5s; }
+        @keyframes fadeUp {
+            from { opacity:0; transform: translateY(16px); }
+            to   { opacity:1; transform: translateY(0); }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1100px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .right-col { display: grid; grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 900px) {
+            .main { padding: 24px 20px; }
+            .stats-row { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .app-shell { flex-direction: column; }
+            .sidebar {
+                width: 100%; height: auto; padding: 16px 20px;
+                flex-direction: row; align-items: center; justify-content: space-between;
+                position: static;
+            }
+            .sidebar-brand { margin-bottom: 0; }
+            .sidebar-nav {
+                flex-direction: row; gap: 0;
+            }
+            .nav-link span:not(.nav-icon) { display: none; }
+            .sidebar-footer, .sidebar-user { display: none; }
+            .right-col { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
-<!-- Animated Splash Screen -->
-<div class="splash-overlay">
+<!-- ── SPLASH ── -->
+<div class="splash-overlay" id="splash">
     <div class="splash-flower">❋</div>
-    <div class="splash-bloom">New Luna</div>
+    <div class="splash-title">Moon Bloom</div>
+    <div class="splash-sub">Your wellness, beautifully tracked</div>
 </div>
 
-<div class="container">
+<!-- ── APP SHELL ── -->
+<div class="app-shell">
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-        <div class="sidebar-header" style="display: flex; align-items: center; padding: 20px 0; margin-bottom: 20px;">
-            <div class="moon-bloom-logo" style="background: none; -webkit-text-fill-color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.1);">New Luna</div>
+        <div class="sidebar-brand">
+            <div class="brand-flower">❋</div>
+            <div class="brand-name">
+                Moon Bloom
+                <span>Wellness Dashboard</span>
+            </div>
         </div>
-            <a href="soft_dashboard.html" class="nav-item active">
-                <i>🏠</i> Dashboard
+
+        <nav class="sidebar-nav">
+            <a href="soft_dashboard.html" class="nav-link active">
+                <span class="nav-icon">🏠</span> Dashboard
             </a>
-            <a href="calendar.html" class="nav-item">
-                <i>📅</i> Calendar
+            <a href="calendar.html" class="nav-link">
+                <span class="nav-icon">📅</span> Calendar
             </a>
-            <a href="partner.html" class="nav-item">
-                <i>❤️</i> Partner
+            <a href="tracking.html" class="nav-link">
+                <span class="nav-icon">📝</span> Daily Log
             </a>
-            <a href="profile.html" class="nav-item">
-                <i>👤</i> Profile
+            <a href="soft_assistant.html" class="nav-link">
+                <span class="nav-icon">✨</span> Luna AI
             </a>
-            <a href="settings.html" class="nav-item">
-                <i>⚙️</i> Settings
+            <a href="partner.html" class="nav-link">
+                <span class="nav-icon">❤️</span> Partner
+            </a>
+            <a href="soft_reports.html" class="nav-link">
+                <span class="nav-icon">📊</span> Reports
+            </a>
+            <a href="soft_profile.html" class="nav-link">
+                <span class="nav-icon">👤</span> Profile
+            </a>
+            <a href="settings.html" class="nav-link">
+                <span class="nav-icon">⚙️</span> Settings
             </a>
         </nav>
-        <div class="sidebar-footer" style="font-size: 0.8rem; opacity: 0.6; margin-top: auto;">
-            Premium Luna Experience <br>
-            v2.0.1 (Soft Edition)
+
+        <div style="margin-top: auto;">
+            <div class="sidebar-user">
+                <div class="sidebar-avatar" id="sidebar-avatar-letter">S</div>
+                <div class="sidebar-user-info">
+                    <div class="name" id="sidebar-username">Sarah</div>
+                    <div class="plan">✨ Premium Member</div>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                Moon Bloom v2.1.0<br>
+                Synced · All data secured
+            </div>
         </div>
     </aside>
 
-    <!-- MAIN -->
+    <!-- MAIN CONTENT -->
     <main class="main">
 
         <!-- TOP HEADER -->
         <header class="top-header fade-in">
-            <div class="welcome-msg">
-                <p id="current-date" style="color: var(--soft-pink-main); font-weight: bold; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;">Wednesday, April 1</p>
-                <h1 style="font-family: 'Outfit'; font-weight: 700;">Hello, <span id="user-name">Sarah</span>! 👋</h1>
+            <div>
+                <p class="greeting-date" id="current-date">Loading...</p>
+                <h1 class="greeting-name">Hello, <span id="user-name">Sarah</span>! 👋</h1>
             </div>
-            <div class="user-profile">
-                <div class="avatar" id="user-avatar">S</div>
-                <div class="badge" style="background: gold; padding: 4px 10px; border-radius: 10px; font-size: 0.7rem; font-weight: bold; color: #444;">PRO</div>
+            <div class="header-actions">
+                <div class="pro-badge">PRO</div>
+                <div class="header-avatar" id="header-avatar" onclick="location.href='soft_profile.html'">S</div>
             </div>
         </header>
 
-        <!-- TOP GRID -->
-        <div class="grid-2">
+        <!-- MAIN GRID -->
+        <div class="dashboard-grid">
 
-            <!-- CYCLE STATUS -->
-            <section class="card glass-card fade-in delay-1">
-                <h3 style="margin-bottom: 20px;">Cycle Status</h3>
-                <div class="cycle-status">
-                    <div class="circle-container">
-                        <svg class="circle-svg" width="200" height="200" viewBox="0 0 200 200">
-                            <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
-                            <circle id="cycle-ring-progress" class="circle-progress" cx="100" cy="100" r="90" stroke-dasharray="565" stroke-dashoffset="565"></circle>
+            <!-- ── LEFT COLUMN ── -->
+            <div class="left-col">
+
+                <!-- HERO CYCLE CARD -->
+                <div class="card hero-card fade-in delay-1">
+                    <div class="hero-content">
+                        <div class="hero-badge" id="hero-phase">Follicular Phase</div>
+                        <div class="hero-day" id="hero-cycle-day">Day 4</div>
+                        <div class="hero-subtitle" id="hero-subtitle">24 days until next cycle</div>
+                        <button class="hero-log-btn" id="log-period-btn">🩸 Log Period</button>
+                    </div>
+                    <div class="ring-wrap">
+                        <svg class="ring-svg" width="165" height="165" viewBox="0 0 165 165">
+                            <circle class="ring-track" cx="82.5" cy="82.5" r="72"/>
+                            <circle class="ring-progress" id="cycle-ring-progress" cx="82.5" cy="82.5" r="72"
+                                    stroke-dasharray="452" stroke-dashoffset="452"/>
                         </svg>
-                        <div class="circle-content">
-                            <span class="circle-label">Day</span>
-                            <span class="circle-day" id="cycle-day">4</span>
+                        <div class="ring-center">
+                            <span class="ring-phase" id="ring-phase-label">Phase</span>
+                            <span class="ring-day-num" id="ring-day-num">4</span>
                         </div>
                     </div>
-                    <button class="btn" id="log-period-btn">Log Period 🩸</button>
-                    <p style="font-size: 0.85rem; color: var(--soft-text-muted); margin-top: 15px;">You're in the <b>Follicular Phase</b>. Energy levels are rising! ✨</p>
                 </div>
-            </section>
 
-            <!-- UPCOMING -->
-            <section class="card glass-card upcoming-card fade-in delay-2" style="background: linear-gradient(135deg, #ffffff 40%, #fff0f3 100%); border-right: 5px solid var(--soft-pink-main);">
-                <h3 style="margin-bottom: 10px;">Upcoming</h3>
-                <h1 class="upcoming-date" id="next-period-date">MAY 22</h1>
-                <p class="upcoming-label" id="next-period-label">Next Period</p>
-                <div style="margin-top: 30px; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 15px; font-size: 0.9rem;">
-                    <b>Tip:</b> High focus day. Great for planning! 🏃‍♀️
+                <!-- STATS ROW -->
+                <div class="stats-row fade-in delay-2">
+                    <div class="stat-card">
+                        <div class="stat-icon">💚</div>
+                        <div class="stat-label">Fertile Window</div>
+                        <div class="stat-value" id="fertile-window">Apr 16–21</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🌕</div>
+                        <div class="stat-label">Ovulation</div>
+                        <div class="stat-value" id="ovulation-date">Apr 22</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-label">Avg Cycle</div>
+                        <div class="stat-value" id="avg-cycle">28 Days</div>
+                    </div>
                 </div>
-            </section>
 
+                <!-- HYDRATION -->
+                <div class="card hydration-card fade-in delay-3">
+                    <div class="hydration-header">
+                        <div class="card-title" style="margin:0">💧 Hydration</div>
+                        <div class="hydration-controls">
+                            <button class="water-btn" id="remove-water">−</button>
+                            <span class="water-count" id="hydration-count">0 / 8</span>
+                            <button class="water-btn" id="add-water">+</button>
+                        </div>
+                    </div>
+                    <div class="water-track">
+                        <div class="water-fill" id="water-fill" style="width:0%"></div>
+                    </div>
+                    <div class="water-cups-row" id="water-cups-row">
+                        <!-- cups generated by JS -->
+                    </div>
+                </div>
+
+                <!-- QUICK ACTIONS -->
+                <div class="card fade-in delay-4" style="padding: 24px;">
+                    <div class="card-title">Quick Actions</div>
+                    <div class="quick-actions">
+                        <a href="tracking.html" class="action-btn">
+                            <span class="act-icon">📝</span>
+                            <div>
+                                <div class="act-label">Daily Log</div>
+                                <div class="act-sub">Log mood & symptoms</div>
+                            </div>
+                        </a>
+                        <a href="soft_assistant.html" class="action-btn">
+                            <span class="act-icon">🤖</span>
+                            <div>
+                                <div class="act-label">Luna AI</div>
+                                <div class="act-sub">Ask anything</div>
+                            </div>
+                        </a>
+                        <a href="wellness.html" class="action-btn">
+                            <span class="act-icon">🧘</span>
+                            <div>
+                                <div class="act-label">Wellness</div>
+                                <div class="act-sub">Yoga & mindfulness</div>
+                            </div>
+                        </a>
+                        <a href="calendar.html" class="action-btn">
+                            <span class="act-icon">📅</span>
+                            <div>
+                                <div class="act-label">Calendar</div>
+                                <div class="act-sub">View full cycle</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ── RIGHT COLUMN ── -->
+            <div class="right-col">
+
+                <!-- UPCOMING PERIOD CARD -->
+                <div class="card upcoming-card fade-in delay-1">
+                    <div class="upcoming-label">📅 Next Period</div>
+                    <div class="upcoming-date" id="next-period-date">MAY 4</div>
+                    <div class="upcoming-sub" id="next-period-label">Next predicted period</div>
+                    <div class="days-pill" id="days-pill">27 days away</div>
+                </div>
+
+                <!-- LUNA AI INSIGHTS -->
+                <div class="card insight-card fade-in delay-2">
+                    <div class="insight-glow"></div>
+                    <div class="insight-header">
+                        <div class="ai-dot"></div>
+                        <div class="card-title" style="margin:0">✨ Luna Insights</div>
+                    </div>
+
+                    <div class="insight-pill" id="ai-insight-main">
+                        <h6>Daily Prediction</h6>
+                        <p id="ai-insight-text">Energy rising! Estrogen is climbing — try a light workout today and embrace your creativity. 🌸</p>
+                    </div>
+
+                    <div class="insight-pill teal">
+                        <h6>Current Phase</h6>
+                        <div class="phase-badge" id="phase-badge">Follicular Phase</div>
+                        <p id="fertility-insight">Approaching your fertile window — energy and confidence are on the rise! ✨</p>
+                    </div>
+
+                    <div class="insight-pill sage">
+                        <h6>Wellness Tip</h6>
+                        <p id="wellness-tip">Focus on iron-rich foods like spinach and dark chocolate. 🍫</p>
+                    </div>
+                </div>
+
+                <!-- MINI CALENDAR -->
+                <div class="card fade-in delay-3">
+                    <div class="mini-cal-header">
+                        <h5 id="mini-month-display">April 2026</h5>
+                        <div class="mini-nav">
+                            <button id="prev-month">‹</button>
+                            <button id="next-month">›</button>
+                        </div>
+                    </div>
+                    <div class="mini-grid">
+                        <div class="mini-day-hdr">S</div>
+                        <div class="mini-day-hdr">M</div>
+                        <div class="mini-day-hdr">T</div>
+                        <div class="mini-day-hdr">W</div>
+                        <div class="mini-day-hdr">T</div>
+                        <div class="mini-day-hdr">F</div>
+                        <div class="mini-day-hdr">S</div>
+                    </div>
+                    <div class="mini-grid" id="mini-calendar-days"></div>
+                </div>
+
+                <!-- PARTNER SYNC -->
+                <div class="card fade-in delay-4">
+                    <div class="card-title">❤️ Partner Sync</div>
+                    <div class="partner-card">
+                        <div class="partner-avatar">💑</div>
+                        <div class="partner-info">
+                            <h4>Connected with <span id="partner-name">Alex</span></h4>
+                            <p>Your partner is kept in the loop — privately and thoughtfully.</p>
+                            <a href="partner.html" class="partner-link">Open Duo Chat →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KINDNESS CORNER -->
+                <div class="card kindness-card fade-in delay-5">
+                    <span class="kindness-icon" id="kindness-icon">🌸</span>
+                    <div class="kindness-title" id="kindness-title">Luna's Daily Note 🌙</div>
+                    <p class="kindness-msg" id="kindness-msg">"You are absolutely radiant. Your body is doing something extraordinary today. Trust it. 🌟"</p>
+                </div>
+
+                <!-- REMINDERS -->
+                <div class="card fade-in delay-5">
+                    <div class="card-title">🔔 Reminders</div>
+                    <div class="reminder-item">
+                        <div class="reminder-dot" style="background: var(--bloom-pink)"></div>
+                        <span>Take your vitamins 💊</span>
+                    </div>
+                    <div class="reminder-item">
+                        <div class="reminder-dot" style="background: var(--bloom-teal)"></div>
+                        <span>Log today's mood & symptoms 📝</span>
+                    </div>
+                    <div class="reminder-item" id="cycle-reminder">
+                        <div class="reminder-dot" style="background: #ab47bc"></div>
+                        <span id="cycle-reminder-text">Your cycle is on track ✨</span>
+                    </div>
+                </div>
+
+            </div>
         </div>
-
-        <!-- SECOND ROW -->
-        <div class="grid-3">
-
-            <div class="card glass-card small-card fade-in delay-3">
-                <span class="small-card-icon">💚</span>
-                <span class="small-card-title">Fertile Window</span>
-                <b class="small-card-value" id="fertile-window">Apr 16 - 21</b>
-            </div>
-
-            <div class="card glass-card small-card fade-in delay-1">
-                <span class="small-card-icon">❤️</span>
-                <span class="small-card-title">Ovulation</span>
-                <b class="small-card-value" id="ovulation-date">Apr 24</b>
-            </div>
-
-            <div class="card glass-card small-card fade-in delay-2">
-                <span class="small-card-icon">💧</span>
-                <span class="small-card-title">Hydration</span>
-                <div class="hydration-controls">
-                    <button class="control-btn" id="remove-water">-</button>
-                    <strong class="small-card-value" id="hydration-count">0 / 8</strong>
-                    <button class="control-btn" id="add-water">+</button>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- LOWER -->
-        <div class="grid-2">
-
-            <div class="card glass-card fade-in delay-3" style="display: flex; gap: 20px; align-items: center;">
-                <div style="width: 60px; height: 60px; border-radius: 50%; background: #e0f2f1; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">❤️</div>
-                <div>
-                    <h3 style="margin-bottom: 5px;">Partner Sync</h3>
-                    <p style="color: var(--soft-text-muted); font-size: 0.9rem;">Connected with <b>Alex</b></p>
-                    <a href="partner.html" style="color: var(--soft-pink-dark); text-decoration: none; font-size: 0.85rem; font-weight: 600; margin-top: 5px; display: block;">Open Duo Chat →</a>
-                </div>
-            </div>
-
-            <div class="card glass-card fade-in delay-1">
-                <h3 style="margin-bottom: 15px;">🔔 Reminders</h3>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 10px; font-size: 0.9rem; display: flex; gap: 10px; align-items: center;">
-                        <span style="color: var(--soft-pink-main);">🌸</span> Start vitamins
-                    </li>
-                    <li style="margin-bottom: 10px; font-size: 0.9rem; display: flex; gap: 10px; align-items: center;">
-                        <span style="color: var(--soft-pink-main);">🛒</span> Buy products
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-
     </main>
-
 </div>
 
 <!-- Scripts -->

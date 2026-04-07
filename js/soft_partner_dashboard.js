@@ -1,22 +1,53 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let currentUser = null;
+    let partnerId = "partner_123";
+    let chatId = null;
+
     const cycleRing = document.getElementById('partner-ring');
     const daysLeftVal = document.getElementById('days-left-val');
     const supportBtns = document.querySelectorAll('.support-btn');
 
-    // 1. Initialize Cycle Progress Ring
-    function updateCycleProgress(daysLeft, totalCycleDays = 28) {
-        const radius = 80;
-        const circumference = 2 * Math.PI * radius;
-        const offset = circumference - (daysLeft / totalCycleDays) * circumference;
+    firebase.auth().onAuthStateChanged(user => {
+        if (!user) return;
+        currentUser = user;
+        chatId = [user.uid, partnerId].sort().join('_');
         
-        cycleRing.style.strokeDasharray = `${circumference} ${circumference}`;
-        cycleRing.style.strokeDashoffset = offset;
-        daysLeftVal.textContent = daysLeft;
+        loadUserRealtimeState();
+    });
+
+    function loadUserRealtimeState() {
+        firebase.firestore().collection('users').doc(currentUser.uid)
+            .onSnapshot(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    updateCycleProgress(data.periods, data.cycleLength || 28);
+                }
+            });
     }
 
-    // 2. Mock Support Action logic
+    function updateCycleProgress(periods = [], totalCycleDays = 28) {
+        if (periods.length === 0) return;
+        
+        const lastPeriod = new Date(periods[periods.length - 1]);
+        const today = new Date();
+        const diffDays = Math.floor((today - lastPeriod) / (1000 * 60 * 60 * 24)) + 1;
+        const currentDay = ((diffDays - 1) % totalCycleDays) + 1;
+        const daysLeft = totalCycleDays - currentDay;
+
+        const radius = 80;
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference - (currentDay / totalCycleDays) * circumference;
+        
+        if (cycleRing) {
+            cycleRing.style.strokeDasharray = `${circumference} ${circumference}`;
+            cycleRing.style.strokeDashoffset = offset;
+        }
+        if (daysLeftVal) daysLeftVal.textContent = daysLeft > 0 ? daysLeft : "P";
+    }
+
+    // 2. Real-Time Support Actions via Firestore
     supportBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async () => {
             const action = btn.innerText.split(' ').slice(1).join(' '); // Get "Love", "Tea", etc.
             
             // Visual feedback
@@ -25,17 +56,16 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('sent');
             btn.style.pointerEvents = 'none';
 
-            // Simulate sending to Duo Chat / Shared State
-            console.log(`PARTNER_ACTION: Sending ${action} to partner.`);
-            
-            // Integration with shared_state mock
-            const messages = JSON.parse(localStorage.getItem('chats/shared/messages')) || [];
-            messages.push({
-                senderId: 'partner',
-                text: `Sent you ${action}! ❤️`,
-                timestamp: new Date().getTime()
-            });
-            localStorage.setItem('chats/shared/messages', JSON.stringify(messages));
+            // Send real Firestore message to shared chat
+            if (chatId) {
+                await firebase.firestore().collection('chats').doc(chatId).collection('messages').add({
+                    chatId,
+                    senderId: 'partner',
+                    text: `Sent you ${action}! ❤️`,
+                    status: 'sent',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
 
             setTimeout(() => {
                 btn.innerHTML = originalHTML;
@@ -44,9 +74,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 3000);
         });
     });
-
-    // 3. Load Sample Data
-    const mockDaysLeft = 4;
-    updateCycleProgress(mockDaysLeft);
-
 });

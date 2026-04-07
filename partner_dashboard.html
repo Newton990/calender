@@ -121,6 +121,11 @@
             .main { padding: 20px; }
         }
     </style>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
 </head>
 <body>
     <!-- Animated Splash Screen -->
@@ -186,19 +191,22 @@
             </div>
         </div>
 
-        <!-- GUIDANCE -->
+        <!-- GUIDANCE & SUPPORT -->
         <div class="card">
             <h3>Guidance for You</h3>
             <div id="partner-advice-container">
-                <p id="mood-insight-text" style="font-size: 0.95rem; line-height: 1.6; color: #555;">
+                <p id="advice-text" style="font-size: 0.95rem; line-height: 1.6; color: #555;">
                     Analyzing partner's current phase and mood to provide tailored advice...
                 </p>
             </div>
-            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
-                <p style="font-size: 0.8rem; color: #ff6b81; font-weight: 700; text-transform: uppercase;">Quick Tip</p>
-                <p id="quick-tip" style="font-size: 0.85rem; font-style: italic; margin-top: 5px; color: #777;">
-                    "Listening is often more powerful than solving. Just being there matters."
-                </p>
+            
+            <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee;">
+                <p style="font-size: 0.8rem; color: #ff6b81; font-weight: 700; text-transform: uppercase; margin-bottom: 10px;">Send Quick Support</p>
+                <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px;">
+                    <button class="support-btn" style="background:#fff1f3; border:1px solid #ffccd5; border-radius:15px; padding:8px 12px; font-size:0.8rem; cursor:pointer;">❤️ Love</button>
+                    <button class="support-btn" style="background:#fff1f3; border:1px solid #ffccd5; border-radius:15px; padding:8px 12px; font-size:0.8rem; cursor:pointer;">🍵 Tea</button>
+                    <button class="support-btn" style="background:#fff1f3; border:1px solid #ffccd5; border-radius:15px; padding:8px 12px; font-size:0.8rem; cursor:pointer;">💐 Flowers</button>
+                </div>
             </div>
         </div>
 
@@ -235,14 +243,6 @@
     </div>
 </div>
 
-<script src="js/dashboard.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Enforce Partner Mode Display logic if needed
-        const currentUser = localStorage.getItem('NewLunaSession');
-        // Logic to populate data from localStorage or shared_state via dashboard.js
-        console.log("Partner Dashboard Initialized");
-    });
-</script>
+<script src="js/partner.js"></script>
 </body>
 </html>
