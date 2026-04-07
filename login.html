@@ -3,40 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Luna | Login</title>
+    <title>A / NewLuna | Login</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ff4d6d">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <script type="module">
-        try {
-            import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
-            import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
-
-            // Firebase config - REPLACE WITH YOUR ACTUAL FIREBASE CONFIG
-            const firebaseConfig = {
-                apiKey: "your-actual-api-key",
-                authDomain: "your-project.firebaseapp.com",
-                projectId: "your-project-id",
-                storageBucket: "your-project.appspot.com",
-                messagingSenderId: "123456789",
-                appId: "your-app-id"
-            };
-
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-
-            window.firebaseAuth = auth;
-            window.signInWithEmailAndPassword = signInWithEmailAndPassword;
-            window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
-            window.sendEmailVerification = sendEmailVerification;
-        } catch (error) {
-            console.error('Firebase initialization failed:', error);
-            alert('Firebase is not configured. Please replace the placeholder config with your actual Firebase project config.');
-        }
-    </script>
     <script src="js/common.js"></script>
 </head>
 <body>
@@ -44,14 +17,14 @@
     <div class="splash-overlay">
         <div class="splash-content">
             <div class="splash-flower">❋</div>
-            <div class="splash-text">New Luna</div>
+            <div class="splash-text">NewLuna ✨</div>
         </div>
     </div>
 
     <!-- Authentication Screen -->
     <div id="auth-container" class="auth-wrapper">
         <div class="auth-card glass">
-            <h1 class="logo auth-title moon-bloom-logo">❋ New Luna</h1>
+            <h1 class="logo auth-title moon-bloom-logo">NewLuna ✨</h1>
             <p class="auth-subtitle">Your elegant health companion.</p>
             
             <div id="login-form-container">

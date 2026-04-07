@@ -8,12 +8,43 @@ window.parseDateLocal = function(str) {
 document.addEventListener('DOMContentLoaded', () => {
     const currentUser = localStorage.getItem('New LunaSession');
     
-    // 0. Theme Initialization
+    // 0. Sentient Theme Engine (Mood-to-Theme)
     if (currentUser) {
-        const activeTheme = localStorage.getItem(`theme_${currentUser}`) || 'default';
-        if (activeTheme !== 'default') {
-            document.body.setAttribute('data-theme', activeTheme);
+        const isAutoTheme = JSON.parse(localStorage.getItem(`autoTheme_${currentUser}`)) || false;
+        let activeTheme = localStorage.getItem(`theme_${currentUser}`) || 'blush';
+
+        if (isAutoTheme) {
+            // Find latest mood from symptoms
+            const symptoms = JSON.parse(localStorage.getItem(`symptoms_${currentUser}`)) || {};
+            const dates = Object.keys(symptoms).sort().reverse();
+            let latestMood = null;
+            
+            for (let date of dates) {
+                if (symptoms[date].mood) {
+                    latestMood = symptoms[date].mood.toLowerCase();
+                    break;
+                }
+            }
+
+            if (latestMood) {
+                const moodMap = {
+                    'happy': 'glow',
+                    'energized': 'glow',
+                    'stressed': 'calm',
+                    'anxious': 'calm',
+                    'tired': 'blush',
+                    'sensitive': 'blush',
+                    'productive': 'health',
+                    'sad': 'deep',
+                    'moody': 'deep',
+                    'calm': 'calm'
+                };
+                activeTheme = moodMap[latestMood] || activeTheme;
+                console.log(`Sentient UI: Auto-switched to ${activeTheme} based on mood: ${latestMood}`);
+            }
         }
+        
+        document.body.setAttribute('data-theme', activeTheme);
     }
 
     const path = window.location.pathname;

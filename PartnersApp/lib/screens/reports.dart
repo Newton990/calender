@@ -37,7 +37,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
 
       body: Container(
         decoration: const BoxDecoration(
-          color: Color(0xFFFDF7F9),
+          color: Color(0xFFFFF5F8),
         ),
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
@@ -53,7 +53,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                       children: [
                         Text(
                           "PARTNER ANALYSIS 📊",
-                          style: GoogleFonts.outfit(color: const Color(0xFFF06292), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                          style: GoogleFonts.outfit(color: const Color(0xFFFF758C), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2),
                         ),
                         const SizedBox(height: 4),
                         Text(
@@ -67,7 +67,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                       ],
                     ),
                     IconButton(
-                      icon: const Icon(Icons.sync, color: Color(0xFFF06292)),
+                      icon: const Icon(Icons.sync, color: Color(0xFFFF758C)),
                       onPressed: () => _loadPartnerData(),
                     ),
                   ],
@@ -104,15 +104,15 @@ class _ReportsScreenState extends State<ReportsScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.teal.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(30),
+        color: Color(0xFFFFC3A0).withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.sync, size: 14, color: Colors.teal),
+          const Icon(Icons.sync, size: 14, color: Color(0xFFFFC3A0)),
           const SizedBox(width: 8),
-          Text("Last synced: Just now", style: GoogleFonts.outfit(fontSize: 12, color: Colors.teal[700])),
+          Text("Last synced: Just now", style: GoogleFonts.outfit(fontSize: 12, color: Color(0xFFFFC3A0)[700])),
         ],
       ),
     );
@@ -145,7 +145,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withOpacity(0.5), width: 1.5),
         boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10)],
       ),
@@ -188,7 +188,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                   child: LinearProgressIndicator(
                     value: progress,
                     backgroundColor: Colors.white.withOpacity(0.2),
-                    color: const Color(0xFFF3A8B8),
+                    color: const Color(0xFFFF758C),
                     minHeight: 10,
                   ),
                 ),
@@ -218,8 +218,8 @@ class _ReportsScreenState extends State<ReportsScreen> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.teal.withOpacity(0.1)),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Color(0xFFFFC3A0).withOpacity(0.1)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -227,7 +227,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
         children: [
           Text(phase, style: GoogleFonts.outfit(fontSize: 10, color: Colors.grey[600], fontWeight: FontWeight.bold)),
           const SizedBox(height: 4),
-          Text(mood, style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.teal[700])),
+          Text(mood, style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFFFFC3A0)[700])),
           Text(action, style: GoogleFonts.outfit(fontSize: 11, color: Colors.grey[400])),
         ],
       ),

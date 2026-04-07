@@ -1,86 +1,66 @@
 :root {
-    --primary: #FF4D6D; /* NewLuna Pink */
-    --primary-light: #FF85A1;
-    --primary-dark: #C9184A;
-    --accent: #FFB3C1;
-    --secondary: #FFCC80; /* Orange[100] equivalent */
-    --green-light: #C8E6C9; /* Green[100] equivalent */
-    --orange-light: #FFE0B2; /* Orange[100] equivalent */
-    --bg-light: #F7F4FF; /* Light Lavender Background */
-    --bg-gradient: linear-gradient(135deg, #F7F4FF 0%, #FFFFFF 100%);
-    --glass-bg: rgba(255, 255, 255, 0.9);
+    --primary: #FF8C69; /* Soft Coral */
+    --primary-light: #FFDAB9; /* Peach Glow */
+    --primary-dark: #915F6D; /* Dusty Plum */
+    --accent: #E6E6FA; /* Lavender Calm */
+    --secondary: #98FF98; /* Mint Green */
+    --bg-light: #FFFDF5; /* Creamy Ivory */
+    --bg-gradient: linear-gradient(135deg, #FFFDF5 0%, #FFFFFF 100%);
+    --card-bg: #FFD1DC; /* Blush Pink */
+    --text-main: #2E004B; /* Midnight Violet */
+    --text-muted: #915F6D; /* Dusty Plum */
+    --glass-bg: rgba(255, 209, 220, 0.85); /* Translucent Blush */
     --glass-border: rgba(255, 255, 255, 0.6);
-    --text-main: #2b2d42;
-    --text-muted: #595d78;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    --elevation-card: 0 6px 16px rgba(0, 0, 0, 0.08);
+    --shadow: 0 4px 12px rgba(145, 95, 109, 0.1);
 }
 
 .hidden {
     display: none !important;
 }
 
-[data-theme="lavender"] {
-    --primary: #FF4D6D;
-    --primary-light: #FF85A1;
-    --primary-dark: #C9184A;
-    --accent: #FFB3C1;
-    --bg-gradient: linear-gradient(135deg, #F7F4FF 0%, #FFFFFF 100%);
-    --bg-light: #F7F4FF;
-    --shadow: 0 4px 12px rgba(255, 77, 109, 0.15);
-}
-
-[data-theme="sunset"] {
+[data-theme="blush"] {
     --primary: #FFB3C1;
-    --primary-light: #FFC2D1;
-    --primary-dark: #FB6F92;
-    --accent: #FFE5EC;
-    --bg-gradient: linear-gradient(135deg, #FFF0F3 0%, #FFC2D1 100%);
-    --bg-light: #FFF0F3;
-    --shadow: 0 4px 12px rgba(255, 179, 193, 0.15);
+    --bg-light: #FFFDF5;
+    --card-bg: #FFE5EC;
+    --accent: #FFD1DC;
 }
 
-[data-theme="mint"] {
-    --primary: #43aa8b;
-    --primary-light: #90be6d;
-    --primary-dark: #3a5a40;
-    --accent: #a7c957;
-    --bg-gradient: linear-gradient(135deg, #f0fff4 0%, #d7f9e9 100%);
-    --bg-light: #f0fff4;
-    --shadow: 0 4px 12px rgba(67, 170, 139, 0.15);
+[data-theme="calm"] {
+    --primary: #9D4EDD;
+    --bg-light: #F7F4FF;
+    --card-bg: #E6E6FA; /* Lavender Calm */
+    --accent: #E0AAFF;
 }
 
-[data-theme="peachy"] {
-    --primary: #FF85A1;
-    --primary-light: #FFB3C1;
-    --primary-dark: #FB6F92;
-    --accent: #FFE5EC;
-    --bg-gradient: linear-gradient(135deg, #FFF5F8 0%, #FFE5EC 100%);
-    --bg-light: #FFF5F8;
-    --shadow: 0 4px 12px rgba(255, 133, 161, 0.15);
+[data-theme="glow"] {
+    --primary: #FF8C69; /* Soft Coral */
+    --bg-light: #FFFDF5;
+    --card-bg: #FFDAB9; /* Warm Peach Glow */
+    --accent: #FFC3A0;
 }
 
-[data-theme="ocean"] {
-    --primary: #4cc9f0;
-    --primary-light: #bde0fe;
-    --primary-dark: #4895ef;
-    --accent: #caf0f8;
-    --bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    --bg-light: #f0f9ff;
-    --shadow: 0 4px 12px rgba(76, 201, 240, 0.15);
+[data-theme="health"] {
+    --primary: #43AA8B;
+    --bg-light: #F0FFF4;
+    --card-bg: #98FF98; /* Mint Green */
+    --accent: #D7F9E9;
 }
 
-[data-theme="midnight"] {
-    --primary: #590d22;
-    --primary-light: #800f2f;
-    --primary-dark: #a4133c;
-    --accent: #c9184a;
-    --bg-gradient: linear-gradient(135deg, #0b090a 0%, #161a1d 100%);
-    --bg-light: #0b090a;
-    --text-main: #f8f9fa;
-    --text-muted: #adb5bd;
-    --shadow: 0 4px 12px rgba(89, 13, 34, 0.3);
+[data-theme="deep"] {
+    --primary: #7209B7;
+    --bg-light: #2E004B; /* Midnight Violet */
+    --card-bg: #915F6D; /* Dusty Plum */
+    --accent: #3C096C;
+    --text-main: #FFFFFF;
+    --text-muted: #E6E6FA;
 }
+
+/* Extra Mood Utility Layers */
+.emotion-ivory { background-color: #FFFDF5 !important; }
+.emotion-blush { background-color: #FFD1DC !important; color: #2E004B !important; }
+.emotion-coral { background-color: #FF8C69 !important; color: white !important; }
+.emotion-lavender { background-color: #E6E6FA !important; }
+.emotion-mint { background-color: #98FF98 !important; }
 
 * {
     margin: 0;
@@ -112,7 +92,7 @@ body.page-loaded {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
-    border-radius: 24px;
+    border-radius: 20px;
     box-shadow: 0 10px 40px -10px rgba(157, 78, 221, 0.15);
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
 }
@@ -604,7 +584,7 @@ body.page-loaded {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
-    border-radius: 24px;
+    border-radius: 20px;
     box-shadow: var(--shadow);
 }
 

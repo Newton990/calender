@@ -31,7 +31,7 @@ class LoginScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
-          color: Color(0xFFFDF7F9),
+          color: Color(0xFFFFF5F8),
         ),
         child: Column(
           children: [
@@ -42,10 +42,10 @@ class LoginScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF06292).withOpacity(0.1),
+                    color: const Color(0xFFFF758C).withOpacity(0.1),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.handshake_rounded, color: Color(0xFFF06292), size: 48),
+                  child: const Icon(Icons.handshake_rounded, color: Color(0xFFFF758C), size: 48),
                 ),
                 const SizedBox(height: 24),
                 Text(
@@ -114,7 +114,7 @@ class LoginScreen extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isPrimary ? const Color(0xFFF06292) : Colors.white.withOpacity(0.5),
+          backgroundColor: isPrimary ? const Color(0xFFFF758C) : Colors.white.withOpacity(0.5),
           foregroundColor: isPrimary ? Colors.white : const Color(0xFF2D3142),
           elevation: 0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

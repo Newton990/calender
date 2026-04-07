@@ -48,7 +48,7 @@ class _PartnerFeedScreenState extends State<PartnerFeedScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Color(0xFFFDF7F9),
+          color: Color(0xFFFFF5F8),
         ),
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
@@ -64,7 +64,7 @@ class _PartnerFeedScreenState extends State<PartnerFeedScreen> {
                       children: [
                         Text(
                           "PARTNER FEED ✨",
-                          style: GoogleFonts.outfit(color: const Color(0xFFF06292), fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                          style: GoogleFonts.outfit(color: const Color(0xFFFF758C), fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.2),
                         ),
                         const SizedBox(height: 4),
                         Text(
@@ -130,9 +130,9 @@ class _PartnerFeedScreenState extends State<PartnerFeedScreen> {
               selected: isSelected,
               onSelected: (val) => setState(() => _selectedCategory = cat),
               backgroundColor: Colors.white.withOpacity(0.4),
-              selectedColor: const Color(0xFFF3A8B8).withOpacity(0.2),
-              checkmarkColor: const Color(0xFFF3A8B8),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: isSelected ? const Color(0xFFF3A8B8) : Colors.white.withOpacity(0.5))),
+              selectedColor: const Color(0xFFFF758C).withOpacity(0.2),
+              checkmarkColor: const Color(0xFFFF758C),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: isSelected ? const Color(0xFFFF758C) : Colors.white.withOpacity(0.5))),
             ),
           );
         },
@@ -186,7 +186,7 @@ class _PartnerFeedScreenState extends State<PartnerFeedScreen> {
                 const SizedBox(height: 20),
                 Row(
                   children: [
-                    CircleAvatar(radius: 14, backgroundColor: Colors.teal[50], child: Text(item['author']![0], style: const TextStyle(fontSize: 12, color: Colors.teal))),
+                    CircleAvatar(radius: 14, backgroundColor: Color(0xFFFFC3A0)[50], child: Text(item['author']![0], style: const TextStyle(fontSize: 12, color: Color(0xFFFFC3A0)))),
                     const SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

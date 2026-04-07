@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const medEnabled = document.getElementById('med-reminder-enabled');
     const medSetupArea = document.getElementById('med-setup-area');
     const medTime = document.getElementById('med-time');
+    const autoThemeEnabled = document.getElementById('auto-theme-enabled');
 
     // Load existing settings
     const currentCycle = JSON.parse(localStorage.getItem(`cycleLength_${currentUser}`)) || 28;
@@ -35,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const isMedActive = JSON.parse(localStorage.getItem(`medEnabled_${currentUser}`)) || false;
     const savedBcTime = localStorage.getItem(`bcTime_${currentUser}`) || "09:00";
     const savedMedTime = localStorage.getItem(`medTime_${currentUser}`) || "20:00";
+    const isAutoTheme = JSON.parse(localStorage.getItem(`autoTheme_${currentUser}`)) || false;
 
     if(settingCycle) settingCycle.value = currentCycle;
     if(settingPeriod) settingPeriod.value = currentPeriod;
@@ -85,10 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     if (medTime) medTime.value = savedMedTime;
+    if (autoThemeEnabled) autoThemeEnabled.checked = isAutoTheme;
 
     // Theme Selection Logic
     const themeOptions = document.querySelectorAll('.theme-option');
-    let selectedTheme = localStorage.getItem(`theme_${currentUser}`) || 'default';
+    let selectedTheme = localStorage.getItem(`theme_${currentUser}`) || 'blush';
 
     // Set initial active theme
     themeOptions.forEach(opt => {
@@ -103,8 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedTheme = opt.dataset.theme;
             
             // Preview theme immediately
-            if (selectedTheme === 'default') document.body.removeAttribute('data-theme');
-            else document.body.setAttribute('data-theme', selectedTheme);
+            document.body.setAttribute('data-theme', selectedTheme);
         });
     });
 
@@ -127,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem(`bcTime_${currentUser}`, bcTime.value);
                 localStorage.setItem(`medEnabled_${currentUser}`, JSON.stringify(medEnabled.checked));
                 localStorage.setItem(`medTime_${currentUser}`, medTime.value);
+                localStorage.setItem(`autoTheme_${currentUser}`, JSON.stringify(autoThemeEnabled.checked));
 
                 alert("Settings saved successfully! ✨");
                 window.location.href = 'index.html';

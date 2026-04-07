@@ -7,7 +7,7 @@ class NotificationsScreen extends StatelessWidget {
 
   List<Map<String, String>> _getPartnerAlerts() {
     return [
-      {'title': 'She just logged a craving 🍫', 'subtitle': '"Chocolate sounds amazing right now!"', 'time': 'Just now', 'icon': '🌙', 'color': '0xFFF06292'},
+      {'title': 'She just logged a craving 🍫', 'subtitle': '"Chocolate sounds amazing right now!"', 'time': 'Just now', 'icon': '🌙', 'color': '0xFFFF758C'},
       {'title': 'Mood Update: Low Energy ☁️', 'subtitle': 'Luteal phase starts soon. Be gentle ✨', 'time': '2h ago', 'icon': '🕯️', 'color': '0xFF4DB6AC'},
       {'title': 'Duo Milestone: 1 Month! 🥂', 'subtitle': 'You\'ve been tracking together for 30 days.', 'time': '5h ago', 'icon': '✨', 'color': '0xFFFFA000'},
       {'title': 'Cycle Nudge ⏱️', 'subtitle': 'Her fertile window opens in 3 days.', 'time': 'Yesterday', 'icon': '🗓️', 'color': '0xFFF3A8B8'},
@@ -21,7 +21,7 @@ class NotificationsScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Color(0xFFFDF7F9),
+          color: Color(0xFFFFF5F8),
         ),
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
@@ -37,7 +37,7 @@ class NotificationsScreen extends StatelessWidget {
                       children: [
                         Text(
                           "PARTNER UPDATES 🌙",
-                          style: GoogleFonts.outfit(color: const Color(0xFFF06292), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                          style: GoogleFonts.outfit(color: const Color(0xFFFF758C), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2),
                         ),
                         const SizedBox(height: 4),
                         Text(
@@ -86,15 +86,15 @@ class NotificationsScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: const Color(0xFFF06292).withOpacity(0.05),
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: const Color(0xFFF06292).withOpacity(0.1)),
+          color: const Color(0xFFFF758C).withOpacity(0.05),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFFF758C).withOpacity(0.1)),
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(color: Color(0xFFF06292), shape: BoxShape.circle),
+              decoration: const BoxDecoration(color: Color(0xFFFF758C), shape: BoxShape.circle),
               child: const Icon(Icons.favorite_rounded, color: Colors.white, size: 16),
             ),
             const SizedBox(width: 12),
@@ -107,7 +107,7 @@ class NotificationsScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const Icon(Icons.check_circle_outline, color: Color(0xFFF06292), size: 20),
+            const Icon(Icons.check_circle_outline, color: Color(0xFFFF758C), size: 20),
           ],
         ),
       ),

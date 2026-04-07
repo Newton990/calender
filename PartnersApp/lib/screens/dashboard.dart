@@ -94,7 +94,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Color(0xFFFDF7F9),
+          color: Color(0xFFFFF5F8),
         ),
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
@@ -113,7 +113,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Moon Bloom",
+                              "NewLuna ✨",
                               style: GoogleFonts.outfit(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -123,7 +123,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                             Text(
                               "PARTNERS",
-                              style: GoogleFonts.outfit(color: const Color(0xFFF06292), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                              style: GoogleFonts.outfit(color: const Color(0xFFFF758C), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2),
                             ),
                           ],
                         ),
@@ -136,7 +136,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationsScreen())),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.sync, color: Color(0xFFF06292)),
+                          icon: const Icon(Icons.sync, color: Color(0xFFFF758C)),
                           onPressed: () async {
                             await PartnerSyncService().pullPartnerData();
                             _loadPartnerData();
@@ -182,7 +182,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Color(0xFFFDF7F9),
+          color: Color(0xFFFFF5F8),
         ),
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
@@ -199,7 +199,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                           decoration: BoxDecoration(color: const Color(0xFFE0F2F1), borderRadius: BorderRadius.circular(12)),
-                          child: Text("● Pregnancy Journey", style: GoogleFonts.outfit(color: Colors.teal[600], fontSize: 11, fontWeight: FontWeight.bold)),
+                          child: Text("● Pregnancy Journey", style: GoogleFonts.outfit(color: Color(0xFFFFC3A0)[600], fontSize: 11, fontWeight: FontWeight.bold)),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -213,7 +213,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ],
                     ),
                     IconButton(
-                      icon: const Icon(Icons.sync, color: Colors.teal),
+                      icon: const Icon(Icons.sync, color: Color(0xFFFFC3A0)),
                       onPressed: () async {
                         await PartnerSyncService().pullPartnerData();
                         if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Journey data updated! ✨")));
@@ -318,8 +318,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: CircularProgressIndicator(
                   value: percent,
                   strokeWidth: 10,
-                  backgroundColor: const Color(0xFFFDF2F4),
-                  valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFF3A8B8)),
+                  backgroundColor: const Color(0xFFFFDFD3),
+                  valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFFF758C)),
                   strokeCap: StrokeCap.round,
                 ),
               ),
@@ -337,12 +337,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             decoration: BoxDecoration(
-              color: const Color(0xFFF3E5F5),
+              color: const Color(0xFFFFDFD3),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Text(
               insights['phase']!,
-              style: GoogleFonts.outfit(color: Colors.purple[800], fontWeight: FontWeight.bold, fontSize: 16),
+              style: GoogleFonts.outfit(color: const Color(0xFFE85D75), fontWeight: FontWeight.bold, fontSize: 16),
             ),
           ),
           const SizedBox(height: 12),
@@ -361,7 +361,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: const Color(0xFFE3F2FD).withOpacity(0.5),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(color: const Color(0xFF2196F3).withOpacity(0.1)),
       ),
       child: Column(
@@ -415,7 +415,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return ActionChip(
       label: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
       backgroundColor: Colors.white,
-      side: BorderSide(color: Colors.teal.withOpacity(0.2)),
+      side: BorderSide(color: Color(0xFFFFC3A0).withOpacity(0.2)),
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (_) => MessagingScreen(prefillMessage: prefill)));
       },
@@ -424,7 +424,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildSupportTipCard(Map<String, dynamic> insights) {
     return AnimatedCard(
-      gradientColors: [const Color(0xFFF3A8B8), const Color(0xFFE57373)],
+      gradientColors: [const Color(0xFFFF758C), const Color(0xFFFF7EB3)],
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -464,7 +464,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 15, offset: const Offset(0, 5))],
       ),
       child: Column(
@@ -476,8 +476,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               const Text("Duo Harmony", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF2D3142))),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: Colors.teal.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
-                child: const Text("88%", style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold)),
+                decoration: BoxDecoration(color: Color(0xFFFFC3A0).withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                child: const Text("88%", style: TextStyle(color: Color(0xFFFFC3A0), fontWeight: FontWeight.bold)),
               ),
             ],
           ),
@@ -487,8 +487,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Expanded(
                 child: LinearProgressIndicator(
                   value: 0.88,
-                  backgroundColor: Colors.teal.withOpacity(0.1),
-                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.teal),
+                  backgroundColor: Color(0xFFFFC3A0).withOpacity(0.1),
+                  valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFFFC3A0)),
                   borderRadius: BorderRadius.circular(10),
                   minHeight: 8,
                 ),
@@ -516,13 +516,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       crossAxisSpacing: 12,
       childAspectRatio: 1.3,
       children: [
-          _buildActionItem(Icons.favorite, "Wellness", Colors.pink, () {
+          _buildActionItem(Icons.favorite, "Wellness", Color(0xFFFF758C), () {
             Navigator.push(context, MaterialPageRoute(builder: (_) => const PartnerWellnessScreen()));
           }),
           _buildActionItem(Icons.rss_feed, "Partner Feed", Colors.orange, () {
             Navigator.push(context, MaterialPageRoute(builder: (_) => PartnerFeedScreen()));
           }),
-        _buildActionItem(Icons.message, "Messages", Colors.blue, () {
+        _buildActionItem(Icons.message, "Messages", Color(0xFFFFC3A0), () {
           Navigator.push(context, MaterialPageRoute(builder: (_) => const MessagingScreen()));
         }),
         _buildActionItem(Icons.calendar_month, "Reports", Colors.green, () {
@@ -566,7 +566,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         gradient: LinearGradient(colors: _partnerStyle == PartnerStyle.masculine 
           ? [const Color(0xFF2D3142), const Color(0xFF4F5D75)] 
           : [const Color(0xFF7E57C2), const Color(0xFF9575CD)]),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

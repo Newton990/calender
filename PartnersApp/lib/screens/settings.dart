@@ -35,7 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       backgroundColor: const Color(0xFFF0F4F8),
       appBar: AppBar(
         title: Text("Settings", style: GoogleFonts.outfit(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.teal,
+        backgroundColor: Color(0xFFFFC3A0),
         elevation: 0,
         foregroundColor: Colors.white,
       ),
@@ -64,7 +64,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             style: GoogleFonts.outfit(
               fontSize: 12,
               fontWeight: FontWeight.bold,
-              color: Colors.teal[700],
+              color: Color(0xFFFFC3A0)[700],
               letterSpacing: 1.2,
             ),
           ),
@@ -75,12 +75,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: ListTile(
             leading: Container(
               padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(color: Colors.teal[50], shape: BoxShape.circle),
-              child: const Icon(Icons.face_retouching_natural, color: Colors.teal),
+              decoration: BoxDecoration(color: Color(0xFFFFC3A0)[50], shape: BoxShape.circle),
+              child: const Icon(Icons.face_retouching_natural, color: Color(0xFFFFC3A0)),
             ),
             title: Text("Nickname", style: GoogleFonts.outfit(fontWeight: FontWeight.bold)),
             subtitle: Text("Currently: $_nickname", style: GoogleFonts.outfit(fontSize: 12)),
-            trailing: const Icon(Icons.edit, size: 20, color: Colors.teal),
+            trailing: const Icon(Icons.edit, size: 20, color: Color(0xFFFFC3A0)),
             onTap: _showNicknameEditor,
           ),
         ),
@@ -97,7 +97,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(color: Colors.grey[50], shape: BoxShape.circle),
-          child: Icon(icon, color: Colors.teal[400]),
+          child: Icon(icon, color: Color(0xFFFFC3A0)[400]),
         ),
         title: Text(title, style: GoogleFonts.outfit(fontWeight: FontWeight.bold)),
         subtitle: Text(subtitle, style: GoogleFonts.outfit(fontSize: 12)),

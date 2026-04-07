@@ -89,7 +89,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Color(0xFFFDF7F9),
+          color: Color(0xFFFFF5F8),
         ),
         child: Column(
           children: [
@@ -107,7 +107,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
                     children: [
                       Text(
                         "SECURE DUO CHAT 🔒",
-                        style: GoogleFonts.outfit(color: const Color(0xFFF06292), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                        style: GoogleFonts.outfit(color: const Color(0xFFFF758C), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2),
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -161,7 +161,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
           decoration: BoxDecoration(
-            color: isMe ? const Color(0xFFF06292) : Colors.white.withOpacity(0.4),
+            color: isMe ? const Color(0xFFFF758C) : Colors.white.withOpacity(0.4),
             borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(24),
               topRight: const Radius.circular(24),
@@ -215,7 +215,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
               label: Text(_quickReplies[index], style: GoogleFonts.outfit(fontSize: 13, fontWeight: FontWeight.w500)),
               backgroundColor: Colors.white.withOpacity(0.8),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Colors.teal.withOpacity(0.1))),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Color(0xFFFFC3A0).withOpacity(0.1))),
               onPressed: () => _handleSend(_quickReplies[index]),
             ),
           );
@@ -234,7 +234,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 2))
                   ],

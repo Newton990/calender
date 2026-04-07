@@ -97,13 +97,13 @@ class PartnerWellnessScreen extends StatelessWidget {
           "Menstrual Phase 🌸",
           "Focus on: Comfort and Empathy",
           "Offer a warm tea, handle more of the chores, and be extra patient. She might be feeling low energy and in pain. 🍵",
-          const Color(0xFFFFB3C1),
+          const Color(0xFFFFDFD3),
         ),
         _buildSupportTile(
           "Follicular Phase ✨",
           "Focus on: Adventure and Ideas",
           "She's likely feeling social and energetic! Plan a walk or ask her about those new ideas she's been having. 🏃‍♀️",
-          const Color(0xFFFF6B81),
+          const Color(0xFFFF7EB3),
         ),
         _buildSupportTile(
           "Ovulation Phase 🔥",
@@ -174,7 +174,7 @@ class PartnerWellnessScreen extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [accent.withOpacity(0.7), accent]),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -35,8 +35,8 @@ class PartnersApp extends StatelessWidget {
       title: 'Luna Partners',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFFDF7F9),
-        primaryColor: const Color(0xFFF06292),
+        scaffoldBackgroundColor: const Color(0xFFFFF5F8),
+        primaryColor: const Color(0xFFFF758C),
         textTheme: GoogleFonts.poppinsTextTheme().copyWith(
           displayLarge: GoogleFonts.outfit(fontWeight: FontWeight.bold),
           headlineLarge: GoogleFonts.outfit(fontWeight: FontWeight.bold, color: const Color(0xFF2D3142)),

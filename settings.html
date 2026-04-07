@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Luna | Settings</title>
+    <title>A / NewLuna | Settings</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ff4d6d">
@@ -17,7 +17,7 @@
     <div class="splash-overlay">
         <div class="splash-content">
             <div class="splash-flower">❋</div>
-            <div class="splash-text">New Luna</div>
+            <div class="splash-text">NewLuna ✨</div>
         </div>
     </div>
 
@@ -111,10 +111,39 @@
                     <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 10px;">We'll send you a gentle nudge at your chosen time. ✨</p>
                 </div>
 
-                <label style="font-weight: 600; display: block; margin-bottom: 10px;">Mood-Boosting Themes ✨</label>
+                                <label style="font-weight: 600; display: block; margin-bottom: 10px;">Mood-Boosting Themes ✨</label>
+                <div class="glass" style="padding: 15px; margin-bottom: 20px; background: rgba(255,255,255,0.2);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0;">
+                        <div>
+                            <span style="font-size: 0.95rem; font-weight: 600;">Automated Mood Switching 🧠</span>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Let NewLuna adjust colors to support your current mood log.</p>
+                        </div>
+                        <input type="checkbox" id="auto-theme-enabled" style="width: 20px; height: 20px; accent-color: var(--primary);">
+                    </div>
+                </div>
+
                 <div class="theme-grid">
-                    <div class="theme-option active" data-theme="default">
-                        <div class="color-swatch" style="background: #ff4d6d;"></div>
+                    <div class="theme-option active" data-theme="blush">
+                        <div class="color-swatch" style="background: #FFD1DC;"></div>
+                        <span>Blush</span>
+                    </div>
+                    <div class="theme-option" data-theme="calm">
+                        <div class="color-swatch" style="background: #E6E6FA;"></div>
+                        <span>Calm</span>
+                    </div>
+                    <div class="theme-option" data-theme="glow">
+                        <div class="color-swatch" style="background: #FF8C69;"></div>
+                        <span>Glow</span>
+                    </div>
+                    <div class="theme-option" data-theme="health">
+                        <div class="color-swatch" style="background: #98FF98;"></div>
+                        <span>Health</span>
+                    </div>
+                    <div class="theme-option" data-theme="deep">
+                        <div class="color-swatch" style="background: #2E004B;"></div>
+                        <span>Deep</span>
+                    </div>
+                </div>
                         <span>Rose</span>
                     </div>
                     <div class="theme-option" data-theme="lavender">

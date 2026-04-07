@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFDF7F9),
+      backgroundColor: const Color(0xFFFFF5F8),
       body: Center(
         child: AnimatedBuilder(
           animation: _controller,
@@ -70,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     const MoonBloomMark(size: 120),
                     const SizedBox(height: 24),
                     Text(
-                      "Moon Bloom",
+                      "NewLuna ✨",
                       style: GoogleFonts.outfit(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -84,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 2,
-                        color: const Color(0xFFF06292),
+                        color: const Color(0xFFFF758C),
                       ),
                     ),
                     const SizedBox(height: 12),

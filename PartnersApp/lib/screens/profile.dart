@@ -55,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Color(0xFFFDF7F9),
+          color: Color(0xFFFFF5F8),
         ),
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
@@ -114,7 +114,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: const Color(0xFFF06292).withOpacity(0.2), width: 3),
+              border: Border.all(color: const Color(0xFFFF758C).withOpacity(0.2), width: 3),
             ),
             child: const CircleAvatar(
               radius: 50,
@@ -137,18 +137,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: const Color(0xFFF06292).withOpacity(0.05),
+                color: const Color(0xFFFF758C).withOpacity(0.05),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFFF06292).withOpacity(0.1)),
+                border: Border.all(color: const Color(0xFFFF758C).withOpacity(0.1)),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.edit, size: 14, color: Color(0xFFF06292)),
+                  const Icon(Icons.edit, size: 14, color: Color(0xFFFF758C)),
                   const SizedBox(width: 8),
                   Text(
                     "Editing nickname for her: $_partnerNickname",
-                    style: GoogleFonts.outfit(fontSize: 13, color: const Color(0xFFF06292), fontWeight: FontWeight.w600),
+                    style: GoogleFonts.outfit(fontSize: 13, color: const Color(0xFFFF758C), fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -177,7 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   title: Text("Push Notifications", style: GoogleFonts.outfit(fontWeight: FontWeight.w600)),
                   subtitle: Text("Get alerts for new messages", style: GoogleFonts.outfit(fontSize: 12, color: Colors.grey)),
                   value: _pushNotifications,
-                  activeColor: const Color(0xFFF06292),
+                  activeColor: const Color(0xFFFF758C),
                   onChanged: (val) => setState(() => _pushNotifications = val),
                 ),
                 Divider(color: Colors.white.withOpacity(0.3), indent: 16, endIndent: 16),
@@ -185,7 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   title: Text("Cycle Alerts", style: GoogleFonts.outfit(fontWeight: FontWeight.w600)),
                   subtitle: Text("Nudge when major phases shift", style: GoogleFonts.outfit(fontSize: 12, color: Colors.grey)),
                   value: _cycleAlerts,
-                  activeColor: const Color(0xFFF06292),
+                  activeColor: const Color(0xFFFF758C),
                   onChanged: (val) => setState(() => _cycleAlerts = val),
                 ),
               ],
@@ -296,7 +296,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: ElevatedButton(
                     onPressed: _saveProfile,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFF06292),
+                      backgroundColor: const Color(0xFFFF758C),
                       foregroundColor: Colors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -319,19 +319,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFF06292) : Colors.white.withOpacity(0.3),
+          color: isSelected ? const Color(0xFFFF758C) : Colors.white.withOpacity(0.3),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: isSelected ? const Color(0xFFF06292) : Colors.white.withOpacity(0.5)),
+          border: Border.all(color: isSelected ? const Color(0xFFFF758C) : Colors.white.withOpacity(0.5)),
         ),
         child: Column(
           children: [
-            Icon(icon, color: isSelected ? Colors.white : const Color(0xFFF06292)),
+            Icon(icon, color: isSelected ? Colors.white : const Color(0xFFFF758C)),
             const SizedBox(height: 4),
             Text(
               label,
               style: GoogleFonts.outfit(
                 fontSize: 12,
-                color: isSelected ? Colors.white : const Color(0xFFF06292),
+                color: isSelected ? Colors.white : const Color(0xFFFF758C),
                 fontWeight: FontWeight.bold,
               ),
             ),

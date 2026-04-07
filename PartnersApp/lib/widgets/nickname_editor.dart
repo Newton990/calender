@@ -54,7 +54,7 @@ class _NicknameEditorState extends State<NicknameEditor> {
               style: GoogleFonts.outfit(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.teal[900],
+                color: Color(0xFFFFC3A0)[900],
               ),
             ),
             const SizedBox(height: 8),
@@ -71,16 +71,16 @@ class _NicknameEditorState extends State<NicknameEditor> {
               style: GoogleFonts.outfit(fontSize: 18),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.teal[50]!.withOpacity(0.3),
+                fillColor: Color(0xFFFFC3A0)[50]!.withOpacity(0.3),
                 hintText: 'e.g. My Queen, Sunshine...',
-                labelStyle: TextStyle(color: Colors.teal[700]),
+                labelStyle: TextStyle(color: Color(0xFFFFC3A0)[700]),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: Colors.teal[50]!),
+                  borderSide: BorderSide(color: Color(0xFFFFC3A0)[50]!),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
-                  borderSide: const BorderSide(color: Colors.teal),
+                  borderSide: const BorderSide(color: Color(0xFFFFC3A0)),
                 ),
               ),
             ),
@@ -106,7 +106,7 @@ class _NicknameEditorState extends State<NicknameEditor> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.teal,
+                      backgroundColor: Color(0xFFFFC3A0),
                       foregroundColor: Colors.white,
                       elevation: 0,
                       padding: const EdgeInsets.symmetric(vertical: 16),

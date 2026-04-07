@@ -22,7 +22,7 @@ class MoonBloomPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
     final paint = Paint()
-      ..color = color ?? const Color(0xFFF06292)
+      ..color = color ?? const Color(0xFFFF758C)
       ..style = PaintingStyle.fill;
 
     // Draw Crescent Moon
@@ -47,7 +47,7 @@ class MoonBloomPainter extends CustomPainter {
 
     // Draw Small Bloom
     final bloomPaint = Paint()
-      ..color = color ?? const Color(0xFFF06292).withOpacity(0.8)
+      ..color = color ?? const Color(0xFFFF758C).withOpacity(0.8)
       ..style = PaintingStyle.fill;
     
     canvas.drawCircle(Offset(center.dx, center.dy + (size.width * 0.06)), size.width * 0.05, bloomPaint);
