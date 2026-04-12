@@ -12,7 +12,7 @@ import '../models/partner_style.dart';
 import '../models/app_mode.dart';
 import '../services/logic_engine.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../widgets/moon_bloom_mark.dart';
+import '../widgets/new_luna_mark.dart';
 import 'notifications.dart';
 import 'partner_wellness.dart';
 import '../widgets/animated_card.dart';
@@ -107,7 +107,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     Row(
                       children: [
-                        const MoonBloomMark(size: 40),
+                        const NewLunaMark(size: 40),
                         const SizedBox(width: 12),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentDay <= 5) {
             chips = ["❤️ Send Love", "🍵 Offer Tea", "📺 Rest Time"];
         } else if (currentDay >= 12 && currentDay <= 16) {
-            chips = ["✨ You Glow", "🍷 Date Night", "❤️ Love You"];
+            chips = ["❋ You Glow", "🍷 Date Night", "❤️ Love You"];
         } else {
             chips = ["🌙 Goodnight", "👂 Listening", "💪 You Got This"];
         }

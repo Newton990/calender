@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Visual feedback
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = `<span>✨</span> Sent!`;
+            btn.innerHTML = `<span>❋</span> Sent!`;
             btn.classList.add('sent');
             btn.style.pointerEvents = 'none';
 

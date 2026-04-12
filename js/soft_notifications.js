@@ -15,7 +15,7 @@ function getNotifications() {
         {
             id: 2,
             title: "Partner sent a Heart ❤️",
-            subtitle: "\"Thinking of you! Have a beautiful afternoon. ✨\"",
+            subtitle: "\"Thinking of you! Have a beautiful afternoon. ❋\"",
             time: "45m ago",
             icon: "💌",
             color: "rgba(252, 228, 236, 0.5)"
@@ -33,7 +33,7 @@ function getNotifications() {
             title: "Self-Care Tip 🧘‍♀️",
             subtitle: "Luteal phase starts soon. Try some light stretching tonight.",
             time: "Yesterday",
-            icon: "✨",
+            icon: "❋",
             color: "rgba(243, 229, 245, 0.5)"
         }
     ];

@@ -43,7 +43,7 @@ function updateFile(filePath) {
     content = content.replace(/BorderRadius\.circular\(30\)/g, 'BorderRadius.circular(20)');
     
     // Text replacements for Splash and MoonBloomMark
-    content = content.replace(/Moon Bloom/g, 'A / NewLuna');
+    content = content.replace(/NewLuna/g, 'NewLuna');
 
     if (content !== originalContent) {
         fs.writeFileSync(filePath, content, 'utf8');
@@ -54,27 +54,27 @@ function updateFile(filePath) {
 processDirectory(path.join(__dirname, 'NewLuna', 'lib'));
 processDirectory(path.join(__dirname, 'PartnersApp', 'lib'));
 
-// Explicitly handle moon_bloom_mark.dart logo string injection if Moon Bloom didn't catch
+// Explicitly handle moon_bloom_mark.dart logo string injection if NewLuna didn't catch
 const markPath = path.join(__dirname, 'NewLuna', 'lib', 'widgets', 'moon_bloom_mark.dart');
 if (fs.existsSync(markPath)) {
     let markContent = fs.readFileSync(markPath, 'utf8');
-    markContent = markContent.replace(/Text\('A \/ NewLuna',/g, "Text('A / NewLuna',");
+    markContent = markContent.replace(/Text\('A \/ NewLuna',/g, "Text('NewLuna',");
     // Ensure flower icons are swapped to a modern shape if found
-    markContent = markContent.replace(/'❋'/g, "'✨'");
+    markContent = markContent.replace(/'❋'/g, "'❋'");
     fs.writeFileSync(markPath, markContent, 'utf8');
 }
 
 const splashPath = path.join(__dirname, 'NewLuna', 'lib', 'screens', 'splash_screen.dart');
 if (fs.existsSync(splashPath)) {
     let splashContent = fs.readFileSync(splashPath, 'utf8');
-    splashContent = splashContent.replace(/'❋'/g, "'✨'");
+    splashContent = splashContent.replace(/'❋'/g, "'❋'");
     fs.writeFileSync(splashPath, splashContent, 'utf8');
 }
 
 const partnersSplashPath = path.join(__dirname, 'PartnersApp', 'lib', 'screens', 'splash_screen.dart');
 if (fs.existsSync(partnersSplashPath)) {
     let splashContent = fs.readFileSync(partnersSplashPath, 'utf8');
-    splashContent = splashContent.replace(/'❋'/g, "'✨'");
+    splashContent = splashContent.replace(/'❋'/g, "'❋'");
     fs.writeFileSync(partnersSplashPath, splashContent, 'utf8');
 }
 

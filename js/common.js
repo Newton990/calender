@@ -9,12 +9,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // 0. Firebase Auth Listener
     firebase.auth().onAuthStateChanged(async (user) => {
         const path = window.location.pathname;
-        const isAuthPage = path.includes('login.html') || path.includes('register.html');
+        const page = path.split('/').pop();
+        const isAuthPage = page === 'login.html' || page === 'register.html';
+        const isVerifyPage = page === 'verify.html';
 
-        if (!user && !isAuthPage) {
-            // Memory: Remember the entry point if redirecting to login
-            const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-            if (currentPath !== 'login.html') {
+        // Smart Mock Mode Bridge: Check for both new and legacy session keys
+        const mockUser = localStorage.getItem('NewLunaSession') || localStorage.getItem('Moon Bloom Session');
+
+        if (!user && !isAuthPage && !isVerifyPage) {
+            // Permit entry if a Mock/Legacy Session exists (Smart Mock Mode)
+            if (mockUser) {
+                console.log("Entering via Smart Mock Mode ❋ (Legacy/Demo Session)");
+                return; 
+            }
+
+            // Otherwise, redirect to login
+            const currentPath = page || 'index.html';
+            if (currentPath !== 'login.html' && currentPath !== 'verify.html') {
                 sessionStorage.setItem('returnUrl', currentPath);
                 console.log(`Entry Point Saved: ${currentPath} 🤝`);
             }
@@ -24,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (user) {
             // Store legacy email session for backward compatibility with existing JS
-            localStorage.setItem('New LunaSession', user.email);
+            localStorage.setItem('NewLunaSession', user.email);
             
             // 0.1 Sentient Theme Engine (Mood-to-Theme)
             const isAutoTheme = JSON.parse(localStorage.getItem(`autoTheme_${user.email}`)) || false;
@@ -52,14 +63,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             document.body.setAttribute('data-theme', activeTheme);
 
+            if (user && !user.emailVerified && !isAuthPage && !isVerifyPage) {
+                console.log("Email not verified. Redirecting to verification... 📧");
+                window.location.replace('verify.html');
+                return;
+            }
+
             if (isAuthPage) {
+                if (user && !user.emailVerified) {
+                    window.location.replace('verify.html');
+                    return;
+                }
                 const returnUrl = sessionStorage.getItem('returnUrl');
-                if (returnUrl && returnUrl !== 'login.html') {
-                    console.log(`Returning to Entry Point: ${returnUrl} ✨`);
+                if (returnUrl && returnUrl !== 'login.html' && returnUrl !== 'verify.html') {
+                    console.log(`Returning to Entry Point: ${returnUrl} ❋`);
                     sessionStorage.removeItem('returnUrl');
                     window.location.replace(returnUrl);
                 } else {
-                    window.location.replace('index.html');
+                    const layout = localStorage.getItem('current_layout') || 'soft';
+                    window.location.replace(layout === 'roma' ? 'dashboard.html' : 'soft_dashboard.html');
                 }
                 return;
             }
@@ -74,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const currentUser = localStorage.getItem('New LunaSession');
+    const currentUser = localStorage.getItem('NewLunaSession') || localStorage.getItem('Moon Bloom Session');
 
     const path = window.location.pathname;
     const isAuthPage = path.includes('login.html') || path.includes('register.html');
@@ -126,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         overlay.innerHTML = `
             <div style="max-width: 400px; animation: fadeIn 0.5s ease;">
-                <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 20px;">Welcome to New Luna 🌸</h1>
+                <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 20px;">Welcome to NewLuna 🌸</h1>
                 <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px;">Let's customize your journey. Are you here to track your cycle, prepare for pregnancy, or follow your baby's growth?</p>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <button class="onboard-choice btn-primary" style="background: white; color: var(--primary); width:100%; border:none; padding:15px; border-radius:12px; font-weight:600; cursor:pointer;" data-mode="standard">Track My Cycle</button>
@@ -157,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const biometricEnabled = JSON.parse(localStorage.getItem(`biometricEnabled_${currentUser}`)) || false;
         
         // Use session storage to track if verified in this browser session
-        const isVerified = sessionStorage.getItem(`New LunaUnlocked_${currentUser}`) === 'true';
+        const isVerified = sessionStorage.getItem(`NewLunaUnlocked_${currentUser}`) === 'true';
 
         if (isPinEnabled && correctPin && !isVerified) {
             const lockOverlay = document.createElement('div');
@@ -165,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
             lockOverlay.innerHTML = `
                 <div class="app-container" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background: var(--bg-light); display:flex; align-items:center; justify-content:center; backdrop-filter: blur(20px);">
                     <div class="glass" style="padding: 40px; text-align:center; max-width: 400px; width: 90%;">
-                        <div class="logo" style="font-size: 2.22rem; margin-bottom: 20px;">New Luna</div>
+                        <div class="logo" style="font-size: 2.22rem; margin-bottom: 20px;">NewLuna</div>
                         <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 5px;">${lockType === 'pin' ? 'Private Access' : 'Security Check'}</h2>
                         <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 25px;">Please enter your ${lockType === 'pin' ? '4-digit PIN' : 'Password'}</p>
                         
@@ -177,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                    autofocus>
                         </div>
                         
-                        <button id="unlock-submit-btn" class="btn-primary" style="width: 100%; margin-top: 10px;">Unlock ✨</button>
+                        <button id="unlock-submit-btn" class="btn-primary" style="width: 100%; margin-top: 10px;">Unlock ❋</button>
                         
                         ${biometricEnabled ? `
                         <button id="biometric-unlock-btn" style="margin-top: 20px; background:none; border:none; color:var(--primary); cursor:pointer; font-size: 0.85rem; display: flex; align-items:center; justify-content:center; gap: 8px; width: 100%;">
@@ -199,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const performUnlock = () => {
                 if (pinInput.value === correctPin) {
-                    sessionStorage.setItem(`New LunaUnlocked_${currentUser}`, 'true');
+                    sessionStorage.setItem(`NewLunaUnlocked_${currentUser}`, 'true');
                     lockOverlay.remove();
                 } else {
                     pinError.classList.remove('hidden');
@@ -214,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (bioBtn) {
                 bioBtn.addEventListener('click', async () => {
                     if (window.confirm("Simulating Biometric Unlock (FaceID/Fingerprint)... Proceed?")) {
-                        sessionStorage.setItem(`New LunaUnlocked_${currentUser}`, 'true');
+                        sessionStorage.setItem(`NewLunaUnlocked_${currentUser}`, 'true');
                         lockOverlay.remove();
                     }
                 });
@@ -247,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
         headerContainer.innerHTML = `
             <header class="top-bar">
                 <div class="logo">
-                    <h1>New Luna</h1>
+                    <h1>NewLuna</h1>
                 </div>
                 <div class="app-bar-actions">
                     <span id="notif-btn" title="Notifications">🔔</span>
@@ -307,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
             logoutBtn.addEventListener('click', () => {
                 if (confirm("Are you sure you want to logout?")) {
                     firebase.auth().signOut().then(() => {
-                        localStorage.removeItem('New LunaSession');
+                        localStorage.removeItem('NewLunaSession');
                         window.location.replace('login.html');
                     });
                 }
@@ -333,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function updateWaterUI() {
             if (!waterDisplay || !waterProgress) return;
-            const emojiBank = ["💧", "🥤", "🧊", "🌊", "💎", "✨", "🌸", "👑"];
+            const emojiBank = ["💧", "🥤", "🧊", "🌊", "💎", "❋", "🌸", "👑"];
             const currentEmoji = emojiBank[Math.min(waterData.cups, emojiBank.length - 1)];
             
             waterDisplay.innerHTML = `${currentEmoji} ${waterData.cups} / 8`;
@@ -380,8 +402,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             function sendReminder() {
                 if (Notification.permission === "granted" && waterData.cups < 8) {
-                    new Notification("New Luna Hydration 💧", {
-                        body: "It's time to drink water! Stay hydrated. ✨",
+                    new Notification("NewLuna Hydration 💧", {
+                        body: "It's time to drink water! Stay hydrated. ❋",
                         icon: "https://cdn-icons-png.flaticon.com/512/2913/2913501.png"
                     });
                 }
@@ -423,8 +445,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (diffDays === 2) {
                     const lastReminder = localStorage.getItem(`periodReminderSent_${currentUser}`);
                     if (lastReminder !== today.toDateString()) {
-                        new Notification("New Luna Update 🌸", {
-                            body: "Your period is starting soon! Take a breath and prioritize your comfort today. ✨",
+                        new Notification("NewLuna Update 🌸", {
+                            body: "Your period is starting soon! Take a breath and prioritize your comfort today. ❋",
                             icon: "https://cdn-icons-png.flaticon.com/512/2913/2913501.png"
                         });
                         localStorage.setItem(`periodReminderSent_${currentUser}`, today.toDateString());
@@ -437,7 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (ovulationDay.toDateString() === today.toDateString()) {
                     const lastOvuReminder = localStorage.getItem(`ovuReminderSent_${currentUser}`);
                     if (lastOvuReminder !== today.toDateString()) {
-                        new Notification("New Luna Wellness ✨", {
+                        new Notification("NewLuna Wellness ❋", {
                             body: "Today is your peak ovulation day! Sending you extra radiant energy. ⚡💖",
                             icon: "https://cdn-icons-png.flaticon.com/512/2913/2913501.png"
                         });
@@ -460,8 +482,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (bcEnabled && bcTime === currentTimeStr) {
                     const lastBc = localStorage.getItem(`bcSent_${currentUser}`);
                     if (lastBc !== todayStr) {
-                        new Notification("New Luna Care 💊", {
-                            body: "Time for your self-care routine! Don't forget your pill. ✨",
+                        new Notification("NewLuna Care 💊", {
+                            body: "Time for your self-care routine! Don't forget your pill. ❋",
                             icon: "https://cdn-icons-png.flaticon.com/512/2913/2913501.png"
                         });
                         localStorage.setItem(`bcSent_${currentUser}`, todayStr);
@@ -474,7 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (medEnabled && medTime === currentTimeStr) {
                     const lastMed = localStorage.getItem(`medSent_${currentUser}`);
                     if (lastMed !== todayStr) {
-                        new Notification("New Luna Support 🌿", {
+                        new Notification("NewLuna Support 🌿", {
                             body: "A gentle nudge for your medication. You're doing great! ❤️",
                             icon: "https://cdn-icons-png.flaticon.com/512/2913/2913501.png"
                         });
@@ -508,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentDay > 22 && currentDay < 28) {
             nudgeMsg = "Your partner's PMS might be starting. Send a sweet note? 🍫";
         } else if (currentDay >= 12 && currentDay <= 15) {
-            nudgeMsg = "It's a high fertility day. Plan something special! ✨";
+            nudgeMsg = "It's a high fertility day. Plan something special! ❋";
         }
 
         if (nudgeMsg) {

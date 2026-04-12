@@ -69,7 +69,7 @@ function updateDisplay(weeks, days) {
         "The second trimester is near! Energy often returns during this phase.",
         "Baby is moving more, though you might not feel it yet.",
         "Focus on hydration and gentle movement today.",
-        "You're in the second trimester! Time for some glow. ✨",
+        "You're in the second trimester! Time for some glow. ❋",
         "Baby's hearing is developing. Soft music or talking can be soothing."
     ];
 

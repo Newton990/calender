@@ -40,8 +40,8 @@ function updateFile(filePath) {
     // Soft Indigo highlight -> Peach
     content = content.replace(/0xFFE0E7FF/g, '0xFFFFDFD3');
 
-    // Reverting "A / NewLuna" to "NewLuna ✨"
-    content = content.replace(/A \/ NewLuna/g, 'NewLuna ✨');
+    // Reverting "NewLuna" to "NewLuna ❋"
+    content = content.replace(/A \/ NewLuna/g, 'NewLuna ❋');
 
     if (content !== originalContent) {
         fs.writeFileSync(filePath, content, 'utf8');

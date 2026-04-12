@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna | Settings</title>
+    <meta name="description" content="NewLuna — Your premium cycle tracking and wellness companion.">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+
+    <style>
+        :root {
+            --bloom-pink: #f06292;
+            --bloom-light: #f8a5c2;
+            --bloom-pale: #fce4ec;
+            --bloom-teal: #4db6ac;
+            --bloom-sage: #a5d6a7;
+            --bg: #f9eef3;
+            --card: #ffffff;
+            --text: #3d2c35;
+            --muted: #9e7d8a;
+            --border: rgba(240, 98, 146, 0.12);
+            --sidebar-w: 270px;
+            --shadow-soft: 0 8px 32px rgba(240, 98, 146, 0.10);
+            --shadow-hover: 0 16px 48px rgba(240, 98, 146, 0.18);
+            --radius: 24px;
+            --radius-sm: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── LAYOUT ── */
+        .app-shell { display: flex; min-height: 100vh; }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: linear-gradient(180deg, #f06292 0%, #ce4993 60%, #a83283 100%);
+            padding: 40px 28px;
+            display: flex; flex-direction: column;
+            position: sticky; top: 0; height: 100vh;
+            box-shadow: 4px 0 24px rgba(206,73,147,.18);
+            z-index: 100;
+        }
+        .sidebar-brand {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 48px;
+        }
+        .brand-flower { font-size: 2rem; }
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.55rem; font-weight: 700; color: white;
+            letter-spacing: -.5px; line-height: 1.2;
+        }
+        
+        .sidebar-nav { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        .nav-link {
+            display: flex; align-items: center; gap: 14px;
+            padding: 13px 16px; border-radius: var(--radius-sm);
+            color: rgba(255,255,255,0.82); font-size: 1rem; font-weight: 500;
+            text-decoration: none; transition: all .25s ease;
+        }
+        .nav-link:hover { background: rgba(255,255,255,.15); color: white; transform: translateX(4px); }
+        .nav-link.active { background: rgba(255,255,255,.22); color: white; font-weight: 600; }
+        .nav-icon { font-size: 1.25rem; width: 28px; text-align: center; }
+
+        /* ── MAIN ── */
+        .main {
+            flex: 1; padding: 40px 36px;
+            max-width: 900px;
+        }
+
+        .page-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 30px; }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--card); border-radius: var(--radius);
+            padding: 30px; box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border); margin-bottom: 24px;
+        }
+        .card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .card-subtitle { font-size: .9rem; color: var(--muted); margin-bottom: 24px; }
+
+        /* ── FORMS ── */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: .95rem; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+        input[type="number"], input[type="text"], input[type="password"], select {
+            width: 100%; padding: 12px 16px; border-radius: 14px;
+            border: 1.5px solid var(--bloom-pale); background: #fff;
+            font-family: inherit; font-size: 1rem; outline: none;
+            transition: all .2s;
+        }
+        input:focus, select:focus { border-color: var(--bloom-pink); box-shadow: 0 0 0 4px rgba(240, 98, 146, 0.1); }
+
+        .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; }
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider-switch {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #eee; transition: .4s; border-radius: 34px;
+        }
+        .slider-switch:before {
+            position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+            background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider-switch { background-color: var(--bloom-pink); }
+        input:checked + .slider-switch:before { transform: translateX(20px); }
+
+        .btn-save {
+            width: 100%; background: var(--bloom-pink); color: white; border: none;
+            padding: 16px; border-radius: 18px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; box-shadow: 0 8px 20px rgba(240, 98, 146, 0.25);
+            transition: all .3s; margin-top: 10px;
+        }
+        .btn-save:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(240, 98, 146, 0.35); }
+
+        /* ── ANIMATIONS ── */
+        .fade-in { animation: fadeUp .6s ease both; }
+        @keyframes fadeUp {
+            from { opacity:0; transform: translateY(16px); }
+            to   { opacity:1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .app-shell { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: static; flex-direction: row; padding: 15px; }
+            .nav-link span:not(.nav-icon) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-flower">❋</div>
+            <div class="brand-name">NewLuna</div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="soft_dashboard.html" class="nav-link">
+                <span class="nav-icon">🏠</span> <span>Dashboard</span>
+            </a>
+            <a href="soft_calendar.html" class="nav-link">
+                <span class="nav-icon">📅</span> <span>Calendar</span>
+            </a>
+            <a href="soft_tracking.html" class="nav-link">
+                <span class="nav-icon">📝</span> <span>Daily Log</span>
+            </a>
+            <a href="soft_profile.html" class="nav-link">
+                <span class="nav-icon">👤</span> <span>Profile</span>
+            </a>
+            <a href="soft_settings.html" class="nav-link active">
+                <span class="nav-icon">⚙️</span> <span>Settings</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <h1 class="page-title fade-in">Settings</h1>
+
+        <!-- CYCLE SETTINGS -->
+        <div class="card fade-in" style="animation-delay: 0.1s">
+            <div class="card-title">🌸 Cycle Personalization</div>
+            <div class="form-group">
+                <label>Average Cycle Length (Days)</label>
+                <input type="number" id="setting-cycle" value="28" min="20" max="45">
+            </div>
+            <div class="form-group">
+                <label>Average Period Length (Days)</label>
+                <input type="number" id="setting-period" value="5" min="2" max="10">
+            </div>
+        </div>
+
+        <!-- SECURITY -->
+        <div class="card fade-in" style="animation-delay: 0.2s">
+            <div class="card-title">🔒 Privacy & Security</div>
+            <div class="toggle-row">
+                <span>Enable Security Lock</span>
+                <label class="switch">
+                    <input type="checkbox" id="pin-enabled">
+                    <span class="slider-switch"></span>
+                </label>
+            </div>
+            <div class="toggle-row">
+                <span>Private Mode (Mask dashboard terms)</span>
+                <label class="switch">
+                    <input type="checkbox" id="private-mode">
+                    <span class="slider-switch"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- REMINDERS -->
+        <div class="card fade-in" style="animation-delay: 0.3s">
+            <div class="card-title">🔔 Daily Reminders</div>
+            <div class="toggle-row">
+                <span>Birth Control Reminder</span>
+                <label class="switch">
+                    <input type="checkbox" id="bc-reminder">
+                    <span class="slider-switch"></span>
+                </label>
+            </div>
+            <div class="toggle-row">
+                <span>Log Today Insight</span>
+                <label class="switch">
+                    <input type="checkbox" id="log-reminder" checked>
+                    <span class="slider-switch"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="fade-in" style="animation-delay: 0.4s">
+            <button class="btn-save" id="save-settings">Save All Changes</button>
+        </div>
+    </main>
+</div>
+
+<script src="js/common.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        loadSettings();
+        document.getElementById('save-settings').onclick = saveSettings;
+    });
+
+    function loadSettings() {
+        const state = JSON.parse(localStorage.getItem('lunaState') || '{}');
+        const settings = state.settings || { avgCycleLength: 28, periodDuration: 5 };
+        
+        document.getElementById('setting-cycle').value = settings.avgCycleLength;
+        document.getElementById('setting-period').value = settings.periodDuration;
+        
+        // Mock loading other toggles from localStorage
+        document.getElementById('pin-enabled').checked = localStorage.getItem('pin-enabled') === 'true';
+        document.getElementById('private-mode').checked = localStorage.getItem('private-mode') === 'true';
+        document.getElementById('bc-reminder').checked = localStorage.getItem('bc-reminder') === 'true';
+    }
+
+    function saveSettings() {
+        const avgCycle = parseInt(document.getElementById('setting-cycle').value);
+        const avgPeriod = parseInt(document.getElementById('setting-period').value);
+        
+        const state = JSON.parse(localStorage.getItem('lunaState') || '{}');
+        state.settings = { avgCycleLength: avgCycle, periodDuration: avgPeriod };
+        
+        localStorage.setItem('lunaState', JSON.stringify(state));
+        
+        localStorage.setItem('pin-enabled', document.getElementById('pin-enabled').checked);
+        localStorage.setItem('private-mode', document.getElementById('private-mode').checked);
+        localStorage.setItem('bc-reminder', document.getElementById('bc-reminder').checked);
+        
+        alert('Settings saved successfully! ❋');
+        location.href = 'soft_dashboard.html';
+    }
+</script>
+
+</body>
+</html>

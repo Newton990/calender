@@ -7,7 +7,7 @@ function handleLogin(method) {
     setTimeout(() => card.style.transform = 'scale(1)', 100);
 
     // Mock session init
-    localStorage.setItem('New LunaSession', 'demo_user_soft');
+    localStorage.setItem('NewLunaSession', 'demo_user_soft');
     
     // Show premium transition
     const container = document.querySelector('.auth-container');

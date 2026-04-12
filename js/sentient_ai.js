@@ -7,7 +7,7 @@ const SentientAI = {
         if (!user) return null;
 
         // 1. Basic Profile
-        const profile = JSON.parse(localStorage.getItem(`profile_${user.email}`)) || { nickname: "New Luna User" };
+        const profile = JSON.parse(localStorage.getItem(`profile_${user.email}`)) || { nickname: "NewLuna User" };
         
         // 2. Cycle Phase
         const periods = JSON.parse(localStorage.getItem(`periods_${user.email}`)) || [];

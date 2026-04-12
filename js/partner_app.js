@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tipDesc = "Your partner might have cramps and low energy. A warm tea and some extra rest will go a long way.";
         } else if (currentDay > 5 && currentDay < 12) {
             phase = "Follicular";
-            alert = "Energy is rising ✨";
+            alert = "Energy is rising ❋";
             tipTitle = "Active Support";
             tipDesc = "She's likely feeling more social and energetic. Great time for a walk or starting a new fun activity together.";
         } else if (currentDay >= 12 && currentDay <= 16) {

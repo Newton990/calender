@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initProfileUI() {
-    const currentUser = localStorage.getItem('New LunaSession') || 'demo_user';
+    const currentUser = localStorage.getItem('NewLunaSession') || 'demo_user';
     
     // 1. Load Profile
     const profile = JSON.parse(localStorage.getItem(`profile_${currentUser}`)) || {
@@ -47,11 +47,11 @@ function initProfileUI() {
             localStorage.setItem(`profile_${currentUser}`, JSON.stringify(updatedProfile));
             
             // Show premium success feedback
-            saveBtn.innerText = "Updated Successfully! ✨";
+            saveBtn.innerText = "Updated Successfully! ❋";
             saveBtn.style.background = "#4DB6AC";
             
             setTimeout(() => {
-                saveBtn.innerText = "Save Profile ✨";
+                saveBtn.innerText = "Save Profile ❋";
                 saveBtn.style.background = "var(--soft-pink)";
             }, 2000);
             

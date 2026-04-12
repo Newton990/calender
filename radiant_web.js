@@ -20,21 +20,21 @@ if (fs.existsSync(stylePath)) {
 const dashPath = path.join(dir, 'dashboard.html');
 if (fs.existsSync(dashPath)) {
     let dash = fs.readFileSync(dashPath, 'utf8');
-    dash = dash.replace(/>A \/ NewLuna</g, '>NewLuna ✨<');
+    dash = dash.replace(/>A \/ NewLuna</g, '>NewLuna ❋<');
     dash = dash.replace(/Business Performance/g, 'Wellness Tracking');
     dash = dash.replace(/System and User Activity/g, 'Personal energy and mood logging');
     fs.writeFileSync(dashPath, dash, 'utf8');
 }
 
-// 3. Update all other HTML files to "NewLuna ✨"
+// 3. Update all other HTML files to "NewLuna ❋"
 const files = fs.readdirSync(dir);
 files.forEach(file => {
     if (file.endsWith('.html') && file !== 'dashboard.html') {
         const filePath = path.join(dir, file);
         let content = fs.readFileSync(filePath, 'utf8');
         let original = content;
-        content = content.replace(/>A \/ NewLuna</g, '>NewLuna ✨<');
-        content = content.replace(/<title>A \/ NewLuna<\/title>/g, '<title>NewLuna ✨</title>');
+        content = content.replace(/>A \/ NewLuna</g, '>NewLuna ❋<');
+        content = content.replace(/<title>A \/ NewLuna<\/title>/g, '<title>NewLuna ❋</title>');
         if (content !== original) fs.writeFileSync(filePath, content, 'utf8');
     }
 });

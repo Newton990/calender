@@ -7,8 +7,8 @@ try {
     <!-- Animated Splash Screen -->
     <div class="splash-overlay">
         <div class="splash-content">
-            <div class="splash-flower">❋</div>
-            <div class="splash-text">Moon Bloom</div>
+            <div class="splash-icon">❋</div>
+            <div class="splash-text">NewLuna</div>
         </div>
     </div>
 `;
@@ -20,13 +20,13 @@ try {
             content = content.replace(/(<body[^>]*>)/i, '$1' + splashHTML);
         }
         
-        content = content.replace(/<div class="logo">Luna<\/div>/gi, '<div class="logo moon-bloom-logo">❋ Moon Bloom</div>');
-        content = content.replace(/<h1 class="logo auth-title">NewLuna<\/h1>/gi, '<h1 class="logo auth-title moon-bloom-logo">❋ Moon Bloom</h1>');
-        content = content.replace(/<h2[^>]*>Luna<\/h2>/gi, '<h2 class="moon-bloom-logo">❋ Moon Bloom</h2>');
+        content = content.replace(/<div class="logo">Luna<\/div>/gi, '<div class="logo newluna-logo">❋ NewLuna</div>');
+        content = content.replace(/<h1 class="logo auth-title">NewLuna<\/h1>/gi, '<h1 class="logo auth-title newluna-logo">❋ NewLuna</h1>');
+        content = content.replace(/<h2[^>]*>Luna<\/h2>/gi, '<h2 class="newluna-logo">❋ NewLuna</h2>');
         
-        content = content.replace(/Luna \|/gi, 'Moon Bloom |');
-        content = content.replace(/\| Premium Dashboard/gi, '| Moon Bloom');
-        content = content.replace(/NewLuna \|/gi, 'Moon Bloom |');
+        content = content.replace(/Luna \|/gi, 'NewLuna |');
+        content = content.replace(/\| Premium Dashboard/gi, '| NewLuna');
+        content = content.replace(/NewLuna \|/gi, 'NewLuna |');
 
         fs.writeFileSync(file, content, 'utf8');
     });

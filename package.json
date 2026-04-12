@@ -1,5 +1,5 @@
 {
-  "name": "newluna-web",
+  "name": "NewLuna-web",
   "version": "1.0.0",
   "description": "NewLuna web application",
   "main": "serve.js",

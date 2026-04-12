@@ -1,19 +1,19 @@
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY", // Note: Ensure you replace this with your actual key in Firebase Console
+    apiKey: "AIzaSyDmslr6DLnWItY-DD6fZnoGHNObLlGPRaw", // Keeping the valid keys but switching project context
     authDomain: "new-luna-app.firebaseapp.com",
     projectId: "new-luna-app",
     storageBucket: "new-luna-app.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID",
-    measurementId: "YOUR_G_ID"
+    messagingSenderId: "564275833987",
+    appId: "1:564275833987:web:91ce2f54d11b4e1f70bfb6",
+    measurementId: "G-0R1ZR598M9"
 };
 
 // Initialize Firebase as a Singleton to prevent multiple instances errors
 if (!firebase.apps.length) {
     try {
         firebase.initializeApp(firebaseConfig);
-        console.log("Firebase Initialized ✨ (Global Sync)");
+        console.log("Firebase Initialized ❋ (Global Sync)");
     } catch (e) {
         console.error("Firebase Initialization Failed:", e);
     }

@@ -5,7 +5,7 @@ const settingsPath = path.join(__dirname, 'settings.html');
 if (fs.existsSync(settingsPath)) {
     let html = fs.readFileSync(settingsPath, 'utf8');
 
-    const themeLabel = '<label style="font-weight: 600; display: block; margin-bottom: 10px;">Mood-Boosting Themes ✨</label>';
+    const themeLabel = '<label style="font-weight: 600; display: block; margin-bottom: 10px;">Mood-Boosting Themes ❋</label>';
     const themeGridStart = '<div class="theme-grid">';
     const themeGridEnd = '</div>';
 
@@ -14,7 +14,7 @@ if (fs.existsSync(settingsPath)) {
     const gridEndIndex = html.indexOf(themeGridEnd, gridStartIndex) + themeGridEnd.length;
 
     if (startIndex !== -1 && gridStartIndex !== -1 && gridEndIndex !== -1) {
-        const newThemeSection = `                <label style="font-weight: 600; display: block; margin-bottom: 10px;">Mood-Boosting Themes ✨</label>
+        const newThemeSection = `                <label style="font-weight: 600; display: block; margin-bottom: 10px;">Mood-Boosting Themes ❋</label>
                 <div class="glass" style="padding: 15px; margin-bottom: 20px; background: rgba(255,255,255,0.2);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0;">
                         <div>

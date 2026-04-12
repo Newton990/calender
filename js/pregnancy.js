@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const currentUser = localStorage.getItem('New LunaSession');
+    const currentUser = localStorage.getItem('NewLunaSession');
     if (!currentUser) return;
 
     // Elements
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
             status.textContent = "Peak Fertility 🔥";
             countdown.textContent = diff === 0 ? "Ovulation is Today!" : `Ovulation in ${diff} days`;
         } else if (diff <= 7) {
-            status.textContent = "High Fertility ✨";
+            status.textContent = "High Fertility ❋";
             countdown.textContent = `Ovulation in ${diff} days`;
         } else {
             status.textContent = "Low Fertility";
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fertilityLogs[date] = { bbt, mucus };
             localStorage.setItem(`fertilityLogs_${currentUser}`, JSON.stringify(fertilityLogs));
             
-            alert("Daily fertility data saved! ✨");
+            alert("Daily fertility data saved! ❋");
         });
     }
 

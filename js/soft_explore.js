@@ -9,7 +9,7 @@ function initExploreUI() {
     
     if (bannerSubtitle) {
         if (currentDay >= 12 && currentDay <= 16) {
-            bannerSubtitle.innerText = "You're in your Fertile Window. Focus on energy and connection! ✨";
+            bannerSubtitle.innerText = "You're in your Fertile Window. Focus on energy and connection! ❋";
         } else if (currentDay >= 21) {
             bannerSubtitle.innerText = "Luteal phase is here. Prioritize restful movement and warming foods. 🍵";
         } else {

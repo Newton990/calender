@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna | Daily Log</title>
+    <meta name="description" content="NewLuna — Your premium cycle tracking and wellness companion.">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+
+    <style>
+        :root {
+            --bloom-pink: #f06292;
+            --bloom-light: #f8a5c2;
+            --bloom-pale: #fce4ec;
+            --bloom-teal: #4db6ac;
+            --bloom-sage: #a5d6a7;
+            --bg: #f9eef3;
+            --card: #ffffff;
+            --text: #3d2c35;
+            --muted: #9e7d8a;
+            --border: rgba(240, 98, 146, 0.12);
+            --sidebar-w: 270px;
+            --shadow-soft: 0 8px 32px rgba(240, 98, 146, 0.10);
+            --shadow-hover: 0 16px 48px rgba(240, 98, 146, 0.18);
+            --radius: 24px;
+            --radius-sm: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── LAYOUT ── */
+        .app-shell { display: flex; min-height: 100vh; }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: linear-gradient(180deg, #f06292 0%, #ce4993 60%, #a83283 100%);
+            padding: 40px 28px;
+            display: flex; flex-direction: column;
+            position: sticky; top: 0; height: 100vh;
+            box-shadow: 4px 0 24px rgba(206,73,147,.18);
+            z-index: 100;
+        }
+        .sidebar-brand {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 48px;
+        }
+        .brand-flower { font-size: 2rem; }
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.55rem; font-weight: 700; color: white;
+            letter-spacing: -.5px; line-height: 1.2;
+        }
+        
+        .sidebar-nav { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        .nav-link {
+            display: flex; align-items: center; gap: 14px;
+            padding: 13px 16px; border-radius: var(--radius-sm);
+            color: rgba(255,255,255,0.82); font-size: 1rem; font-weight: 500;
+            text-decoration: none; transition: all .25s ease;
+        }
+        .nav-link:hover { background: rgba(255,255,255,.15); color: white; transform: translateX(4px); }
+        .nav-link.active { background: rgba(255,255,255,.22); color: white; font-weight: 600; }
+        .nav-icon { font-size: 1.25rem; width: 28px; text-align: center; }
+
+        /* ── MAIN ── */
+        .main {
+            flex: 1; padding: 40px 36px;
+            overflow-y: auto; max-height: 100vh;
+        }
+
+        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .page-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--text); }
+        input[type="date"] {
+            border: 1px solid var(--border); background: white; padding: 10px 14px;
+            border-radius: 12px; font-family: 'Outfit', sans-serif; font-weight: 600;
+            color: var(--bloom-pink); cursor: pointer; outline: none; box-shadow: var(--shadow-soft);
+        }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--card); border-radius: var(--radius);
+            padding: 30px; box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border); margin-bottom: 24px;
+        }
+        .card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+        /* ── EMOJI SELECTORS ── */
+        .selector-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 12px; }
+        .emoji-btn {
+            background: #fff; border: 1.5px solid var(--bloom-pale); border-radius: 16px;
+            padding: 16px 8px; cursor: pointer; transition: all .25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .emoji-btn:hover { background: var(--bloom-pale); transform: translateY(-3px); }
+        .emoji-btn.selected { background: var(--bloom-pale); border-color: var(--bloom-pink); transform: scale(1.05); }
+        .emoji-icon { font-size: 2rem; }
+        .emoji-label { font-size: .75rem; font-weight: 600; color: var(--muted); }
+        .selected .emoji-label { color: var(--bloom-pink); }
+
+        /* ── SLIDERS ── */
+        .slider-group { margin-top: 24px; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 600; font-size: .9rem; }
+        .slider-val { color: var(--bloom-pink); font-weight: 700; }
+        input[type="range"] {
+            width: 100%; height: 6px; background: var(--bloom-pale); border-radius: 6px;
+            -webkit-appearance: none; outline: none; cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
+            background: var(--bloom-pink); border: 4px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        /* ── CHECKBOXES ── */
+        .check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 15px; }
+        .pill-check {
+            display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+            border-radius: 14px; background: #fff; border: 1.5px solid var(--bloom-pale);
+            cursor: pointer; transition: all .2s; font-size: .9rem; font-weight: 500;
+        }
+        .pill-check:hover { background: var(--bloom-pale); }
+        .pill-check input { display: none; }
+        .pill-check.active { background: var(--bloom-pale); border-color: var(--bloom-pink); color: var(--bloom-pink); font-weight: 600; }
+
+        /* ── PERIOD TOGGLE ── */
+        .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; }
+        .switch {
+            position: relative; inline-block; width: 50px; height: 26px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider-switch {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #eee; transition: .4s; border-radius: 34px;
+        }
+        .slider-switch:before {
+            position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px;
+            background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider-switch { background-color: var(--bloom-pink); }
+        input:checked + .slider-switch:before { transform: translateX(24px); }
+
+        /* ── TEXTAREA ── */
+        textarea {
+            width: 100%; min-height: 100px; padding: 15px; border-radius: 16px;
+            border: 1px solid var(--border); background: #fafafa; font-family: inherit;
+            resize: vertical; outline: none; margin-top: 10px;
+        }
+        textarea:focus { border-color: var(--bloom-pink); background: #fff; }
+
+        /* ── SAVE BTN ── */
+        .footer-action { position: sticky; bottom: 0; background: var(--bg); padding: 20px 0; border-top: 1px solid var(--border); }
+        .save-btn {
+            width: 100%; background: var(--bloom-pink); color: white; border: none;
+            padding: 18px; border-radius: 18px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; box-shadow: 0 8px 24px rgba(240, 98, 146, 0.3); transition: all .3s;
+        }
+        .save-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(240, 98, 146, 0.4); }
+
+        /* ── ANIMATIONS ── */
+        .fade-in { animation: fadeUp .6s ease both; }
+        @keyframes fadeUp {
+            from { opacity:0; transform: translateY(16px); }
+            to   { opacity:1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .app-shell { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: static; flex-direction: row; padding: 15px; }
+            .sidebar-nav { flex-direction: row; margin: 0; }
+            .nav-link span:not(.nav-icon) { display: none; }
+            .sidebar-brand { margin-bottom: 0; padding-right: 15px; border-right: 1px solid rgba(255,255,255,0.2); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-flower">❋</div>
+            <div class="brand-name">NewLuna</div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="soft_dashboard.html" class="nav-link">
+                <span class="nav-icon">🏠</span> <span>Dashboard</span>
+            </a>
+            <a href="soft_calendar.html" class="nav-link">
+                <span class="nav-icon">📅</span> <span>Calendar</span>
+            </a>
+            <a href="soft_tracking.html" class="nav-link active">
+                <span class="nav-icon">📝</span> <span>Daily Log</span>
+            </a>
+            <a href="soft_reports.html" class="nav-link">
+                <span class="nav-icon">📊</span> <span>Reports</span>
+            </a>
+            <a href="soft_profile.html" class="nav-link">
+                <span class="nav-icon">👤</span> <span>Profile</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <div class="header-row">
+            <h1 class="page-title fade-in">Daily Log</h1>
+            <input type="date" id="logDate" class="fade-in">
+        </div>
+
+        <!-- MOOD -->
+        <div class="card fade-in" style="animation-delay: 0.1s">
+            <div class="card-title">❋ How are you feeling today?</div>
+            <div class="selector-grid">
+                <div class="emoji-btn" data-mood="happy">
+                    <span class="emoji-icon">😊</span>
+                    <span class="emoji-label">Happy</span>
+                </div>
+                <div class="emoji-btn" data-mood="calm">
+                    <span class="emoji-icon">😌</span>
+                    <span class="emoji-label">Calm</span>
+                </div>
+                <div class="emoji-btn" data-mood="tired">
+                    <span class="emoji-icon">😴</span>
+                    <span class="emoji-label">Tired</span>
+                </div>
+                <div class="emoji-btn" data-mood="anxious">
+                    <span class="emoji-icon">😰</span>
+                    <span class="emoji-label">Anxious</span>
+                </div>
+                <div class="emoji-btn" data-mood="sad">
+                    <span class="emoji-icon">😢</span>
+                    <span class="emoji-label">Sad</span>
+                </div>
+                <div class="emoji-btn" data-mood="angry">
+                    <span class="emoji-icon">😡</span>
+                    <span class="emoji-label">Angry</span>
+                </div>
+            </div>
+            
+            <div class="slider-group">
+                <div class="slider-header"><span>Energy Level</span> <span class="slider-val" id="energyValue">5</span></div>
+                <input type="range" id="energySlider" min="1" max="10" value="5">
+            </div>
+        </div>
+
+        <!-- PERIOD -->
+        <div class="card fade-in" style="animation-delay: 0.2s">
+            <div class="card-title">🩸 Period Status</div>
+            <div class="toggle-row">
+                <span>Are you on your period today?</span>
+                <label class="switch">
+                    <input type="checkbox" id="onPeriod">
+                    <span class="slider-switch"></span>
+                </label>
+            </div>
+            
+            <div id="flowSection" style="display: none; margin-top: 20px; border-top: 1px dashed var(--border); padding-top: 15px;">
+                <p style="font-size: .9rem; font-weight: 600; margin-bottom: 12px;">Flow Intensity:</p>
+                <div class="selector-grid">
+                    <div class="emoji-btn" data-flow="spotting">
+                        <span class="emoji-icon">💧</span>
+                        <span class="emoji-label">Spotting</span>
+                    </div>
+                    <div class="emoji-btn" data-flow="light">
+                        <span class="emoji-icon">🩸</span>
+                        <span class="emoji-label">Light</span>
+                    </div>
+                    <div class="emoji-btn" data-flow="medium">
+                        <span class="emoji-icon">🩸🩸</span>
+                        <span class="emoji-label">Medium</span>
+                    </div>
+                    <div class="emoji-btn" data-flow="heavy">
+                        <span class="emoji-icon">🩸🩸🩸</span>
+                        <span class="emoji-label">Heavy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SYMPTOMS -->
+        <div class="card fade-in" style="animation-delay: 0.3s">
+            <div class="card-title">🤕 Symptoms</div>
+            <div class="check-grid">
+                <label class="pill-check"><input type="checkbox" data-symptom="cramps"> Cramps</label>
+                <label class="pill-check"><input type="checkbox" data-symptom="bloating"> Bloating</label>
+                <label class="pill-check"><input type="checkbox" data-symptom="headache"> Headache</label>
+                <label class="pill-check"><input type="checkbox" data-symptom="backpain"> Back Pain</label>
+                <label class="pill-check"><input type="checkbox" data-symptom="acne"> Acne</label>
+                <label class="pill-check"><input type="checkbox" data-symptom="nausea"> Nausea</label>
+            </div>
+            
+            <div class="slider-group">
+                <div class="slider-header"><span>Pain Intensity</span> <span class="slider-val" id="painValue">0</span></div>
+                <input type="range" id="painSlider" min="0" max="10" value="0">
+            </div>
+        </div>
+
+        <!-- NOTES -->
+        <div class="card fade-in" style="animation-delay: 0.4s">
+            <div class="card-title">📝 Personal Notes</div>
+            <textarea id="notes" placeholder="How was your day? Anything else on your mind?"></textarea>
+        </div>
+
+        <!-- SAVE -->
+        <div class="footer-action fade-in" style="animation-delay: 0.5s">
+            <button class="save-btn" id="saveBtn">Save Today's Entry</button>
+        </div>
+    </main>
+</div>
+
+<script src="js/common.js"></script>
+<script>
+    let state = {
+        selectedDate: new Date().toISOString().split('T')[0],
+        entries: {}
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadState();
+        setupEvents();
+        
+        // Handle URL date
+        const params = new URLSearchParams(window.location.search);
+        const d = params.get('date');
+        if(d) state.selectedDate = d;
+        document.getElementById('logDate').value = state.selectedDate;
+        
+        loadEntryData();
+    });
+
+    function setupEvents() {
+        // Date change
+        document.getElementById('logDate').onchange = (e) => {
+            state.selectedDate = e.target.value;
+            loadEntryData();
+        };
+
+        // Mood/Flow selection
+        document.querySelectorAll('.emoji-btn').forEach(btn => {
+            btn.onclick = () => {
+                const group = btn.dataset.mood ? 'mood' : 'flow';
+                document.querySelectorAll(`[data-${group}]`).forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+            };
+        });
+
+        // Period toggle
+        document.getElementById('onPeriod').onchange = (e) => {
+            document.getElementById('flowSection').style.display = e.target.checked ? 'block' : 'none';
+        };
+
+        // Checkbox visual toggle
+        document.querySelectorAll('.pill-check input').forEach(input => {
+            input.onchange = () => input.parentElement.classList.toggle('active', input.checked);
+        });
+
+        // Sliders
+        const syncS = (id, valId) => {
+            const s = document.getElementById(id);
+            s.oninput = () => document.getElementById(valId).textContent = s.value;
+        };
+        syncS('energySlider', 'energyValue');
+        syncS('painSlider', 'painValue');
+
+        // Save
+        document.getElementById('saveBtn').onclick = () => {
+            const entry = {
+                mood: document.querySelector('[data-mood].selected')?.dataset.mood,
+                flow: document.querySelector('[data-flow].selected')?.dataset.flow,
+                onPeriod: document.getElementById('onPeriod').checked,
+                energy: document.getElementById('energySlider').value,
+                pain: document.getElementById('painSlider').value,
+                symptoms: Array.from(document.querySelectorAll('[data-symptom]:checked')).map(i => i.dataset.symptom),
+                notes: document.getElementById('notes').value
+            };
+            state.entries[state.selectedDate] = entry;
+            localStorage.setItem('lunaTrackingState', JSON.stringify(state));
+            alert('Entry saved for ' + state.selectedDate);
+            location.href = 'soft_dashboard.html';
+        };
+    }
+
+    function loadEntryData() {
+        // Reset
+        document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
+        document.querySelectorAll('.pill-check').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+        document.getElementById('notes').value = '';
+        document.getElementById('flowSection').style.display = 'none';
+
+        const e = state.entries[state.selectedDate];
+        if(!e) return;
+
+        if(e.mood) document.querySelector(`[data-mood="${e.mood}"]`)?.classList.add('selected');
+        if(e.flow) document.querySelector(`[data-flow="${e.flow}"]`)?.classList.add('selected');
+        if(e.onPeriod) {
+            document.getElementById('onPeriod').checked = true;
+            document.getElementById('flowSection').style.display = 'block';
+        }
+        if(e.symptoms) {
+            e.symptoms.forEach(s => {
+                const ck = document.querySelector(`[data-symptom="${s}"]`);
+                if(ck) { ck.checked = true; ck.parentElement.classList.add('active'); }
+            });
+        }
+        document.getElementById('energySlider').value = e.energy || 5;
+        document.getElementById('energyValue').textContent = e.energy || 5;
+        document.getElementById('painSlider').value = e.pain || 0;
+        document.getElementById('painValue').textContent = e.pain || 0;
+        document.getElementById('notes').value = e.notes || '';
+    }
+
+    function loadState() {
+        const saved = localStorage.getItem('lunaTrackingState');
+        if(saved) state = JSON.parse(saved);
+        // Shared state for dashboard
+        const shared = localStorage.getItem('lunaState');
+        // Simple merge for period flag
+    }
+</script>
+
+</body>
+</html>

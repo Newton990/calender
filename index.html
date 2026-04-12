@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moon Bloom | Loading...</title>
-    <meta name="description" content="Moon Bloom — Your premium cycle & wellness companion.">
+    <title>NewLuna | Loading...</title>
+    <meta name="description" content="NewLuna — Your premium cycle & wellness companion.">
 
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -23,18 +23,18 @@
             align-items: center; justify-content: center;
             font-family: 'Outfit', sans-serif;
         }
-        .bloom-mark {
+        .luna-mark {
             font-size: 5rem;
             animation: spin 3s cubic-bezier(.175,.885,.32,1.275) infinite;
         }
-        .bloom-title {
+        .luna-title {
             margin-top: 20px;
             font-family: 'Playfair Display', serif;
             font-size: 2.4rem; font-weight: 700;
             background: linear-gradient(135deg, #f06292, #ce4993);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .bloom-subtitle {
+        .luna-subtitle {
             margin-top: 10px; color: #9e7d8a;
             font-size: 1rem; letter-spacing: .5px;
         }
@@ -55,9 +55,9 @@
     </style>
 </head>
 <body>
-    <div class="bloom-mark">❋</div>
-    <div class="bloom-title">Moon Bloom</div>
-    <div class="bloom-subtitle">Your wellness, beautifully tracked</div>
+    <div class="luna-mark">❋</div>
+    <div class="luna-title">NewLuna</div>
+    <div class="luna-subtitle">Your wellness, beautifully tracked</div>
     <div class="dots">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -71,7 +71,7 @@
         window.addEventListener('load', () => {
             setTimeout(() => {
                 // Fallback: if common.js hasn't redirected yet after 2.5s
-                const user = localStorage.getItem('New LunaSession');
+                const user = localStorage.getItem('NewLunaSession');
                 if (user) {
                     const layout = localStorage.getItem('current_layout') || 'soft';
                     if (layout === 'roma') {

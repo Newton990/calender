@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const errorEl = document.getElementById('auth-error');
         if (errorEl) {
             errorEl.textContent = message;
-            errorEl.classList.remove('hidden');
+            errorEl.style.display = 'block'; // Ensure visibility
+            errorEl.classList.remove('hidden'); // Compatibility
             errorEl.style.animation = 'none';
             errorEl.offsetHeight; 
             errorEl.style.animation = 'waterPulse 0.3s ease';
@@ -14,7 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function hideError() {
         const errorEl = document.getElementById('auth-error');
-        if (errorEl) errorEl.classList.add('hidden');
+        if (errorEl) {
+            errorEl.style.display = 'none';
+            errorEl.classList.add('hidden');
+        }
+    }
+
+    // Helper for loading state (uses global setLoading if available)
+    function setBtnLoading(btn, isLoading) {
+        if (typeof window.setLoading === 'function') {
+            window.setLoading(btn, isLoading);
+        } else {
+            if (isLoading) btn.classList.add('loading');
+            else btn.classList.remove('loading');
+        }
     }
 
     // Signup Action
@@ -36,30 +50,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            setBtnLoading(signupBtn, true);
+            hideError();
+
             try {
                 const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
                 const user = userCredential.user;
                 
+                // Send verification email
+                await user.sendEmailVerification();
+
                 // Create profile in Firestore
                 await firebase.firestore().collection('users').doc(user.uid).set({
                     email: email,
                     nickname: nickname,
+                    emailVerified: false,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    mood_boosting_theme: 'blush'
+                    mood_boosting_theme: 'blush',
+                    subscribedToUpdates: true
                 });
 
-                showError("Account created! Verifying session...");
-                localStorage.setItem('New LunaSession', email);
+                showError("Verification email sent! Please check your inbox.");
                 
-                const returnUrl = sessionStorage.getItem('returnUrl');
-                if (returnUrl && returnUrl !== 'login.html') {
-                    sessionStorage.removeItem('returnUrl');
-                    window.location.replace(returnUrl);
-                } else {
-                    window.location.replace('index.html');
-                }
+                // Optional: Store email for the verification page to use
+                localStorage.setItem('pendingVerifyEmail', email);
+
+                setTimeout(() => {
+                    window.location.replace('verify.html');
+                }, 2000);
             } catch (error) {
                 showError(error.message);
+            } finally {
+                setBtnLoading(signupBtn, false);
             }
         });
     }
@@ -81,24 +103,41 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            setBtnLoading(loginBtn, true);
+            hideError();
+
             try {
-                await firebase.auth().signInWithEmailAndPassword(email, password);
-                localStorage.setItem('New LunaSession', email);
+                const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                if (!user.emailVerified) {
+                    showError("Please verify your email address first.");
+                    localStorage.setItem('pendingVerifyEmail', email);
+                    setTimeout(() => {
+                        window.location.replace('verify.html');
+                    }, 2000);
+                    return;
+                }
+
+                localStorage.setItem('NewLunaSession', email);
                 
                 const returnUrl = sessionStorage.getItem('returnUrl');
                 if (returnUrl && returnUrl !== 'login.html') {
                     sessionStorage.removeItem('returnUrl');
                     window.location.replace(returnUrl);
                 } else {
-                    window.location.replace('index.html');
+                    const layout = localStorage.getItem('current_layout') || 'soft';
+                    window.location.replace(layout === 'roma' ? 'dashboard.html' : 'soft_dashboard.html');
                 }
             } catch (error) {
                 showError("Invalid credentials or user not found.");
+            } finally {
+                setBtnLoading(loginBtn, false);
             }
         });
     }
 
-    // Form switching
+    // Form switching (Handled by inline scripts in login.html, but keeping hooks for reliability if present)
     const showSignup = document.getElementById('show-signup');
     const showLogin = document.getElementById('show-login');
     const loginForm = document.getElementById('login-form-container');

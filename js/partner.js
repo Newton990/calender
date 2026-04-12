@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                  let percent = (currentDay >= 12 && currentDay <= 16) ? "High" : "Low";
                  if(chancePercent) chancePercent.textContent = percent;
-                 if(chanceLogic) chanceLogic.textContent = percent === "High" ? "Peak Fertility Window ✨" : "Outside Fertile Window";
+                 if(chanceLogic) chanceLogic.textContent = percent === "High" ? "Peak Fertility Window ❋" : "Outside Fertile Window";
             }
         }
     }
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const action = btn.innerText.split(' ').pop(); // Get "Love", "Tea", etc.
             const originalHTML = btn.innerHTML;
             
-            btn.innerHTML = `✨ Sent!`;
+            btn.innerHTML = `❋ Sent!`;
             btn.style.pointerEvents = 'none';
 
             if (chatId) {

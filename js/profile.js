@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const currentUser = localStorage.getItem('New LunaSession');
+    const currentUser = localStorage.getItem('NewLunaSession');
     if (!currentUser) return;
     
     const nameInput = document.getElementById('profile-name');
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             localStorage.setItem(`profile_${currentUser}`, JSON.stringify(updatedProfile));
-            alert("Profile updated successfully! ✨");
+            alert("Profile updated successfully! ❋");
             window.location.href = 'index.html';
         });
     }

@@ -27,7 +27,7 @@ if (fs.existsSync(loginPath)) {
     if (!html.includes('signup-nickname')) {
         const signupEmail = html.indexOf('id="signup-email"');
         const lineStart = html.lastIndexOf('<input', signupEmail);
-        html = html.substring(0, lineStart) + '<input type="text" id="signup-nickname" class="auth-input" placeholder="Your Nickname ✨">\n                ' + html.substring(lineStart);
+        html = html.substring(0, lineStart) + '<input type="text" id="signup-nickname" class="auth-input" placeholder="Your Nickname ❋">\n                ' + html.substring(lineStart);
     }
 
     fs.writeFileSync(loginPath, html, 'utf8');

@@ -1,12 +1,13 @@
 /*
- * Moon Bloom — Soft Dashboard Engine
+ * NewLuna — Soft Dashboard Engine
  * Powers all live UI elements: cycle ring, hydration, mini calendar,
  * phase insights, kindness corner, partner sync, and reminders.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    const currentUser = localStorage.getItem('New LunaSession');
-    if (!currentUser) {
+    const currentUser = localStorage.getItem('NewLunaSession') || localStorage.getItem('Moon Bloom Session');
+    const mockUser = localStorage.getItem('NewLunaSession') || localStorage.getItem('Moon Bloom Session');
+    if (!currentUser && !mockUser) {
         window.location.replace('login.html');
         return;
     }
@@ -172,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tip:        'Eat iron-rich foods: spinach, lentils, and dark chocolate. Stay warm.',
             kindIcon:   '🌸',
             kindTitle:  "Luna's Care for Today 🌸",
-            kindMsg:    '"Be gentle with yourself today. Your body is doing something powerful. Rest is productive. ✨"'
+            kindMsg:    '"Be gentle with yourself today. Your body is doing something powerful. Rest is productive. ❋"'
         },
         follicular: {
             label:      'Follicular Phase 🌱',
@@ -187,8 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
             kindMsg:    '"New energy, new possibilities. Dream big today — your body is ready to bloom. 🚀"'
         },
         ovulation:  {
-            label:      'Ovulation Phase ✨',
-            badge:      'Ovulation Day ✨',
+            label:      'Ovulation Phase ❋',
+            badge:      'Ovulation Day ❋',
             badgeColor: '#ffb300',
             ringLabel:  'Ovulation',
             insight:    'Peak day! You\'re at your most magnetic today. Confidence, charisma, and energy are all maxed out. ⚡',
@@ -237,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (daysToNext < 0) {
             reminderEl.textContent = `Your period may have started — log it when ready 🩸`;
         } else {
-            reminderEl.textContent = `Your cycle is on track ✨`;
+            reminderEl.textContent = `Your cycle is on track ❋`;
         }
     }
 
@@ -346,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     renderCalendar();
                     showToast('Period logged for today! ❤️');
                 } else {
-                    showToast('Today is already logged! ✨', 'info');
+                    showToast('Today is already logged! ❋', 'info');
                 }
             });
         }

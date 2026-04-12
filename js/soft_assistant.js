@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         userContext = await SentientAI.getContext(user);
         
         // Initial Greeting
-        const greeting = `Hey ${userContext.nickname}... I'm here. ${userContext.isSensitivePhase ? "I know things can feel a bit heavier today. How are you holding up?" : "How is your day going? ✨"}`;
+        const greeting = `Hey ${userContext.nickname}... I'm here. ${userContext.isSensitivePhase ? "I know things can feel a bit heavier today. How are you holding up?" : "How is your day going? ❋"}`;
         addMessage(greeting, 'ai');
     });
 
@@ -72,9 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (input.includes('cramp') || input.includes('pain')) {
             return `I'm sorry you're in pain. 🌿 A warm compress and some ginger tea might help. In your **${context.phase}** phase, being gentle with yourself is the highest form of self-love.`;
         } else if (input.includes('happy') || input.includes('great')) {
-            return `That's wonderful to hear, ${context.nickname}! ✨ I'm so glad you're feeling vibrant today. Let's make the most of this **${context.phase}** energy!`;
+            return `That's wonderful to hear, ${context.nickname}! ❋ I'm so glad you're feeling vibrant today. Let's make the most of this **${context.phase}** energy!`;
         } else {
-            return `I hear you, ${context.nickname}. ✨ Tell me more about that. I'm here to support you through the **${context.phase}** phase and beyond.`;
+            return `I hear you, ${context.nickname}. ❋ Tell me more about that. I'm here to support you through the **${context.phase}** phase and beyond.`;
         }
     }
 

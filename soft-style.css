@@ -381,21 +381,22 @@ body {
 .delay-2 { animation-delay: 0.2s; }
 .delay-3 { animation-delay: 0.3s; }
 
-/* Moon Bloom Branding */
-.moon-bloom-logo {
+/* NewLuna Branding */
+.NewLuna-logo {
     font-family: 'Playfair Display', serif;
     font-size: 2.2rem;
     font-weight: 700;
     letter-spacing: -0.5px;
     background: linear-gradient(45deg, var(--soft-pink-dark), var(--soft-pink-light));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.moon-bloom-logo::before {
+.NewLuna-logo::before {
     content: '❋';
     font-size: 1.8rem;
     color: var(--soft-pink-light);
@@ -418,20 +419,21 @@ body {
     animation: splashFadeOut 1s ease-in-out 1.5s forwards;
 }
 
-.splash-flower {
+.splash-icon {
     font-size: 4rem;
     color: var(--soft-pink-main);
     opacity: 0;
     animation: flowerSpin 1.5s ease-in-out forwards;
 }
 
-.splash-bloom {
+.splash-luna {
     margin-top: 15px;
     font-family: 'Playfair Display', serif;
     font-size: 2.5rem;
     font-weight: 700;
     background: linear-gradient(45deg, var(--soft-pink-dark), var(--soft-pink-light));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     opacity: 0;
     transform: translateY(20px);

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const currentUser = localStorage.getItem('New LunaSession');
+    const currentUser = localStorage.getItem('NewLunaSession');
     if (!currentUser) return;
 
     const periods = JSON.parse(localStorage.getItem(`periods_${currentUser}`)) || [];

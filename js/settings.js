@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const currentUser = localStorage.getItem('New LunaSession');
+    const currentUser = localStorage.getItem('NewLunaSession') || localStorage.getItem('Moon Bloom Session');
     if (!currentUser) return;
 
     const settingCycle = document.getElementById('setting-cycle');
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem(`medTime_${currentUser}`, medTime.value);
                 localStorage.setItem(`autoTheme_${currentUser}`, JSON.stringify(autoThemeEnabled.checked));
 
-                alert("Settings saved successfully! ✨");
+                alert("Settings saved successfully! ❋");
                 window.location.href = 'index.html';
             } else {
                 alert("Please enter a valid cycle length (20-45) and period length (2-10).");

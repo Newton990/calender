@@ -29,8 +29,8 @@ function updateTheme() {
     dashboard = dashboard.replace(/linear-gradient\(135deg, #FF4D6D 0%, #C9184A 100%\)/g, 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)');
     
     // Swap logo text to NewLuna or A/NewLuna
-    dashboard = dashboard.replace(/❋ New Luna/g, 'A / NewLuna');
-    dashboard = dashboard.replace(/<div class="logo moon-bloom-logo">A \/ NewLuna<\/div>/g, '<div class="logo font-bold">A / <span style="font-weight:300;">NewLuna</span></div>');
+    dashboard = dashboard.replace(/❋ NewLuna/g, 'NewLuna');
+    dashboard = dashboard.replace(/<div class="logo newluna-logo">A \/ NewLuna<\/div>/g, '<div class="logo font-bold">A / <span style="font-weight:300;">NewLuna</span></div>');
     
     // Add Chart.js script tag before closing head
     if(!dashboard.includes('chart.js')) {

@@ -6,28 +6,28 @@ try {
         let content = fs.readFileSync('./js/' + file, 'utf8');
         
         // User-facing text replacements
-        content = content.replace(/NewLuna 🌸/g, 'Moon Bloom ❋');
-        content = content.replace(/Welcome to NewLuna/g, 'Welcome to Moon Bloom');
-        content = content.replace(/"NewLuna"/g, '"Moon Bloom"');
-        content = content.replace(/>NewLuna</g, '>Moon Bloom<');
-        content = content.replace(/NewLuna Hydration/g, 'Moon Bloom Hydration');
-        content = content.replace(/NewLuna Update/g, 'Moon Bloom Update');
-        content = content.replace(/NewLuna Wellness/g, 'Moon Bloom Wellness');
-        content = content.replace(/NewLuna Care/g, 'Moon Bloom Care');
-        content = content.replace(/NewLuna Support/g, 'Moon Bloom Support');
+        content = content.replace(/NewLuna 🌸/g, 'NewLuna ❋');
+        content = content.replace(/Welcome to NewLuna/g, 'Welcome to NewLuna');
+        content = content.replace(/"NewLuna"/g, '"NewLuna"');
+        content = content.replace(/>NewLuna</g, '>NewLuna<');
+        content = content.replace(/NewLuna Hydration/g, 'NewLuna Hydration');
+        content = content.replace(/NewLuna Update/g, 'NewLuna Update');
+        content = content.replace(/NewLuna Wellness/g, 'NewLuna Wellness');
+        content = content.replace(/NewLuna Care/g, 'NewLuna Care');
+        content = content.replace(/NewLuna Support/g, 'NewLuna Support');
         
         // Assistant
-        content = content.replace(/Talk to Luna 🌙/g, 'Talk to Moon Bloom ❋');
-        content = content.replace(/Hi! I'm Luna/g, "Hi! I'm Moon Bloom");
-        content = content.replace(/How are you feeling\? Tell Luna\.\.\./g, 'How are you feeling? Tell Moon Bloom...');
-        content = content.replace(/Luna's Daily Note 🌙/g, 'Moon Bloom\'s Daily Note ❋');
-        content = content.replace(/Luna's Daily Note/g, 'Moon Bloom\'s Daily Note');
-        content = content.replace(/Luna AI Tip/g, 'Moon Bloom AI Tip');
+        content = content.replace(/Talk to Luna 🌙/g, 'Talk to NewLuna ❋');
+        content = content.replace(/Hi! I'm Luna/g, "Hi! I'm NewLuna");
+        content = content.replace(/How are you feeling\? Tell Luna\.\.\./g, 'How are you feeling? Tell NewLuna...');
+        content = content.replace(/Luna's Daily Note 🌙/g, 'NewLuna\'s Daily Note ❋');
+        content = content.replace(/Luna's Daily Note/g, 'NewLuna\'s Daily Note');
+        content = content.replace(/Luna AI Tip/g, 'NewLuna AI Tip');
         
         // General
-        content = content.replace(/'Luna'/g, "'Moon Bloom'");
-        content = content.replace(/"Luna"/g, '"Moon Bloom"');
-        content = content.replace(/Luna User/g, 'Moon Bloom User');
+        content = content.replace(/'Luna'/g, "'NewLuna'");
+        content = content.replace(/"Luna"/g, '"NewLuna"');
+        content = content.replace(/Luna User/g, 'NewLuna User');
         
         fs.writeFileSync('./js/' + file, content, 'utf8');
     });

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../widgets/moon_bloom_mark.dart';
+import '../widgets/new_luna_mark.dart';
 import 'dashboard.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const MoonBloomMark(size: 120),
+                    const NewLunaMark(size: 120),
                     const SizedBox(height: 24),
                     Text(
                       "NewLuna ✨",

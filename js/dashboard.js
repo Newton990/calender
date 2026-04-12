@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const currentUser = localStorage.getItem('New LunaSession');
+    const currentUser = localStorage.getItem('NewLunaSession');
     if (!currentUser) {
         window.location.replace('login.html');
         return;
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (elements.fertilityText) elements.fertilityText.textContent = "Low fertility. Focus on rest.";
         } else if (today.toDateString() === ovulationDay.toDateString()) {
-            phase = "Ovulation Phase ✨";
+            phase = "Ovulation Phase ❋";
             if (elements.phaseBadge) {
                 elements.phaseBadge.textContent = phase;
                 elements.phaseBadge.style.background = "#ffb703";
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 elements.phaseBadge.style.background = "#8b5cf6";
             }
             const diffOvu = Math.ceil((ovulationDay - today) / (1000 * 60 * 60 * 24));
-            if (elements.fertilityText) elements.fertilityText.textContent = diffOvu <= 5 ? "High fertility window! ✨" : "Low fertility. Approaching window.";
+            if (elements.fertilityText) elements.fertilityText.textContent = diffOvu <= 5 ? "High fertility window! ❋" : "Low fertility. Approaching window.";
         } else {
             phase = "Luteal Phase";
             if (elements.phaseBadge) {
@@ -202,8 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function updatePhaseTips(phase) {
         const tips = {
             "Menstrual Phase 🩸": { n: "Iron-rich foods & Magnesium. 🍫", e: "Gentle yoga or light walk. 🧘‍♀️", s: "Heat pad & early bedtime. 🍵" },
-            "Follicular Phase": { n: "Lean protein & fermented foods. 🍊", e: "Good time for HIIT or cardio! 🏃‍♀️", s: "Start new creative projects. ✨" },
-            "Ovulation Phase ✨": { n: "Anti-inflammatory, high-fiber. 🥗", e: "Peak energy: Heavy weights or run. ⚡", s: "Connect with friends. 💄" },
+            "Follicular Phase": { n: "Lean protein & fermented foods. 🍊", e: "Good time for HIIT or cardio! 🏃‍♀️", s: "Start new creative projects. ❋" },
+            "Ovulation Phase ❋": { n: "Anti-inflammatory, high-fiber. 🥗", e: "Peak energy: Heavy weights or run. ⚡", s: "Connect with friends. 💄" },
             "Luteal Phase": { n: "Complex carbs to stabilize mood. 🍠", e: "Pilates or moderate hiking. 🚣‍♀️", s: "Prioritize sleep & boundaries. 🌙" }
         };
         const current = tips[phase] || tips["Follicular Phase"];
@@ -214,9 +214,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateKindnessCorner(phase) {
         const messages = {
-            "Menstrual Phase 🩸": { i: "🌸", t: "Your body is working hard. Be gentle with yourself. ✨" },
+            "Menstrual Phase 🩸": { i: "🌸", t: "Your body is working hard. Be gentle with yourself. ❋" },
             "Follicular Phase": { i: "🌱", t: "New beginnings, new energy! Dream big today. 🚀" },
-            "Ovulation Phase ✨": { i: "💫", t: "You are absolutely radiant! Your confidence is magnetic. 🌟" },
+            "Ovulation Phase ❋": { i: "💫", t: "You are absolutely radiant! Your confidence is magnetic. 🌟" },
             "Luteal Phase": { i: "🌙", t: "Slow down and listen to your heart. You're doing great. 🧸" },
             "Pregnancy": { i: "👶", t: "You're growing a life! Superhero mode active. ❤️" }
         };
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "Menstrual": { e: "🌸", t: "Hormones at lowest. Prioritize rest and grace." }
         };
         
-        let pred = { e: "✨", t: "Log more data for deeper AI insights." };
+        let pred = { e: "❋", t: "Log more data for deeper AI insights." };
         for (let k in predictions) {
             if (phase.includes(k)) { pred = predictions[k]; break; }
         }
@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     renderCalendar();
                     alert("Period logged for today! ❤️");
                 } else {
-                    alert("Today is already logged! ✨");
+                    alert("Today is already logged! ❋");
                 }
             };
         }
@@ -332,7 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Simplified for this version
         const show = confirm(`Would you like to log symptoms for ${dateStr}?`);
         if (show) {
-            alert("Symptom logging modal would open here. ✨");
+            alert("Symptom logging modal would open here. ❋");
         }
     }
 

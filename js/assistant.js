@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         userContext = await SentientAI.getContext(user);
         
         // Initial Greeting
-        const greeting = `Hey ${userContext.nickname}... I'm here. ${userContext.isSensitivePhase ? "I know things can feel a bit heavier today. How are you holding up?" : "How is your day going? ✨"}`;
+        const greeting = `Hey ${userContext.nickname}... I'm here. ${userContext.isSensitivePhase ? "I know things can feel a bit heavier today. How are you holding up?" : "How is your day going? ❋"}`;
         addMessage(greeting, 'ai');
     });
 
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sad: ['sad', 'down', 'unhappy', 'crying', 'depressed', '😔', '😢'],
             irritated: ['irritated', 'angry', 'mad', 'cranky', 'annoyed', '😠', '😡'],
             tired: ['tired', 'exhausted', 'fatigue', 'sleepy', '😴'],
-            happy: ['happy', 'great', 'good', 'amazing', 'excited', '😊', '✨']
+            happy: ['happy', 'great', 'good', 'amazing', 'excited', '😊', '❋']
         };
 
         for (const [mood, keywords] of Object.entries(moods)) {
@@ -72,10 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
             response = `I see you logged a **${context.mood}** mood recently. In your **${context.phase}** phase, it's very common to feel this way. How can I help you feel more comfortable right now? Maybe a warm tea or some quiet music? 🌸`;
         }
         else if (q.includes('cramp') || q.includes('period') || q.includes('hormone')) {
-            response = `Dealing with ${context.phase} phase shifts is tough. 🌿 As your soulful companion, I want to remind you to take it slow. Have you tried a magnesium-rich snack or a light walk? Your health comes first, queen. ✨`;
+            response = `Dealing with ${context.phase} phase shifts is tough. 🌿 As your soulful companion, I want to remind you to take it slow. Have you tried a magnesium-rich snack or a light walk? Your health comes first, queen. ❋`;
         }
         else {
-            response = `I hear you, ${context.nickname}. ✨ It's interesting you mention that while you're in your **${context.phase}** phase. I'm here to listen and learn with you. What else is on your mind?`;
+            response = `I hear you, ${context.nickname}. ❋ It's interesting you mention that while you're in your **${context.phase}** phase. I'm here to listen and learn with you. What else is on your mind?`;
         }
 
         return response;
