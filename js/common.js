@@ -13,28 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const isAuthPage = page === 'login.html' || page === 'register.html';
         const isVerifyPage = page === 'verify.html';
 
-        // Smart Mock Mode Bridge: Check for both new and legacy session keys
-        const mockUser = localStorage.getItem('NewLunaSession') || localStorage.getItem('Moon Bloom Session');
-
         if (!user && !isAuthPage && !isVerifyPage) {
-            // Permit entry if a Mock/Legacy Session exists (Smart Mock Mode)
-            if (mockUser) {
-                console.log("Entering via Smart Mock Mode ❋ (Legacy/Demo Session)");
-                return; 
-            }
-
-            // Otherwise, redirect to login
+            // Save return URL for post-login redirect
             const currentPath = page || 'index.html';
-            if (currentPath !== 'login.html' && currentPath !== 'verify.html') {
-                sessionStorage.setItem('returnUrl', currentPath);
-                console.log(`Entry Point Saved: ${currentPath} 🤝`);
-            }
+            sessionStorage.setItem('returnUrl', currentPath);
+            console.log(`Access Denied: Redirecting to Login. Return Path: ${currentPath} 🤝`);
+            
             window.location.replace('login.html');
             return;
         }
 
         if (user) {
-            // Store legacy email session for backward compatibility with existing JS
+            // Backward compatibility for existing JS that expects this key
             localStorage.setItem('NewLunaSession', user.email);
             
             // 0.1 Sentient Theme Engine (Mood-to-Theme)
@@ -63,17 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             document.body.setAttribute('data-theme', activeTheme);
 
-            if (user && !user.emailVerified && !isAuthPage && !isVerifyPage) {
+            // Enrollment / Verification Guard
+            if (!user.emailVerified && !isAuthPage && !isVerifyPage) {
                 console.log("Email not verified. Redirecting to verification... 📧");
                 window.location.replace('verify.html');
                 return;
             }
 
+            // Redirect if already logged in and visiting Auth pages
             if (isAuthPage) {
-                if (user && !user.emailVerified) {
-                    window.location.replace('verify.html');
-                    return;
-                }
+                if (!user.emailVerified) return; // Allow auth.js to handle unverified state
+
                 const returnUrl = sessionStorage.getItem('returnUrl');
                 if (returnUrl && returnUrl !== 'login.html' && returnUrl !== 'verify.html') {
                     console.log(`Returning to Entry Point: ${returnUrl} ❋`);
@@ -86,32 +76,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Fetch Nickname if missing in profile
+            // Fetch Nickname if missing in profile cache
             if (!localStorage.getItem(`profile_${user.email}`)) {
-                const userDoc = await firebase.firestore().collection('users').doc(user.uid).get();
-                if (userDoc.exists) {
-                    localStorage.setItem(`profile_${user.email}`, JSON.stringify(userDoc.data()));
+                try {
+                    const userDoc = await firebase.firestore().collection('users').doc(user.uid).get();
+                    if (userDoc.exists) {
+                        localStorage.setItem(`profile_${user.email}`, JSON.stringify(userDoc.data()));
+                        // Trigger a custom event if profile is loaded after DOM content
+                        window.dispatchEvent(new CustomEvent('newluna_profile_loaded', { detail: userDoc.data() }));
+                    }
+                } catch (e) {
+                    console.warn("Profile fetch failed:", e);
                 }
             }
         }
     });
 
-    const currentUser = localStorage.getItem('NewLunaSession') || localStorage.getItem('Moon Bloom Session');
-
+    const currentUser = localStorage.getItem('NewLunaSession');
     const path = window.location.pathname;
-    const isAuthPage = path.includes('login.html') || path.includes('register.html');
 
-    // Legacy Auth Guard (Disabled, now handled by Firebase listener)
-    /*
-    if (!currentUser && !isAuthPage) {
-        window.location.replace('login.html');
-        return;
-    }
-    if (currentUser && isAuthPage) {
-        window.location.replace('index.html');
-        return;
-    }
-    */
 
     // 1.1 Layout Variant Guard (Soft vs Roma)
     const layout = localStorage.getItem('current_layout') || 'roma';

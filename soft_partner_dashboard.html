@@ -3,32 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NewLuna | Partner Dashboard (Soft)</title>
+    <title>NewLuna | Partner Duo</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="soft-style.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#f06292">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <script src="js/common.js"></script>
     <style>
+        body {
+            background: none;
+            overflow-x: hidden;
+        }
         .partner-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
             padding: 100px 20px 120px;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Hero Cycle Card */
+        /* Hero Cycle Card Premium */
         .cycle-hero {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 35px;
             padding: 30px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 15px 45px rgba(0,0,0,0.03);
+            box-shadow: 0 30px 60px -12px rgba(145, 95, 109, 0.1), 0 18px 36px -18px rgba(0, 0, 0, 0.15);
             position: relative;
             overflow: hidden;
         }
+        
         .cycle-progress-ring {
             width: 180px; height: 180px;
             margin: 0 auto 20px;
@@ -36,14 +45,14 @@
             display: flex; align-items: center; justify-content: center;
         }
         .ring-svg { transform: rotate(-90deg); }
-        .ring-bg { fill: none; stroke: rgba(255,255,255,0.5); stroke-width: 10; }
+        .ring-bg { fill: none; stroke: rgba(0,0,0,0.03); stroke-width: 12; }
         .ring-progress { 
-            fill: none; stroke: #f3a8b8; stroke-width: 10; 
+            fill: none; stroke: var(--primary); stroke-width: 12; 
             stroke-linecap: round; transition: stroke-dashoffset 1s ease-out;
         }
         .ring-content { position: absolute; text-align: center; }
-        .ring-val { font-size: 2.2rem; font-weight: 700; color: #4a4a4a; display: block; }
-        .ring-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+        .ring-val { font-size: 2.2rem; font-weight: 700; color: var(--text-main); display: block; }
+        .ring-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
 
         /* Support Action Bar */
         .support-actions {
@@ -52,31 +61,35 @@
             padding: 10px 0;
         }
         .support-btn {
-            background: white; border-radius: 20px; padding: 12px 20px;
-            border: 1px solid rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border-radius: 20px; padding: 12px 20px;
+            border: 1px solid rgba(255,255,255,0.5);
             display: flex; align-items: center; gap: 8px;
             font-size: 0.85rem; font-weight: 600; cursor: pointer;
             transition: all 0.2s; white-space: nowrap;
             box-shadow: 0 4px 12px rgba(0,0,0,0.04);
         }
-        .support-btn:hover { transform: translateY(-3px); background: #fdf2f4; border-color: #f3a8b8; }
-        .support-btn.sent { background: #f3a8b8; color: white; }
+        .support-btn:hover { transform: translateY(-3px); background: white; border-color: var(--primary); }
+        .support-btn.sent { background: var(--primary); color: white; }
 
-        /* Insight Card */
+        /* Insight Card Premium */
         .insight-card {
-            background: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 28px; padding: 24px;
-            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.05);
         }
-        .insight-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; color: #333; }
-        .insight-text { font-size: 0.9rem; line-height: 1.6; color: #666; }
+        .insight-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; color: var(--text-main); font-family: 'Playfair Display', serif; }
+        .insight-text { font-size: 0.95rem; line-height: 1.6; color: var(--text-muted); }
         
         .status-pill {
-            display: inline-block; padding: 4px 12px; border-radius: 12px;
-            font-size: 0.75rem; font-weight: 600; margin-bottom: 8px;
+            display: inline-block; padding: 6px 14px; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 700; margin-bottom: 8px;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .status-luteal { background: #f3e5f5; color: #9c27b0; }
-        .status-connected { background: #e8f5e9; color: #2e7d32; }
+        .status-luteal { background: rgba(255, 179, 193, 0.2); color: var(--primary-dark); }
+        .status-connected { background: rgba(67, 170, 139, 0.15); color: #2e7d32; }
 
     </style>
     <!-- Firebase SDKs -->
@@ -85,21 +98,24 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
 </head>
-<body class="soft-theme">
+<body class="mesh-gradient">
+    <div class="animated-blob" style="top: -10%; left: -10%;"></div>
+    <div class="animated-blob" style="bottom: -15%; right: -10%; background: linear-gradient(135deg, rgba(67, 170, 139, 0.1), rgba(76, 201, 240, 0.2)); animation-delay: -5s;"></div>
+
     <!-- Animated Splash Screen -->
     <div class="splash-overlay">
         <div class="splash-icon">❋</div>
         <div class="splash-luna">NewLuna</div>
     </div>
 
-    <div class="fluid-container">
+    <div class="fluid-container" style="position: relative; z-index: 2;">
         <!-- Soft Header -->
-        <header class="soft-header">
+        <header class="soft-header" style="background: rgba(255,255,255,0.4); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.3);">
             <div class="header-content">
                 <span class="status-pill status-connected">● Partner Connected</span>
-                <div class="NewLuna-logo" style="margin-top: 5px; font-size: 1.6rem; background: none; -webkit-text-fill-color: #4a4a4a;">NewLuna</div>
+                <div class="NewLuna-logo" style="margin-top: 5px; font-size: 1.6rem; background: none; -webkit-text-fill-color: var(--text-main);">NewLuna</div>
             </div>
-            <div class="user-avatar-mini" style="background-image: url('https://api.placeholder.com/40'); border: 2px solid #f3a8b8;"></div>
+            <div class="user-avatar-mini" style="background-image: url('https://api.placeholder.com/40'); border: 2px solid var(--primary);"></div>
         </header>
 
         <div class="partner-grid">

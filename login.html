@@ -250,7 +250,7 @@
         <div id="auth-error" class="error-msg"></div>
 
         <!-- LOGIN VIEW -->
-        <div id="view-login" class="auth-view active">
+        <div id="view-login" class="auth-view">
             <div class="form-group">
                 <label class="label">Email Address</label>
                 <input type="email" id="login-email" class="form-input" placeholder="e.g. sarah@example.com">
@@ -277,12 +277,12 @@
             </div>
 
             <div class="footer-link">
-                Don't have an account? <a href="#" onclick="showView('signup')">Sign Up</a>
+                Don't have an account? <a href="#" id="show-signup">Sign Up</a>
             </div>
         </div>
 
         <!-- SIGNUP VIEW -->
-        <div id="view-signup" class="auth-view">
+        <div id="view-signup" class="auth-view active">
             <div class="form-group">
                 <label class="label">First Name</label>
                 <input type="text" id="signup-nickname" class="form-input" placeholder="e.g. Sarah">
@@ -314,31 +314,17 @@
             </div>
 
             <div class="footer-link">
-                Already have an account? <a href="#" onclick="showView('login')">Sign In</a>
+                Already have an account? <a href="#" id="show-login">Sign In</a>
             </div>
         </div>
 
     </div>
 
     <script>
-        function showView(view) {
-            document.querySelectorAll('.auth-view').forEach(v => v.classList.remove('active'));
-            document.getElementById('view-' + view).classList.add('active');
-            
-            const subtitle = document.getElementById('auth-subtitle');
-            if (view === 'signup') {
-                subtitle.textContent = "Start your beautifully tracked journey.";
-            } else {
-                subtitle.textContent = "Your wellness journey continues here.";
-            }
-            
-            const error = document.getElementById('auth-error');
-            error.style.display = 'none';
-        }
-
-        // Firebase connectivity hooks are in auth.js & common.js
+        // Handled by js/auth.js
     </script>
     <script src="js/auth.js"></script>
     <script src="js/common.js"></script>
+
 </body>
 </html>

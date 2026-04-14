@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bgDarkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F0C29" />
+      <stop offset="50%" stop-color="#302B63" />
+      <stop offset="100%" stop-color="#0a0515" />
+    </linearGradient>
+    <linearGradient id="moonGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ff7eb3" />
+      <stop offset="60%" stop-color="#9d4edd" />
+      <stop offset="100%" stop-color="#5ea3ff" />
+    </linearGradient>
+    <radialGradient id="glowDark" cx="50%" cy="50%" r="50%">
+         <stop offset="0%" stop-color="#9d4edd" stop-opacity="0.4" />
+         <stop offset="100%" stop-color="#9d4edd" stop-opacity="0" />
+    </radialGradient>
+    <filter id="blurDark" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="40" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="1024" height="1024" fill="url(#bgDarkGrad)" />
+  <g transform="translate(512, 512)">
+     <circle r="400" fill="url(#glowDark)" />
+     <path d="M -50 -280 A 280 280 0 1 1 -50 280 A 300 300 0 0 0 -50 -280 Z" fill="url(#moonGrad)" filter="url(#blurDark)"/>
+  </g>
+</svg>

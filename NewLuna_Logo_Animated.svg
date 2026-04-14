@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bgAnim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F0C29" />
+      <stop offset="50%" stop-color="#302B63" />
+      <stop offset="100%" stop-color="#0a0515" />
+    </linearGradient>
+    <linearGradient id="moonGradAnim" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ff7eb3" />
+      <stop offset="60%" stop-color="#9d4edd" />
+      <stop offset="100%" stop-color="#5ea3ff" />
+    </linearGradient>
+    <radialGradient id="glowAnim" cx="50%" cy="50%" r="50%">
+         <stop offset="0%" stop-color="#9d4edd" stop-opacity="0.6" />
+         <stop offset="100%" stop-color="#9d4edd" stop-opacity="0" />
+    </radialGradient>
+    <filter id="blurAnim" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="40" result="coloredBlur">
+          <animate attributeName="stdDeviation" values="30;50;30" dur="4s" repeatCount="indefinite" />
+      </feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="1024" height="1024" fill="url(#bgAnim)" />
+  <g transform="translate(512, 512)">
+     <circle r="400" fill="url(#glowAnim)">
+        <animate attributeName="opacity" values="0.4;0.8;0.4" dur="4s" repeatCount="indefinite" />
+     </circle>
+     <path d="M -50 -280 A 280 280 0 1 1 -50 280 A 300 300 0 0 0 -50 -280 Z" fill="url(#moonGradAnim)" filter="url(#blurAnim)"/>
+  </g>
+</svg>

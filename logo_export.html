@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLuna Logo Generator</title>
+    <style>
+        body {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background-color: #0B0C10;
+            color: #ffffff;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 { margin-bottom: 10px; font-weight: 600; background: linear-gradient(90deg, #9d4edd, #ff7eb3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p { color: #a1a1aa; margin-bottom: 40px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .card {
+            background-color: #1a1a24;
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .svg-container {
+            width: 256px;
+            height: 256px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: #fff; /* fallback */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .svg-container.dark { background: #0a0515; }
+        .svg-container.light { background: #fdfbfd; }
+        .svg-container.transparent { background: repeating-conic-gradient(#80808033 0% 25%, transparent 0% 50%) 50% / 20px 20px; }
+        
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .controls { display: flex; flex-direction: column; width: 100%; gap: 10px; }
+        
+        button {
+            background: #2a2a36;
+            color: #fff;
+            border: 1px solid #3a3a46;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        button:hover { background: #3a3a46; border-color: #5a5a66; }
+        .primary-btn { background: linear-gradient(135deg, #9d4edd, #ff7eb3, #5ea3ff); border: none; color: white; font-weight: 600;}
+        .primary-btn:hover { opacity: 0.9; }
+
+        .btn-group { display: flex; gap: 10px; }
+        .btn-group button { flex: 1; }
+
+    </style>
+</head>
+<body>
+
+    <h1>NewLuna Logo Assets</h1>
+    <p>Preview and export your premium logo deliverables here.</p>
+
+    <div class="grid">
+        <!-- Main Dark Mode -->
+        <div class="card">
+            <h3>Dark Mode (Main)</h3>
+            <div class="svg-container dark" id="cont-dark">
+                <svg id="svg-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+                  <defs>
+                    <linearGradient id="bgDarkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#0F0C29" />
+                      <stop offset="50%" stop-color="#302B63" />
+                      <stop offset="100%" stop-color="#0a0515" />
+                    </linearGradient>
+                    <linearGradient id="moonGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+                      <stop offset="0%" stop-color="#ff7eb3" />
+                      <stop offset="60%" stop-color="#9d4edd" />
+                      <stop offset="100%" stop-color="#5ea3ff" />
+                    </linearGradient>
+                    <radialGradient id="glowDark" cx="50%" cy="50%" r="50%">
+                         <stop offset="0%" stop-color="#9d4edd" stop-opacity="0.4" />
+                         <stop offset="100%" stop-color="#9d4edd" stop-opacity="0" />
+                    </radialGradient>
+                    <filter id="blurDark" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur stdDeviation="40" result="coloredBlur"/>
+                      <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  
+                  <rect width="1024" height="1024" fill="url(#bgDarkGrad)" />
+                  <g transform="translate(512, 512)">
+                     <circle r="400" fill="url(#glowDark)" />
+                     <path d="M -50 -280 A 280 280 0 1 1 -50 280 A 300 300 0 0 0 -50 -280 Z" fill="url(#moonGrad)" filter="url(#blurDark)"/>
+                  </g>
+                </svg>
+            </div>
+            <div class="controls">
+                <button onclick="downloadSVG('svg-dark', 'newluna_dark')">Download SVG</button>
+                <div class="btn-group">
+                    <button onclick="downloadPNG('svg-dark', 'newluna_dark', 1024)">PNG 1024x</button>
+                    <button onclick="downloadPNG('svg-dark', 'newluna_dark', 512)">PNG 512x</button>
+                    <button onclick="downloadPNG('svg-dark', 'newluna_dark', 256)">PNG 256x</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Light Mode -->
+        <div class="card">
+            <h3>Light Mode</h3>
+            <div class="svg-container light" id="cont-light">
+                <svg id="svg-light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+                  <defs>
+                    <linearGradient id="bgLightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#f5f0f9" />
+                      <stop offset="50%" stop-color="#ffffff" />
+                      <stop offset="100%" stop-color="#ebedf5" />
+                    </linearGradient>
+                    <linearGradient id="moonGradLight" x1="20%" y1="0%" x2="80%" y2="100%">
+                      <stop offset="0%" stop-color="#ff7eb3" />
+                      <stop offset="60%" stop-color="#9d4edd" />
+                      <stop offset="100%" stop-color="#5ea3ff" />
+                    </linearGradient>
+                    <radialGradient id="glowLight" cx="50%" cy="50%" r="50%">
+                         <stop offset="0%" stop-color="#ff7eb3" stop-opacity="0.15" />
+                         <stop offset="100%" stop-color="#9d4edd" stop-opacity="0" />
+                    </radialGradient>
+                    <filter id="blurLight" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur stdDeviation="30" result="coloredBlur"/>
+                      <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  
+                  <rect width="1024" height="1024" fill="url(#bgLightGrad)" />
+                  <g transform="translate(512, 512)">
+                     <circle r="400" fill="url(#glowLight)" />
+                     <path d="M -50 -280 A 280 280 0 1 1 -50 280 A 300 300 0 0 0 -50 -280 Z" fill="url(#moonGradLight)" filter="url(#blurLight)"/>
+                  </g>
+                </svg>
+            </div>
+            <div class="controls">
+                <button onclick="downloadSVG('svg-light', 'newluna_light')">Download SVG</button>
+                <div class="btn-group">
+                    <button onclick="downloadPNG('svg-light', 'newluna_light', 1024)">PNG 1024x</button>
+                    <button onclick="downloadPNG('svg-light', 'newluna_light', 512)">PNG 512x</button>
+                    <button onclick="downloadPNG('svg-light', 'newluna_light', 256)">PNG 256x</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transparent -->
+        <div class="card">
+            <h3>Transparent bg</h3>
+            <div class="svg-container transparent" id="cont-transp">
+                <svg id="svg-transp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+                  <defs>
+                    <linearGradient id="moonGradTransp" x1="20%" y1="0%" x2="80%" y2="100%">
+                      <stop offset="0%" stop-color="#ff7eb3" />
+                      <stop offset="60%" stop-color="#9d4edd" />
+                      <stop offset="100%" stop-color="#5ea3ff" />
+                    </linearGradient>
+                    <filter id="blurTransp" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur stdDeviation="40" result="coloredBlur"/>
+                      <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  
+                  <!-- No rect, transparent background -->
+                  <g transform="translate(512, 512)">
+                     <path d="M -50 -280 A 280 280 0 1 1 -50 280 A 300 300 0 0 0 -50 -280 Z" fill="url(#moonGradTransp)" filter="url(#blurTransp)"/>
+                  </g>
+                </svg>
+            </div>
+            <div class="controls">
+                <button onclick="downloadSVG('svg-transp', 'newluna_transparent')">Download SVG</button>
+                <div class="btn-group">
+                    <button onclick="downloadPNG('svg-transp', 'newluna_transparent', 1024)">PNG 1024x</button>
+                    <button onclick="downloadPNG('svg-transp', 'newluna_transparent', 512)">PNG 512x</button>
+                    <button onclick="downloadPNG('svg-transp', 'newluna_transparent', 256)">PNG 256x</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Animated -->
+        <div class="card">
+            <h3>Animated (Pulse)</h3>
+            <div class="svg-container dark" id="cont-anim">
+                <svg id="svg-anim" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+                  <defs>
+                    <linearGradient id="bgAnim" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#0F0C29" />
+                      <stop offset="50%" stop-color="#302B63" />
+                      <stop offset="100%" stop-color="#0a0515" />
+                    </linearGradient>
+                    <linearGradient id="moonGradAnim" x1="20%" y1="0%" x2="80%" y2="100%">
+                      <stop offset="0%" stop-color="#ff7eb3" />
+                      <stop offset="60%" stop-color="#9d4edd" />
+                      <stop offset="100%" stop-color="#5ea3ff" />
+                    </linearGradient>
+                    <radialGradient id="glowAnim" cx="50%" cy="50%" r="50%">
+                         <stop offset="0%" stop-color="#9d4edd" stop-opacity="0.6" />
+                         <stop offset="100%" stop-color="#9d4edd" stop-opacity="0" />
+                    </radialGradient>
+                    <filter id="blurAnim" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur stdDeviation="40" result="coloredBlur">
+                          <animate attributeName="stdDeviation" values="30;50;30" dur="4s" repeatCount="indefinite" />
+                      </feGaussianBlur>
+                      <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  
+                  <rect width="1024" height="1024" fill="url(#bgAnim)" />
+                  <g transform="translate(512, 512)">
+                     <circle r="400" fill="url(#glowAnim)">
+                        <animate attributeName="opacity" values="0.4;0.8;0.4" dur="4s" repeatCount="indefinite" />
+                     </circle>
+                     <path d="M -50 -280 A 280 280 0 1 1 -50 280 A 300 300 0 0 0 -50 -280 Z" fill="url(#moonGradAnim)" filter="url(#blurAnim)"/>
+                  </g>
+                </svg>
+            </div>
+            <div class="controls">
+                <button onclick="downloadSVG('svg-anim', 'newluna_animated')">Download Animated SVG</button>
+                <p style="font-size: 12px; margin:0; text-align:center; color:#888;">(PNG export doesn't support animation)</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadSVG(svgId, filename) {
+            const svgEl = document.getElementById(svgId);
+            const serializer = new XMLSerializer();
+            let source = serializer.serializeToString(svgEl);
+            
+            if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
+                source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+            }
+            
+            const url = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);
+            
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = filename + ".svg";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function downloadPNG(svgId, filename, size) {
+            const svgEl = document.getElementById(svgId);
+            const serializer = new XMLSerializer();
+            let source = serializer.serializeToString(svgEl);
+            
+            if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
+                source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+            }
+
+            // Temporarily replace percentage dimensions or set exact size
+            source = source.replace(/width="[^"]+"/, 'width="' + size + '"');
+            source = source.replace(/height="[^"]+"/, 'height="' + size + '"');
+
+            const img = new Image();
+            const svgBlob = new Blob([source], {type: "image/svg+xml;charset=utf-8"});
+            const url = URL.createObjectURL(svgBlob);
+
+            img.onload = function() {
+                const canvas = document.createElement("canvas");
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, size, size);
+                
+                URL.revokeObjectURL(url);
+
+                const imgURI = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                
+                const link = document.createElement("a");
+                link.download = filename + "_" + size + "x" + size + ".png";
+                link.href = imgURI;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+            img.src = url;
+        }
+    </script>
+</body>
+</html>

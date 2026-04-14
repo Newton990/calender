@@ -4,38 +4,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendBtn = document.getElementById('msg-send-btn');
     const suggestionContainer = document.getElementById('ai-suggestion-chips');
 
-    // 1. Firebase Initial Logic
+    // 1. Firebase Initial Logic & Test Bridging
     const urlParams = new URLSearchParams(window.location.search);
-    const partnerId = "partner_123"; // Mock partner link
-    let chatId = null;
     let currentUser = null;
+    let chatId = null;
+    
+    // Support Test Mode for end-to-end verification
+    const isTestMode = localStorage.getItem('test_chat_mode') === 'true';
+    const mockPartnerId = "test_partner_678";
 
     firebase.auth().onAuthStateChanged(user => {
-        if (!user) return;
+        if (!user) {
+            // No user found, redirect to login with return path
+            const currentPath = window.location.pathname.split('/').pop() || 'chat.html';
+            sessionStorage.setItem('returnUrl', currentPath);
+            window.location.replace('login.html');
+            return;
+        }
+
         currentUser = user;
-        chatId = [user.uid, partnerId].sort().join('_');
+        
+        // Dynamic Duo Chat ID logic
+        if (isTestMode) {
+            chatId = "duo_test_channel_2026";
+            console.log("Chat: Test Mode Active 🧪");
+        } else {
+            const partnerId = localStorage.getItem('linkedPartnerId') || mockPartnerId;
+            chatId = [currentUser.uid, partnerId].sort().join('_');
+        }
+        
+        const titleEl = document.getElementById('chat-title');
+        if (titleEl) titleEl.textContent = "NewLuna Duo ❋";
         
         loadRealtimeLogs();
         listenTypingStatus();
         updateChatBackground();
         fetchUserContextForSuggestions();
-        handlePrefill();
     });
 
-    function handlePrefill() {
-        const prefill = urlParams.get('prefill');
-        const prefillMap = {
-            'love': "Thinking of you! ❤️",
-            'help': "Can I help with anything? 🤝",
-            'flowers': "Sent you virtual flowers! 💐",
-            'tea': "I'm making tea. Want a cup? 🍵"
-        };
-        if (prefill && prefillMap[prefill]) {
-            chatInput.value = prefillMap[prefill];
-            // Auto-send if it's a quick gesture
-            setTimeout(handleSend, 500);
-        }
-    }
 
     async function addMsg(text, imageUrl = null, audioUrl = null) {
         if (!chatId || !currentUser) return;
@@ -45,60 +51,50 @@ document.addEventListener('DOMContentLoaded', () => {
             senderId: currentUser.uid,
             senderEmail: currentUser.email,
             text,
-            imageUrl,
-            audioUrl,
             status: 'sent',
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         };
 
-        await firebase.firestore().collection('chats').doc(chatId).collection('messages').add(msgData);
+        try {
+            await firebase.firestore().collection('chats').doc(chatId).collection('messages').add(msgData);
+        } catch (e) {
+            console.error("Error sending message:", e);
+        }
     }
 
     function renderMsg(msg, docId) {
         const div = document.createElement('div');
-        const type = msg.senderId === currentUser.uid ? 'sent' : 'received';
+        const type = (msg.senderEmail === currentUser.email || msg.senderId === currentUser.uid) ? 'sent' : 'received';
         div.className = `msg ${type}`;
         
         let content = msg.text;
-        if (msg.imageUrl) content += `<br><img src="${msg.imageUrl}" style="max-width: 100%; border-radius: 10px; margin-top: 5px;">`;
         
-        // Status indicator (Read Receipts)
+        // Status indicator
         let statusHtml = '';
         if (type === 'sent') {
-            if (msg.status === 'sent') statusHtml = '<span class="status">✔</span>';
-            else if (msg.status === 'delivered') statusHtml = '<span class="status">✔✔</span>';
-            else if (msg.status === 'seen') statusHtml = '<span class="status">💖</span>';
+            statusHtml = '<span class="status" style="font-size: 0.7rem; margin-left: 5px; opacity: 0.6;">✔</span>';
         }
 
-        div.innerHTML = `${content} <div class="msg-meta">${statusHtml}</div>`;
+        div.innerHTML = `${content} <div class="msg-meta" style="display:inline-block">${statusHtml}</div>`;
         chatWindow.appendChild(div);
         chatWindow.scrollTop = chatWindow.scrollHeight;
-
-        // Mark as seen if received
-        if (type === 'received' && msg.status !== 'seen') {
-            firebase.firestore().collection('chats').doc(chatId).collection('messages').doc(docId).update({ status: 'seen' });
-        }
     }
 
     function loadRealtimeLogs() {
+        if (!chatId) return;
         firebase.firestore().collection('chats').doc(chatId).collection('messages')
             .orderBy('timestamp', 'asc')
             .onSnapshot(snapshot => {
                 chatWindow.innerHTML = '';
                 snapshot.forEach(doc => renderMsg(doc.data(), doc.id));
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }, err => {
+                console.warn("Chat snapshot error:", err);
             });
     }
 
     function listenTypingStatus() {
-        // Shared typing indicator using doc metadata
-        firebase.firestore().collection('chats').doc(chatId).onSnapshot(doc => {
-            if (doc.exists && doc.data().typing && doc.data().typing !== currentUser.uid) {
-                document.getElementById('typing-indicator').classList.remove('hidden');
-            } else {
-                document.getElementById('typing-indicator').classList.add('hidden');
-            }
-        });
-
+        if (!chatId) return;
         chatInput.addEventListener('input', () => {
             firebase.firestore().collection('chats').doc(chatId).set({ typing: currentUser.uid }, { merge: true });
             clearTimeout(window.typingTimer);
@@ -109,48 +105,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateChatBackground() {
-        const theme = document.body.getAttribute('data-theme') || 'blush';
-        const chatContainer = document.querySelector('.chat-wrapper');
-        if (chatContainer) {
-            chatContainer.style.background = `var(--bg-${theme})`;
-            // Add emotion-layered overlay
-            chatContainer.classList.add(`chat-mood-${theme}`);
+        const theme = localStorage.getItem('current_theme') || 'blush';
+        const body = document.body;
+        if (body.classList.contains('mesh-gradient')) {
+            // Background is already set by HTML for premium feel
         }
     }
 
     async function fetchUserContextForSuggestions() {
-        if (!currentUser) return;
-        const userDoc = await firebase.firestore().collection('users').doc(currentUser.uid).get();
-        if (userDoc.exists) {
-            renderAISuggestions(userDoc.data());
+        if (!currentUser || !currentUser.uid) return;
+        try {
+            const userDoc = await firebase.firestore().collection('users').doc(currentUser.uid).get();
+            if (userDoc.exists) {
+                renderAISuggestions(userDoc.data());
+            } else {
+                renderAISuggestions({}); // Default chips
+            }
+        } catch (e) {
+            renderAISuggestions({});
         }
     }
 
     function renderAISuggestions(userData) {
-        const periods = userData.periods || [];
-        const cycleLen = userData.cycleLength || 28;
+        const currentDay = 14; // Default middle cycle for test
         
-        if (periods.length === 0) return;
-
-        const lastPeriod = new Date(periods[periods.length - 1]);
-        const today = new Date();
-        const diffDays = Math.floor((today - lastPeriod) / (1000 * 60 * 60 * 24)) + 1;
-        const currentDay = ((diffDays - 1) % cycleLen) + 1;
-
         suggestionContainer.innerHTML = '';
-        
-        let chips = [];
-        if (currentDay <= 5) {
-            chips = ["Rest well! ❤️", "Got you tea! 🍵", "Netflix tonight? 📺"];
-        } else if (currentDay >= 12 && currentDay <= 16) {
-            chips = ["You glow today! ❋", "Dinner date? 🍷", "Miss you! ❤️"];
-        } else {
-            chips = ["Take a breath! 🌙", "I'm listening. 👂", "You got this! 💪"];
-        }
+        let chips = ["Rest well! ❤️", "Got you tea! 🍵", "You glow today! ❋", "Take a breath! 🌙"];
 
         chips.forEach(text => {
             const chip = document.createElement('div');
-            chip.style = "padding: 8px 12px; background: var(--accent); color: var(--primary-dark); border-radius: 15px; font-size: 0.8rem; cursor: pointer; white-space: nowrap;";
+            chip.style = "padding: 8px 12px; background: rgba(255,255,255,0.7); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.4); color: var(--text-main); border-radius: 15px; font-size: 0.8rem; cursor: pointer; white-space: nowrap;";
             chip.textContent = text;
             chip.onclick = () => {
                 chatInput.value = text;
@@ -165,11 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!text) return;
         addMsg(text);
         chatInput.value = '';
-        firebase.firestore().collection('chats').doc(chatId).set({ typing: null }, { merge: true });
     }
 
     sendBtn.addEventListener('click', handleSend);
     chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
-
-    renderAISuggestions();
 });

@@ -3,12 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const errorEl = document.getElementById('auth-error');
         if (errorEl) {
             errorEl.textContent = message;
-            errorEl.style.display = 'block'; // Ensure visibility
-            errorEl.classList.remove('hidden'); // Compatibility
+            errorEl.style.display = 'block';
+            errorEl.classList.remove('hidden');
             errorEl.style.animation = 'none';
             errorEl.offsetHeight; 
             errorEl.style.animation = 'waterPulse 0.3s ease';
         } else {
+            console.error(message);
             alert(message);
         }
     }
@@ -21,13 +22,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Helper for loading state (uses global setLoading if available)
     function setBtnLoading(btn, isLoading) {
         if (typeof window.setLoading === 'function') {
             window.setLoading(btn, isLoading);
         } else {
-            if (isLoading) btn.classList.add('loading');
-            else btn.classList.remove('loading');
+            if (isLoading) {
+                btn.disabled = true;
+                btn.classList.add('loading');
+                btn.dataset.originalText = btn.textContent;
+                btn.textContent = "Processing...";
+            } else {
+                btn.disabled = false;
+                btn.classList.remove('loading');
+                if (btn.dataset.originalText) btn.textContent = btn.dataset.originalText;
+            }
         }
     }
 
@@ -37,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         signupBtn.addEventListener('click', async () => {
             const emailEl = document.getElementById('signup-email');
             const passwordEl = document.getElementById('signup-password');
-            const nicknameEl = document.getElementById('signup-nickname'); // Expecting this field in HTML
+            const nicknameEl = document.getElementById('signup-nickname');
 
             if (!emailEl || !passwordEl) return;
 
@@ -70,9 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     subscribedToUpdates: true
                 });
 
-                showError("Verification email sent! Please check your inbox.");
+                // Success message using the error element (styled for success in common CSS would be better, but keeping current approach for now)
+                showError("Verification email sent! Please check your inbox. ✨");
                 
-                // Optional: Store email for the verification page to use
                 localStorage.setItem('pendingVerifyEmail', email);
 
                 setTimeout(() => {
@@ -111,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const user = userCredential.user;
 
                 if (!user.emailVerified) {
-                    showError("Please verify your email address first.");
+                    showError("Please verify your email address first. 📧");
                     localStorage.setItem('pendingVerifyEmail', email);
                     setTimeout(() => {
                         window.location.replace('verify.html');
@@ -119,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
+                // Session will be picked up by common.js listener
                 localStorage.setItem('NewLunaSession', email);
                 
                 const returnUrl = sessionStorage.getItem('returnUrl');
@@ -130,32 +139,47 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.location.replace(layout === 'roma' ? 'dashboard.html' : 'soft_dashboard.html');
                 }
             } catch (error) {
-                showError("Invalid credentials or user not found.");
+                showError(error.message || "Invalid credentials or user not found.");
             } finally {
                 setBtnLoading(loginBtn, false);
             }
         });
     }
 
-    // Form switching (Handled by inline scripts in login.html, but keeping hooks for reliability if present)
+    // Form switching
     const showSignup = document.getElementById('show-signup');
     const showLogin = document.getElementById('show-login');
-    const loginForm = document.getElementById('login-form-container');
-    const signupForm = document.getElementById('signup-form-container');
+    const loginForm = document.getElementById('view-login');
+    const signupForm = document.getElementById('view-signup');
 
     if (showSignup && signupForm && loginForm) {
-        showSignup.addEventListener('click', () => {
-            loginForm.classList.add('hidden');
-            signupForm.classList.remove('hidden');
+        showSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.classList.remove('active');
+            signupForm.classList.add('active');
             hideError();
         });
     }
 
     if (showLogin && signupForm && loginForm) {
-        showLogin.addEventListener('click', () => {
-            signupForm.classList.add('hidden');
-            loginForm.classList.remove('hidden');
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupForm.classList.remove('active');
+            loginForm.classList.add('active');
             hideError();
         });
     }
+
+    // Handle URL parameters for initial view
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialView = urlParams.get('view');
+    if (initialView === 'signup' && signupForm && loginForm) {
+        loginForm.classList.remove('active');
+        signupForm.classList.add('active');
+    } else if (initialView === 'login' && signupForm && loginForm) {
+        signupForm.classList.remove('active');
+        loginForm.classList.add('active');
+    }
 });
+
+

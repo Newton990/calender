@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><title>Test Setup</title></head>
+<body>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const email = params.get('email') || 'user@test.com';
+        const role = params.get('role') || 'user';
+        
+        localStorage.clear();
+        localStorage.setItem('NewLunaSession', email);
+        localStorage.setItem('test_chat_mode', 'true');
+        localStorage.setItem('current_layout', 'soft');
+        localStorage.setItem('user_role', role);
+        
+        console.log("Setup complete for " + email);
+        
+        if (role === 'partner') {
+            window.location.href = 'soft_partner_dashboard.html';
+        } else {
+            window.location.href = 'chat.html';
+        }
+    </script>
+</body>
+</html>

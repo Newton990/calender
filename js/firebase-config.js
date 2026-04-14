@@ -22,7 +22,7 @@ if (!firebase.apps.length) {
 // Global convenience handles
 const db = firebase.firestore();
 const auth = firebase.auth();
-const realDB = firebase.database(); // In case some real-time DB features are needed
+// const realDB = firebase.database(); // Commented out to prevent TypeError as DB SDK is not included
 
 // Shared Constants for Duo Experience
 const DUO_PARTNER_ID = "partner_123";
