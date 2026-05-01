@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -327,13 +327,23 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 <body class="page-loaded">
     <!-- Animated Splash Screen -->
     <div class="splash-overlay">
         <div class="splash-content">
-            <div class="splash-icon">❋</div>
-            <div class="splash-text">NewLuna ❋</div>
+            <div class="splash-icon">â‹</div>
+            <div class="splash-text">NewLuna â‹</div>
         </div>
     </div>
 
@@ -342,12 +352,12 @@
     <aside class="sidebar">
         <div class="logo font-bold">A / <span style="font-weight:300;">NewLuna</span></div>
         <ul>
-            <li class="active" onclick="location.href='dashboard.html'"><span class="icon">🧭</span> Dashboard</li>
-            <li onclick="location.href='report.html'"><span class="icon">📊</span> Analytics</li>
-            <li onclick="location.href='partner.html'"><span class="icon">✉️</span> Messages</li>
-            <li onclick="location.href='calendar.html'"><span class="icon">✅</span> Tasks</li>
-            <li onclick="location.href='profile.html'"><span class="icon">👤</span> Profile</li>
-            <li onclick="location.href='settings.html'"><span class="icon">⚙️</span> Settings</li>
+            <li class="active" onclick="location.href='dashboard.html'"><span class="icon">ðŸ§­</span> Dashboard</li>
+            <li onclick="location.href='report.html'"><span class="icon">ðŸ“Š</span> Analytics</li>
+            <li onclick="location.href='partner.html'"><span class="icon">âœ‰ï¸</span> Messages</li>
+            <li onclick="location.href='calendar.html'"><span class="icon">âœ…</span> Tasks</li>
+            <li onclick="location.href='profile.html'"><span class="icon">ðŸ‘¤</span> Profile</li>
+            <li onclick="location.href='settings.html'"><span class="icon">âš™ï¸</span> Settings</li>
         </ul>
         <div class="sidebar-footer">
             Premium Guest Mode <br>
@@ -361,13 +371,13 @@
         <header class="topbar">
             <div class="welcome">
                 <p class="current-date" id="header-date">April 1, 2026</p>
-                <h3>Welcome back, Sarah! 👋</h3>
+                <h3>Welcome back, Sarah! ðŸ‘‹</h3>
             </div>
             <div class="user-info">
                 <div style="margin-right: 20px;">
                     <label style="font-size: 0.85rem; font-weight: 600; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 8px;">
                         <input type="checkbox" id="pregMode" onchange="togglePregnancy()" style="width: 16px; height: 16px; cursor: pointer;">
-                        Pregnancy Mode ❋
+                        Pregnancy Mode â‹
                     </label>
                 </div>
                 <div class="user-avatar" onclick="location.href='profile.html'">S</div>
@@ -388,14 +398,14 @@
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                         <div>
                             <h2 id="pregnancy-week-text" style="color: #F57F17; font-size: 2.2rem; margin-bottom: 5px;">Week 8</h2>
-                            <p id="baby-size" style="font-size: 1.1rem; font-weight: 600; color: #BC8A5F;">Size of a Raspberry 🍓</p>
+                            <p id="baby-size" style="font-size: 1.1rem; font-weight: 600; color: #BC8A5F;">Size of a Raspberry ðŸ“</p>
                             <p id="pregnancy-days" style="margin-top: 5px; opacity: 0.7;">Day 3 of this week</p>
                             <p id="due-date-display" style="font-weight: bold; margin-top: 10px; color: #F57F17;">Due Date: Nov 12, 2026</p>
                         </div>
                         <div style="text-align: right;">
-                             <button id="log-kick-btn" class="btn-primary" style="background: #F57F17; border: none; padding: 10px 20px; border-radius: 12px; color: white; cursor: pointer; font-weight: bold;">Log Kick 🦶</button>
+                             <button id="log-kick-btn" class="btn-primary" style="background: #F57F17; border: none; padding: 10px 20px; border-radius: 12px; color: white; cursor: pointer; font-weight: bold;">Log Kick ðŸ¦¶</button>
                              <br><br>
-                             <a href="pregnancy.html" style="color: #F57F17; text-decoration: none; font-size: 0.9rem; font-weight: bold;">View Baby's Journey →</a>
+                             <a href="pregnancy.html" style="color: #F57F17; text-decoration: none; font-size: 0.9rem; font-weight: bold;">View Baby's Journey â†’</a>
                         </div>
                     </div>
                 </section>
@@ -433,12 +443,12 @@
                 <!-- ACTIONS GRID -->
                 <div class="actions-grid">
                     <div class="premium-card action-item" onclick="location.href='wellness.html'">
-                        <div class="action-icon" style="background: #E8F5E9; color: #43A047;">🧘</div>
+                        <div class="action-icon" style="background: #E8F5E9; color: #43A047;">ðŸ§˜</div>
                         <p style="font-weight: 600;">Daily Yoga</p>
                         <p style="font-size: 0.8rem; color: var(--text-muted);">Guided sessions for Day 4</p>
                     </div>
                     <div class="premium-card action-item" onclick="location.href='assistant.html'">
-                        <div class="action-icon" style="background: #E3F2FD; color: #1E88E5;">💬</div>
+                        <div class="action-icon" style="background: #E3F2FD; color: #1E88E5;">ðŸ’¬</div>
                         <p style="font-weight: 600;">Luna AI</p>
                         <p style="font-size: 0.8rem; color: var(--text-muted);">Ask anything about your health</p>
                     </div>
@@ -476,16 +486,16 @@
                 <!-- LUNA INSIGHTS -->
                 <section class="premium-card ai-insights fade-in" style="margin-top: 0;">
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                        <span style="font-size: 1.5rem;">❋</span>
+                        <span style="font-size: 1.5rem;">â‹</span>
                         <h4 style="margin: 0;">Luna Insights</h4>
                     </div>
                     
                     <div class="insight-pill" id="ai-mood-card">
                         <div style="display: flex; gap: 10px; align-items: flex-start;">
-                            <span id="mood-insight-emoji" style="font-size: 1.2rem;">❋</span>
+                            <span id="mood-insight-emoji" style="font-size: 1.2rem;">â‹</span>
                             <div>
                                 <h5>Daily Prediction</h5>
-                                <p id="mood-insight-text">Energy rising! Try a light workout today. Your estrogen levels are starting to climb. 🌸</p>
+                                <p id="mood-insight-text">Energy rising! Try a light workout today. Your estrogen levels are starting to climb. ðŸŒ¸</p>
                                 <span id="ai-confidence-area" class="hidden" style="display: block; margin-top: 8px; font-size: 0.75rem; color: var(--text-muted);">AI Confidence: <span id="ai-confidence-score">95</span>%</span>
                             </div>
                         </div>
@@ -494,7 +504,7 @@
                     <div class="insight-pill" style="border-left-color: #43aa8b;">
                         <h5>Current Phase</h5>
                         <div id="cycle-phase-badge" style="display: inline-block; padding: 4px 10px; border-radius: 10px; background: #43aa8b; color: white; font-size: 0.75rem; font-weight: bold; margin-bottom: 5px;">Follicular Phase</div>
-                        <p id="fertility-text">High fertility! Your fertile window is open. ❋</p>
+                        <p id="fertility-text">High fertility! Your fertile window is open. â‹</p>
                     </div>
 
                     <div id="irregularity-alert" class="insight-pill hidden" style="border-left-color: #F59E0B; background: #FFFBEB;">
@@ -504,17 +514,17 @@
                     
                     <div class="insight-pill" style="border-left-color: var(--primary);">
                         <h5>Cycle Recommendation</h5>
-                        <p id="tip-nutrition-text">Focus on iron-rich foods like spinach and magnesium-packed dark chocolate. 🍫</p>
+                        <p id="tip-nutrition-text">Focus on iron-rich foods like spinach and magnesium-packed dark chocolate. ðŸ«</p>
                     </div>
 
                     <div class="insight-pill" style="border-left-color: #3B82F6;">
                         <h5>Exercise Tip</h5>
-                        <p id="tip-exercise-text">Rising estrogen levels make this a great time for strength training. 🏃‍♀️</p>
+                        <p id="tip-exercise-text">Rising estrogen levels make this a great time for strength training. ðŸƒâ€â™€ï¸</p>
                     </div>
 
                     <!-- BODY PATTERNS -->
                     <div id="patterns-card" style="margin-top: 20px; padding: 0 5px;">
-                        <h5 style="margin-bottom: 10px; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Body Patterns 🔍</h5>
+                        <h5 style="margin-bottom: 10px; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Body Patterns ðŸ”</h5>
                         <div id="patterns-container">
                              <p style="font-size: 0.85rem; color: var(--text-muted);">Analyzing patterns...</p>
                         </div>
@@ -522,10 +532,10 @@
                 </section>
 
                 <section id="kindness-corner" class="premium-card fade-in" style="margin-top: 30px; text-align: center; background: rgba(255, 77, 109, 0.03); border: 1px dashed var(--primary);">
-                    <span id="kindness-icon" style="font-size: 2rem; display: block; margin-bottom: 10px;">🌸</span>
-                    <h5 id="kindness-title" style="font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 8px;">Luna's Daily Note 🌙</h5>
+                    <span id="kindness-icon" style="font-size: 2rem; display: block; margin-bottom: 10px;">ðŸŒ¸</span>
+                    <h5 id="kindness-title" style="font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 8px;">Luna's Daily Note ðŸŒ™</h5>
                     <p id="kindness-message" style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; font-style: italic;">
-                        "You are absolutely radiant! Your confidence is magnetic. Shine bright like the star you are! 🌟"
+                        "You are absolutely radiant! Your confidence is magnetic. Shine bright like the star you are! ðŸŒŸ"
                     </p>
                 </section>
 
@@ -568,7 +578,7 @@
 
                 <!-- MARKER BUTTON -->
                 <button id="mark-period-btn" class="btn-primary" style="width: 100%; margin-top: 30px; padding: 18px; border-radius: 20px; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(255, 77, 109, 0.2);">
-                    Log Period Start 🩸
+                    Log Period Start ðŸ©¸
                 </button>
 
             </div>
@@ -585,16 +595,16 @@
         <p id="selected-date-display" style="font-weight: 600; color: var(--primary); margin-bottom: 20px;"></p>
         
         <div class="modal-tabs" style="display: flex; gap: 10px; margin-bottom: 20px;">
-            <button class="tab-btn active" data-tab="emotional">🧠 Mood</button>
-            <button class="tab-btn" data-tab="physical">🩸 Body</button>
+            <button class="tab-btn active" data-tab="emotional">ðŸ§  Mood</button>
+            <button class="tab-btn" data-tab="physical">ðŸ©¸ Body</button>
         </div>
 
         <div id="tab-emotional" class="tab-pane">
             <div class="mood-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px;">
-                <button class="metric-btn mood-btn" data-mood="happy">😊</button>
-                <button class="metric-btn mood-btn" data-mood="sad">😢</button>
-                <button class="metric-btn mood-btn" data-mood="anxious">😰</button>
-                <button class="metric-btn mood-btn" data-mood="angry">😡</button>
+                <button class="metric-btn mood-btn" data-mood="happy">ðŸ˜Š</button>
+                <button class="metric-btn mood-btn" data-mood="sad">ðŸ˜¢</button>
+                <button class="metric-btn mood-btn" data-mood="anxious">ðŸ˜°</button>
+                <button class="metric-btn mood-btn" data-mood="angry">ðŸ˜¡</button>
             </div>
             <label>Energy Level:</label>
             <input type="range" id="energy-range" min="1" max="5" style="width: 100%; margin: 10px 0;">
@@ -602,13 +612,13 @@
 
         <div id="tab-physical" class="tab-pane hidden">
             <div id="menstrual-symptoms" class="symptom-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <button class="symptom-btn" data-symptom="cramps">🩸 Cramps</button>
-                <button class="symptom-btn" data-symptom="bloating">🎈 Bloating</button>
+                <button class="symptom-btn" data-symptom="cramps">ðŸ©¸ Cramps</button>
+                <button class="symptom-btn" data-symptom="bloating">ðŸŽˆ Bloating</button>
             </div>
         </div>
 
         <div style="margin-top: 30px;">
-            <button id="save-symptoms" class="btn-primary" style="width: 100%; padding: 15px; border-radius: 12px;">Save Update ❋</button>
+            <button id="save-symptoms" class="btn-primary" style="width: 100%; padding: 15px; border-radius: 12px;">Save Update â‹</button>
         </div>
     </div>
 
@@ -651,3 +661,4 @@
     </script>
 </body>
 </html>
+

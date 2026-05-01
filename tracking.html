@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -267,6 +267,16 @@ input[type="date"] {
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 
 <body>
@@ -276,12 +286,12 @@ input[type="date"] {
   <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>NewLuna</h2>
-    <div class="nav-item" data-page="dashboard">🏠 Dashboard</div>
-    <div class="nav-item" data-page="calendar">📅 Calendar</div>
-    <div class="nav-item" data-page="partner">❤️ Partner</div>
-    <div class="nav-item" data-page="profile">👤 Profile</div>
-    <div class="nav-item active" data-page="tracking">📝 Tracking</div>
-    <div class="nav-item" data-page="settings">⚙️ Settings</div>
+    <div class="nav-item" data-page="dashboard">ðŸ  Dashboard</div>
+    <div class="nav-item" data-page="calendar">ðŸ“… Calendar</div>
+    <div class="nav-item" data-page="partner">â¤ï¸ Partner</div>
+    <div class="nav-item" data-page="profile">ðŸ‘¤ Profile</div>
+    <div class="nav-item active" data-page="tracking">ðŸ“ Tracking</div>
+    <div class="nav-item" data-page="settings">âš™ï¸ Settings</div>
   </div>
 
   <!-- MAIN -->
@@ -300,35 +310,35 @@ input[type="date"] {
       <p style="opacity: 0.8; margin-top: 0;">How are you feeling today?</p>
       <div class="grid-4">
         <button class="emoji-btn" data-mood="happy" title="Happy">
-          <div style="font-size: 32px;">😊</div>
+          <div style="font-size: 32px;">ðŸ˜Š</div>
           <div class="emoji-label">Happy</div>
         </button>
         <button class="emoji-btn" data-mood="calm" title="Calm">
-          <div style="font-size: 32px;">😌</div>
+          <div style="font-size: 32px;">ðŸ˜Œ</div>
           <div class="emoji-label">Calm</div>
         </button>
         <button class="emoji-btn" data-mood="tired" title="Tired">
-          <div style="font-size: 32px;">😴</div>
+          <div style="font-size: 32px;">ðŸ˜´</div>
           <div class="emoji-label">Tired</div>
         </button>
         <button class="emoji-btn" data-mood="anxious" title="Anxious">
-          <div style="font-size: 32px;">😰</div>
+          <div style="font-size: 32px;">ðŸ˜°</div>
           <div class="emoji-label">Anxious</div>
         </button>
         <button class="emoji-btn" data-mood="sad" title="Sad">
-          <div style="font-size: 32px;">😢</div>
+          <div style="font-size: 32px;">ðŸ˜¢</div>
           <div class="emoji-label">Sad</div>
         </button>
         <button class="emoji-btn" data-mood="angry" title="Angry">
-          <div style="font-size: 32px;">😡</div>
+          <div style="font-size: 32px;">ðŸ˜¡</div>
           <div class="emoji-label">Angry</div>
         </button>
         <button class="emoji-btn" data-mood="moody" title="Moody">
-          <div style="font-size: 32px;">🎭</div>
+          <div style="font-size: 32px;">ðŸŽ­</div>
           <div class="emoji-label">Moody</div>
         </button>
         <button class="emoji-btn" data-mood="lazy" title="Lazy">
-          <div style="font-size: 32px;">🛋️</div>
+          <div style="font-size: 32px;">ðŸ›‹ï¸</div>
           <div class="emoji-label">Lazy</div>
         </button>
       </div>
@@ -355,19 +365,19 @@ input[type="date"] {
         <p style="opacity: 0.8; margin-bottom: 15px;">Flow Intensity:</p>
         <div class="grid-2">
           <button class="emoji-btn" data-flow="spotting" title="Spotting">
-            <div style="font-size: 28px;">💧</div>
+            <div style="font-size: 28px;">ðŸ’§</div>
             <div class="emoji-label">Spotting</div>
           </button>
           <button class="emoji-btn" data-flow="light" title="Light">
-            <div style="font-size: 28px;">🩸</div>
+            <div style="font-size: 28px;">ðŸ©¸</div>
             <div class="emoji-label">Light</div>
           </button>
           <button class="emoji-btn" data-flow="medium" title="Medium">
-            <div style="font-size: 28px;">🩸🩸</div>
+            <div style="font-size: 28px;">ðŸ©¸ðŸ©¸</div>
             <div class="emoji-label">Medium</div>
           </button>
           <button class="emoji-btn" data-flow="heavy" title="Heavy">
-            <div style="font-size: 28px;">🩸🩸🩸</div>
+            <div style="font-size: 28px;">ðŸ©¸ðŸ©¸ðŸ©¸</div>
             <div class="emoji-label">Heavy</div>
           </button>
         </div>
@@ -381,28 +391,28 @@ input[type="date"] {
       
       <div style="margin: 15px 0;">
         <label class="checkbox-label">
-          <input type="checkbox" data-symptom="cramps"> 🤕 Cramps/Pain
+          <input type="checkbox" data-symptom="cramps"> ðŸ¤• Cramps/Pain
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" data-symptom="bloating"> 🎈 Bloating
+          <input type="checkbox" data-symptom="bloating"> ðŸŽˆ Bloating
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" data-symptom="headache"> 🤯 Headache
+          <input type="checkbox" data-symptom="headache"> ðŸ¤¯ Headache
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" data-symptom="acne"> ❋ Acne/Pimples
+          <input type="checkbox" data-symptom="acne"> â‹ Acne/Pimples
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" data-symptom="cravings"> 🍕 Food Cravings
+          <input type="checkbox" data-symptom="cravings"> ðŸ• Food Cravings
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" data-symptom="nausea"> 🤢 Nausea
+          <input type="checkbox" data-symptom="nausea"> ðŸ¤¢ Nausea
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" data-symptom="backpain"> 🔴 Back Pain
+          <input type="checkbox" data-symptom="backpain"> ðŸ”´ Back Pain
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" data-symptom="sore_breast"> 🔴 Sore Breast
+          <input type="checkbox" data-symptom="sore_breast"> ðŸ”´ Sore Breast
         </label>
       </div>
 
@@ -438,19 +448,19 @@ input[type="date"] {
       <div style="margin: 20px 0;">
         <p style="opacity: 0.8; margin-bottom: 15px;">Exercise Today:</p>
         <label class="checkbox-label">
-          <input type="checkbox" data-exercise="walking"> 🚶 Walking
+          <input type="checkbox" data-exercise="walking"> ðŸš¶ Walking
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" data-exercise="yoga"> 🧘 Yoga
+          <input type="checkbox" data-exercise="yoga"> ðŸ§˜ Yoga
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" data-exercise="cardio"> 🏃 Cardio
+          <input type="checkbox" data-exercise="cardio"> ðŸƒ Cardio
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" data-exercise="strength"> 💪 Strength
+          <input type="checkbox" data-exercise="strength"> ðŸ’ª Strength
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" data-exercise="sports"> ⚽ Sports
+          <input type="checkbox" data-exercise="sports"> âš½ Sports
         </label>
       </div>
     </div>
@@ -645,7 +655,7 @@ function saveEntry() {
   state.entries[state.selectedDate] = entry;
   saveState();
   displayEntries();
-  showNotification('Entry saved successfully! ✓');
+  showNotification('Entry saved successfully! âœ“');
 }
 
 function displayEntries() {
@@ -665,8 +675,8 @@ function displayEntries() {
         <div>
           <strong>${new Date(date).toLocaleDateString()}</strong>
           <p style="margin: 5px 0; opacity: 0.7; font-size: 12px;">
-            ${entry.mood ? `${entry.mood} · ` : ''}
-            Energy: ${entry.energy}/10 · Sleep: ${entry.sleep}h
+            ${entry.mood ? `${entry.mood} Â· ` : ''}
+            Energy: ${entry.energy}/10 Â· Sleep: ${entry.sleep}h
           </p>
         </div>
         <div style="text-align: right;">
@@ -727,3 +737,4 @@ document.head.appendChild(style);
 
 </body>
 </html>
+

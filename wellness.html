@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,13 +16,23 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 <body>
     <!-- Animated Splash Screen -->
     <div class="splash-overlay">
         <div class="splash-content">
-            <div class="splash-icon">❋</div>
-            <div class="splash-text">NewLuna ❋</div>
+            <div class="splash-icon">â‹</div>
+            <div class="splash-text">NewLuna â‹</div>
         </div>
     </div>
 
@@ -30,34 +40,34 @@
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <a href="index.html" class="nav-item">
-            <span class="nav-icon">🏠</span>
+            <span class="nav-icon">ðŸ </span>
             <span>Home</span>
         </a>
         <a href="calendar.html" class="nav-item">
-            <span class="nav-icon">📅</span>
+            <span class="nav-icon">ðŸ“…</span>
             <span>Calendar</span>
         </a>
         <div id="quick-log-btn" class="log-btn-nav" title="Quick Log">+</div>
         <a href="report.html" class="nav-item">
-            <span class="nav-icon">📊</span>
+            <span class="nav-icon">ðŸ“Š</span>
             <span>Insights</span>
         </a>
         <a href="settings.html" class="nav-item">
-            <span class="nav-icon">⚙️</span>
+            <span class="nav-icon">âš™ï¸</span>
             <span>Settings</span>
         </a>
     </nav>
     
         <div class="app-container" style="max-width: 1000px; margin: 0 auto; padding: 20px;">
             <header style="text-align: center; margin-bottom: 40px;">
-                <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary-dark); margin-bottom: 10px;">Wellness Center ❋</h1>
+                <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary-dark); margin-bottom: 10px;">Wellness Center â‹</h1>
                 <p style="color: var(--text-muted); font-style: italic;">Your sanctuary for health, balance, and self-love.</p>
             </header>
 
             <!-- Cycle Academy Section -->
             <section id="cycle-academy" style="margin-bottom: 40px;">
                 <h2 style="font-size: 1.4rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                    Cycle Academy 🎓 <span style="font-size: 0.9rem; font-weight: normal; opacity: 0.7;">Learn your biology</span>
+                    Cycle Academy ðŸŽ“ <span style="font-size: 0.9rem; font-weight: normal; opacity: 0.7;">Learn your biology</span>
                 </h2>
                 
                 <div class="academy-grid" style="display: grid; grid-template-columns: 1fr; gap: 15px;">
@@ -65,10 +75,10 @@
                     <div class="well-card academy-card glass">
                         <div class="academy-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
                             <div>
-                                <strong style="color: #ffb3c1;">Menstrual Phase (Days 1-5) 🩸</strong>
+                                <strong style="color: #ffb3c1;">Menstrual Phase (Days 1-5) ðŸ©¸</strong>
                                 <p style="font-size: 0.85rem; margin-top: 5px;">Hormone levels are at their lowest as your body sheds the uterine lining.</p>
                             </div>
-                            <span class="toggle-icon">▼</span>
+                            <span class="toggle-icon">â–¼</span>
                         </div>
                         <div class="academy-content hidden" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
                             <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px;">This is the start of your cycle. Your energy is naturally lower, and your body is focused on rest and renewal. It's a time for reflection and inner focus.</p>
@@ -86,10 +96,10 @@
                     <div class="well-card academy-card glass">
                         <div class="academy-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
                             <div>
-                                <strong style="color: var(--primary);">Follicular Phase (Days 6-13) 🌱</strong>
+                                <strong style="color: var(--primary);">Follicular Phase (Days 6-13) ðŸŒ±</strong>
                                 <p style="font-size: 0.85rem; margin-top: 5px;">Hormones start to climb, bringing fresh energy and mental clarity.</p>
                             </div>
-                            <span class="toggle-icon">▼</span>
+                            <span class="toggle-icon">â–¼</span>
                         </div>
                         <div class="academy-content hidden" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
                             <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px;">Your brain is extra sharp now. It's the perfect phase to start new projects, socialize, and tackle complex problems. You'll likely feel more optimistic and creative.</p>
@@ -107,10 +117,10 @@
                     <div class="well-card academy-card glass">
                         <div class="academy-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
                             <div>
-                                <strong style="color: #ffb703;">Ovulation Phase (Day 14-16) ❋</strong>
+                                <strong style="color: #ffb703;">Ovulation Phase (Day 14-16) â‹</strong>
                                 <p style="font-size: 0.85rem; margin-top: 5px;">Peak fertility and peak confidence! You're glowing inside and out.</p>
                             </div>
-                            <span class="toggle-icon">▼</span>
+                            <span class="toggle-icon">â–¼</span>
                         </div>
                         <div class="academy-content hidden" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
                             <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px;">This is a short window with big impact. You might feel more attractive, communicative, and physically strong. Your libido is often highest during these few days.</p>
@@ -128,10 +138,10 @@
                     <div class="well-card academy-card glass">
                         <div class="academy-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
                             <div>
-                                <strong style="color: #43aa8b;">Luteal Phase (Days 17-28) 🌙</strong>
+                                <strong style="color: #43aa8b;">Luteal Phase (Days 17-28) ðŸŒ™</strong>
                                 <p style="font-size: 0.85rem; margin-top: 5px;">The 'winding down' phase. Turning inward and prioritizing stability.</p>
                             </div>
-                            <span class="toggle-icon">▼</span>
+                            <span class="toggle-icon">â–¼</span>
                         </div>
                         <div class="academy-content hidden" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
                             <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px;">The first half is calm, but as you approach your period, you may feel more sensitive. It's a great time for detail-oriented tasks and finishing projects rather than starting them.</p>
@@ -150,7 +160,7 @@
             <div class="wellness-grid">
             <!-- Daily Tips -->
             <div class="well-card glass">
-                <span class="well-icon">☀️</span>
+                <span class="well-icon">â˜€ï¸</span>
                 <h3>Daily Wellness Tips</h3>
                 <ul class="well-tips">
                     <li>Start your morning with a glass of warm lemon water.</li>
@@ -162,7 +172,7 @@
 
             <!-- PMS Tips -->
             <div class="well-card glass">
-                <span class="well-icon">🌸</span>
+                <span class="well-icon">ðŸŒ¸</span>
                 <h3>PMS Support</h3>
                 <ul class="well-tips">
                     <li>Apply a warm compress for cramp relief.</li>
@@ -174,7 +184,7 @@
 
             <!-- Nutrition -->
             <div class="well-card glass">
-                <span class="well-icon">🍎</span>
+                <span class="well-icon">ðŸŽ</span>
                 <h3>Nutrition Suggestions</h3>
                 <ul class="well-tips">
                     <li>Leafy greens for iron during your period.</li>
@@ -186,7 +196,7 @@
 
             <!-- Self-Care -->
             <div class="well-card glass">
-                <span class="well-icon">🧘‍♀️</span>
+                <span class="well-icon">ðŸ§˜â€â™€ï¸</span>
                 <h3>Self-Care Reminders</h3>
                 <ul class="well-tips">
                     <li>It's okay to say 'no' and rest when you need it.</li>
@@ -228,3 +238,4 @@
     </script>
 </body>
 </html>
+

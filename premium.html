@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -213,6 +213,16 @@ body {
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 
 <body>
@@ -222,11 +232,11 @@ body {
   <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>NewLuna</h2>
-    <div class="nav-item active" data-page="dashboard">🏠 Dashboard</div>
-    <div class="nav-item" data-page="calendar">📅 Calendar</div>
-    <div class="nav-item" data-page="partner">❤️ Partner</div>
-    <div class="nav-item" data-page="profile">👤 Profile</div>
-    <div class="nav-item" data-page="settings">⚙️ Settings</div>
+    <div class="nav-item active" data-page="dashboard">ðŸ  Dashboard</div>
+    <div class="nav-item" data-page="calendar">ðŸ“… Calendar</div>
+    <div class="nav-item" data-page="partner">â¤ï¸ Partner</div>
+    <div class="nav-item" data-page="profile">ðŸ‘¤ Profile</div>
+    <div class="nav-item" data-page="settings">âš™ï¸ Settings</div>
   </div>
 
   <!-- MAIN -->
@@ -253,15 +263,15 @@ body {
     <div class="small-grid">
 
       <div class="small-card">
-        🌱 Fertile Window<br><b>Apr 16 - 21</b>
+        ðŸŒ± Fertile Window<br><b>Apr 16 - 21</b>
       </div>
 
       <div class="small-card">
-        ❤️ Ovulation<br><b>Apr 24</b>
+        â¤ï¸ Ovulation<br><b>Apr 24</b>
       </div>
 
       <div class="small-card">
-        💧 Hydration<br><b id="hydrationLevel">0 / 8</b>
+        ðŸ’§ Hydration<br><b id="hydrationLevel">0 / 8</b>
         <button class="btn" id="addWaterBtn" style="font-size: 14px; padding: 8px 14px; margin-top: 10px;">+ Add Water</button>
       </div>
 
@@ -271,13 +281,13 @@ body {
     <div class="grid" style="margin-top:20px;">
 
       <div class="card">
-        ❤️ Partner<br><br>
+        â¤ï¸ Partner<br><br>
         Alex<br>
         alex@gmail.com
       </div>
 
       <div class="card">
-        🔔 Reminders<br><br>
+        ðŸ”” Reminders<br><br>
         - Start vitamins<br>
         - Buy products
       </div>
@@ -418,9 +428,15 @@ function navigateTo(page) {
     document.getElementById('darkMode').checked = state.settings.darkMode;
     
     document.getElementById('settingsModal').classList.add('active');
+  } else if (page === 'dashboard') {
+    window.location.href = 'index.html';
+  } else if (page === 'calendar') {
+    window.location.href = 'calendar.html';
+  } else if (page === 'partner') {
+    window.location.href = 'partner.html';
+  } else if (page === 'profile') {
+    window.location.href = 'profile.html';
   } else {
-    // In a real app, this would load different content
-    // For now, just show a notification
     showNotification(`Navigated to ${page.toUpperCase()}`);
   }
 }
@@ -469,7 +485,7 @@ function setupButtons() {
       updateHydration();
       saveState();
     } else {
-      showNotification('Great hydration goal reached! 💪');
+      showNotification('Great hydration goal reached! ðŸ’ª');
     }
   });
   
@@ -568,3 +584,4 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 </script>
+

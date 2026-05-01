@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NewLuna | Wellness Center</title>
-    <meta name="description" content="NewLuna — Your premium cycle tracking and wellness companion.">
+    <meta name="description" content="NewLuna â€” Your premium cycle tracking and wellness companion.">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -44,10 +44,10 @@
             overflow-x: hidden;
         }
 
-        /* ── LAYOUT ── */
+        /* â”€â”€ LAYOUT â”€â”€ */
         .app-shell { display: flex; min-height: 100vh; }
 
-        /* ── SIDEBAR ── */
+        /* â”€â”€ SIDEBAR â”€â”€ */
         .sidebar {
             width: var(--sidebar-w);
             background: linear-gradient(180deg, #f06292 0%, #ce4993 60%, #a83283 100%);
@@ -78,7 +78,7 @@
         .nav-link.active { background: rgba(255,255,255,.22); color: white; font-weight: 600; }
         .nav-icon { font-size: 1.25rem; width: 28px; text-align: center; }
 
-        /* ── MAIN ── */
+        /* â”€â”€ MAIN â”€â”€ */
         .main {
             flex: 1; padding: 40px 36px;
             max-width: 1100px;
@@ -87,7 +87,7 @@
         .page-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 8px; }
         .page-subtitle { color: var(--muted); margin-bottom: 36px; font-style: italic; }
 
-        /* ── CARDS ── */
+        /* â”€â”€ CARDS â”€â”€ */
         .card {
             background: var(--card); border-radius: var(--radius);
             padding: 30px; box-shadow: var(--shadow-soft);
@@ -96,7 +96,7 @@
         }
         .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
 
-        /* ── ACADEMY ── */
+        /* â”€â”€ ACADEMY â”€â”€ */
         .academy-header {
             display: flex; justify-content: space-between; align-items: center; cursor: pointer;
         }
@@ -106,16 +106,16 @@
         .academy-content p { font-size: .95rem; line-height: 1.6; color: var(--text); }
         .hidden { display: none; }
 
-        /* ── TIP GRID ── */
+        /* â”€â”€ TIP GRID â”€â”€ */
         .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 32px; }
         .tip-card { padding: 24px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
         .tip-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
         .tip-card h3 { font-size: 1.1rem; margin-bottom: 15px; color: var(--bloom-pink); }
         .tip-list { list-style: none; }
         .tip-list li { font-size: .88rem; margin-bottom: 8px; position: relative; padding-left: 18px; line-height: 1.4; color: var(--muted); }
-        .tip-list li::before { content: '🌸'; position: absolute; left: 0; font-size: .7rem; top: 3px; }
+        .tip-list li::before { content: 'ðŸŒ¸'; position: absolute; left: 0; font-size: .7rem; top: 3px; }
 
-        /* ── ANIMATIONS ── */
+        /* â”€â”€ ANIMATIONS â”€â”€ */
         .fade-in { animation: fadeUp .6s ease both; }
         @keyframes fadeUp {
             from { opacity:0; transform: translateY(16px); }
@@ -129,30 +129,40 @@
             .nav-link span:not(.nav-icon) { display: none; }
         }
     </style>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 <body>
 
 <div class="app-shell">
     <aside class="sidebar">
         <div class="sidebar-brand">
-            <div class="brand-flower">❋</div>
+            <div class="brand-flower">â‹</div>
             <div class="brand-name">NewLuna</div>
         </div>
         <nav class="sidebar-nav">
             <a href="soft_dashboard.html" class="nav-link">
-                <span class="nav-icon">🏠</span> <span>Dashboard</span>
+                <span class="nav-icon">ðŸ </span> <span>Dashboard</span>
             </a>
             <a href="soft_calendar.html" class="nav-link">
-                <span class="nav-icon">📅</span> <span>Calendar</span>
+                <span class="nav-icon">ðŸ“…</span> <span>Calendar</span>
             </a>
             <a href="soft_tracking.html" class="nav-link">
-                <span class="nav-icon">📝</span> <span>Daily Log</span>
+                <span class="nav-icon">ðŸ“</span> <span>Daily Log</span>
             </a>
             <a href="soft_wellness.html" class="nav-link active">
-                <span class="nav-icon">🧘</span> <span>Wellness</span>
+                <span class="nav-icon">ðŸ§˜</span> <span>Wellness</span>
             </a>
             <a href="soft_profile.html" class="nav-link">
-                <span class="nav-icon">👤</span> <span>Profile</span>
+                <span class="nav-icon">ðŸ‘¤</span> <span>Profile</span>
             </a>
         </nav>
     </aside>
@@ -163,16 +173,16 @@
 
         <!-- CYCLE ACADEMY -->
         <h2 style="font-size: 1.4rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;" class="fade-in">
-            Cycle Academy 🎓
+            Cycle Academy ðŸŽ“
         </h2>
 
         <div class="card fade-in" style="animation-delay: 0.1s">
             <div class="academy-header" onclick="toggleAcademy(0)">
                 <div class="academy-title">
                     <span class="phase-tag">Days 1-5</span>
-                    Menstrual Phase 🩸
+                    Menstrual Phase ðŸ©¸
                 </div>
-                <span class="toggle-icon">▼</span>
+                <span class="toggle-icon">â–¼</span>
             </div>
             <div class="academy-content hidden" id="academy-0">
                 <p>Hormone levels are at their lowest as your body sheds the uterine lining. This is the start of your cycle. Your energy is naturally lower, and your body is focused on rest and renewal. It's a time for reflection and inner focus.</p>
@@ -186,9 +196,9 @@
             <div class="academy-header" onclick="toggleAcademy(1)">
                 <div class="academy-title">
                     <span class="phase-tag">Days 6-13</span>
-                    Follicular Phase 🌱
+                    Follicular Phase ðŸŒ±
                 </div>
-                <span class="toggle-icon">▼</span>
+                <span class="toggle-icon">â–¼</span>
             </div>
             <div class="academy-content hidden" id="academy-1">
                 <p>Hormones start to climb, bringing fresh energy and mental clarity. Your brain is extra sharp now. It's the perfect phase to start new projects, socialize, and tackle complex problems.</p>
@@ -202,9 +212,9 @@
             <div class="academy-header" onclick="toggleAcademy(2)">
                 <div class="academy-title">
                     <span class="phase-tag">Days 14-16</span>
-                    Ovulation Phase ❋
+                    Ovulation Phase â‹
                 </div>
-                <span class="toggle-icon">▼</span>
+                <span class="toggle-icon">â–¼</span>
             </div>
             <div class="academy-content hidden" id="academy-2">
                 <p>Peak fertility and peak confidence! You're glowing inside and out. You might feel more communicative and physically strong. Your libido is often highest during these days.</p>
@@ -218,9 +228,9 @@
             <div class="academy-header" onclick="toggleAcademy(3)">
                 <div class="academy-title">
                     <span class="phase-tag">Days 17-28</span>
-                    Luteal Phase 🌙
+                    Luteal Phase ðŸŒ™
                 </div>
-                <span class="toggle-icon">▼</span>
+                <span class="toggle-icon">â–¼</span>
             </div>
             <div class="academy-content hidden" id="academy-3">
                 <p>The 'winding down' phase. Turning inward and prioritizing stability. The first half is calm, but as you approach your period, you may feel more sensitive.</p>
@@ -233,7 +243,7 @@
         <!-- TIPS GRID -->
         <div class="tips-grid fade-in" style="animation-delay: 0.4s">
             <div class="tip-card card">
-                <span class="tip-icon">☀️</span>
+                <span class="tip-icon">â˜€ï¸</span>
                 <h3>Daily Balance</h3>
                 <ul class="tip-list">
                     <li>Morning hydration with lemon.</li>
@@ -243,7 +253,7 @@
                 </ul>
             </div>
             <div class="tip-card card">
-                <span class="tip-icon">🌸</span>
+                <span class="tip-icon">ðŸŒ¸</span>
                 <h3>Cycle Support</h3>
                 <ul class="tip-list">
                     <li>Ginger tea for bloating.</li>
@@ -253,7 +263,7 @@
                 </ul>
             </div>
             <div class="tip-card card">
-                <span class="tip-icon">🧘</span>
+                <span class="tip-icon">ðŸ§˜</span>
                 <h3>Self-Care Notes</h3>
                 <ul class="tip-list">
                     <li>Permission to rest is key.</li>
@@ -291,3 +301,4 @@
 
 </body>
 </html>
+

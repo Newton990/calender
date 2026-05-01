@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NewLuna | Daily Log</title>
-    <meta name="description" content="NewLuna — Your premium cycle tracking and wellness companion.">
+    <meta name="description" content="NewLuna â€” Your premium cycle tracking and wellness companion.">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -44,10 +44,10 @@
             overflow-x: hidden;
         }
 
-        /* ── LAYOUT ── */
+        /* â”€â”€ LAYOUT â”€â”€ */
         .app-shell { display: flex; min-height: 100vh; }
 
-        /* ── SIDEBAR ── */
+        /* â”€â”€ SIDEBAR â”€â”€ */
         .sidebar {
             width: var(--sidebar-w);
             background: linear-gradient(180deg, #f06292 0%, #ce4993 60%, #a83283 100%);
@@ -78,7 +78,7 @@
         .nav-link.active { background: rgba(255,255,255,.22); color: white; font-weight: 600; }
         .nav-icon { font-size: 1.25rem; width: 28px; text-align: center; }
 
-        /* ── MAIN ── */
+        /* â”€â”€ MAIN â”€â”€ */
         .main {
             flex: 1; padding: 40px 36px;
             overflow-y: auto; max-height: 100vh;
@@ -92,7 +92,7 @@
             color: var(--bloom-pink); cursor: pointer; outline: none; box-shadow: var(--shadow-soft);
         }
 
-        /* ── CARDS ── */
+        /* â”€â”€ CARDS â”€â”€ */
         .card {
             background: var(--card); border-radius: var(--radius);
             padding: 30px; box-shadow: var(--shadow-soft);
@@ -100,7 +100,7 @@
         }
         .card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
 
-        /* ── EMOJI SELECTORS ── */
+        /* â”€â”€ EMOJI SELECTORS â”€â”€ */
         .selector-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 12px; }
         .emoji-btn {
             background: #fff; border: 1.5px solid var(--bloom-pale); border-radius: 16px;
@@ -113,7 +113,7 @@
         .emoji-label { font-size: .75rem; font-weight: 600; color: var(--muted); }
         .selected .emoji-label { color: var(--bloom-pink); }
 
-        /* ── SLIDERS ── */
+        /* â”€â”€ SLIDERS â”€â”€ */
         .slider-group { margin-top: 24px; }
         .slider-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 600; font-size: .9rem; }
         .slider-val { color: var(--bloom-pink); font-weight: 700; }
@@ -126,7 +126,7 @@
             background: var(--bloom-pink); border: 4px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
-        /* ── CHECKBOXES ── */
+        /* â”€â”€ CHECKBOXES â”€â”€ */
         .check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 15px; }
         .pill-check {
             display: flex; align-items: center; gap: 10px; padding: 12px 16px;
@@ -137,7 +137,7 @@
         .pill-check input { display: none; }
         .pill-check.active { background: var(--bloom-pale); border-color: var(--bloom-pink); color: var(--bloom-pink); font-weight: 600; }
 
-        /* ── PERIOD TOGGLE ── */
+        /* â”€â”€ PERIOD TOGGLE â”€â”€ */
         .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; }
         .switch {
             position: relative; inline-block; width: 50px; height: 26px;
@@ -154,7 +154,7 @@
         input:checked + .slider-switch { background-color: var(--bloom-pink); }
         input:checked + .slider-switch:before { transform: translateX(24px); }
 
-        /* ── TEXTAREA ── */
+        /* â”€â”€ TEXTAREA â”€â”€ */
         textarea {
             width: 100%; min-height: 100px; padding: 15px; border-radius: 16px;
             border: 1px solid var(--border); background: #fafafa; font-family: inherit;
@@ -162,7 +162,7 @@
         }
         textarea:focus { border-color: var(--bloom-pink); background: #fff; }
 
-        /* ── SAVE BTN ── */
+        /* â”€â”€ SAVE BTN â”€â”€ */
         .footer-action { position: sticky; bottom: 0; background: var(--bg); padding: 20px 0; border-top: 1px solid var(--border); }
         .save-btn {
             width: 100%; background: var(--bloom-pink); color: white; border: none;
@@ -171,7 +171,7 @@
         }
         .save-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(240, 98, 146, 0.4); }
 
-        /* ── ANIMATIONS ── */
+        /* â”€â”€ ANIMATIONS â”€â”€ */
         .fade-in { animation: fadeUp .6s ease both; }
         @keyframes fadeUp {
             from { opacity:0; transform: translateY(16px); }
@@ -186,30 +186,40 @@
             .sidebar-brand { margin-bottom: 0; padding-right: 15px; border-right: 1px solid rgba(255,255,255,0.2); }
         }
     </style>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 <body>
 
 <div class="app-shell">
     <aside class="sidebar">
         <div class="sidebar-brand">
-            <div class="brand-flower">❋</div>
+            <div class="brand-flower">â‹</div>
             <div class="brand-name">NewLuna</div>
         </div>
         <nav class="sidebar-nav">
             <a href="soft_dashboard.html" class="nav-link">
-                <span class="nav-icon">🏠</span> <span>Dashboard</span>
+                <span class="nav-icon">ðŸ </span> <span>Dashboard</span>
             </a>
             <a href="soft_calendar.html" class="nav-link">
-                <span class="nav-icon">📅</span> <span>Calendar</span>
+                <span class="nav-icon">ðŸ“…</span> <span>Calendar</span>
             </a>
             <a href="soft_tracking.html" class="nav-link active">
-                <span class="nav-icon">📝</span> <span>Daily Log</span>
+                <span class="nav-icon">ðŸ“</span> <span>Daily Log</span>
             </a>
             <a href="soft_reports.html" class="nav-link">
-                <span class="nav-icon">📊</span> <span>Reports</span>
+                <span class="nav-icon">ðŸ“Š</span> <span>Reports</span>
             </a>
             <a href="soft_profile.html" class="nav-link">
-                <span class="nav-icon">👤</span> <span>Profile</span>
+                <span class="nav-icon">ðŸ‘¤</span> <span>Profile</span>
             </a>
         </nav>
     </aside>
@@ -222,30 +232,30 @@
 
         <!-- MOOD -->
         <div class="card fade-in" style="animation-delay: 0.1s">
-            <div class="card-title">❋ How are you feeling today?</div>
+            <div class="card-title">â‹ How are you feeling today?</div>
             <div class="selector-grid">
                 <div class="emoji-btn" data-mood="happy">
-                    <span class="emoji-icon">😊</span>
+                    <span class="emoji-icon">ðŸ˜Š</span>
                     <span class="emoji-label">Happy</span>
                 </div>
                 <div class="emoji-btn" data-mood="calm">
-                    <span class="emoji-icon">😌</span>
+                    <span class="emoji-icon">ðŸ˜Œ</span>
                     <span class="emoji-label">Calm</span>
                 </div>
                 <div class="emoji-btn" data-mood="tired">
-                    <span class="emoji-icon">😴</span>
+                    <span class="emoji-icon">ðŸ˜´</span>
                     <span class="emoji-label">Tired</span>
                 </div>
                 <div class="emoji-btn" data-mood="anxious">
-                    <span class="emoji-icon">😰</span>
+                    <span class="emoji-icon">ðŸ˜°</span>
                     <span class="emoji-label">Anxious</span>
                 </div>
                 <div class="emoji-btn" data-mood="sad">
-                    <span class="emoji-icon">😢</span>
+                    <span class="emoji-icon">ðŸ˜¢</span>
                     <span class="emoji-label">Sad</span>
                 </div>
                 <div class="emoji-btn" data-mood="angry">
-                    <span class="emoji-icon">😡</span>
+                    <span class="emoji-icon">ðŸ˜¡</span>
                     <span class="emoji-label">Angry</span>
                 </div>
             </div>
@@ -258,7 +268,7 @@
 
         <!-- PERIOD -->
         <div class="card fade-in" style="animation-delay: 0.2s">
-            <div class="card-title">🩸 Period Status</div>
+            <div class="card-title">ðŸ©¸ Period Status</div>
             <div class="toggle-row">
                 <span>Are you on your period today?</span>
                 <label class="switch">
@@ -271,19 +281,19 @@
                 <p style="font-size: .9rem; font-weight: 600; margin-bottom: 12px;">Flow Intensity:</p>
                 <div class="selector-grid">
                     <div class="emoji-btn" data-flow="spotting">
-                        <span class="emoji-icon">💧</span>
+                        <span class="emoji-icon">ðŸ’§</span>
                         <span class="emoji-label">Spotting</span>
                     </div>
                     <div class="emoji-btn" data-flow="light">
-                        <span class="emoji-icon">🩸</span>
+                        <span class="emoji-icon">ðŸ©¸</span>
                         <span class="emoji-label">Light</span>
                     </div>
                     <div class="emoji-btn" data-flow="medium">
-                        <span class="emoji-icon">🩸🩸</span>
+                        <span class="emoji-icon">ðŸ©¸ðŸ©¸</span>
                         <span class="emoji-label">Medium</span>
                     </div>
                     <div class="emoji-btn" data-flow="heavy">
-                        <span class="emoji-icon">🩸🩸🩸</span>
+                        <span class="emoji-icon">ðŸ©¸ðŸ©¸ðŸ©¸</span>
                         <span class="emoji-label">Heavy</span>
                     </div>
                 </div>
@@ -292,7 +302,7 @@
 
         <!-- SYMPTOMS -->
         <div class="card fade-in" style="animation-delay: 0.3s">
-            <div class="card-title">🤕 Symptoms</div>
+            <div class="card-title">ðŸ¤• Symptoms</div>
             <div class="check-grid">
                 <label class="pill-check"><input type="checkbox" data-symptom="cramps"> Cramps</label>
                 <label class="pill-check"><input type="checkbox" data-symptom="bloating"> Bloating</label>
@@ -310,7 +320,7 @@
 
         <!-- NOTES -->
         <div class="card fade-in" style="animation-delay: 0.4s">
-            <div class="card-title">📝 Personal Notes</div>
+            <div class="card-title">ðŸ“ Personal Notes</div>
             <textarea id="notes" placeholder="How was your day? Anything else on your mind?"></textarea>
         </div>
 
@@ -434,3 +444,4 @@
 
 </body>
 </html>
+

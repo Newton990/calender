@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -126,36 +126,46 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 <body>
     <!-- Animated Splash Screen -->
     <div class="splash-overlay">
         <div class="splash-content">
-            <div class="splash-icon">❋</div>
-            <div class="splash-text">NewLuna ❋</div>
+            <div class="splash-icon">â‹</div>
+            <div class="splash-text">NewLuna â‹</div>
         </div>
     </div>
 
 
 <div class="sidebar">
-    <h2 class="NewLuna-logo">NewLuna ❋</h2>
+    <h2 class="NewLuna-logo">NewLuna â‹</h2>
     <ul>
-        <li class="active" onclick="location.href='partner_dashboard.html'">🏠 Dashboard</li>
-        <li onclick="location.href='calendar.html'">📅 Calendar</li>
-        <li onclick="location.href='partner_insights.html'">💡 Insights</li>
-        <li onclick="location.href='chat.html'">💬 Duo Chat</li>
-        <li onclick="location.href='profile.html'">👤 Profile</li>
+        <li class="active" onclick="location.href='partner_dashboard.html'">ðŸ  Dashboard</li>
+        <li onclick="location.href='calendar.html'">ðŸ“… Calendar</li>
+        <li onclick="location.href='partner_insights.html'">ðŸ’¡ Insights</li>
+        <li onclick="location.href='chat.html'">ðŸ’¬ Duo Chat</li>
+        <li onclick="location.href='profile.html'">ðŸ‘¤ Profile</li>
     </ul>
 </div>
 
 <div class="main">
     <div class="topbar">
         <h2>Partner Dashboard</h2>
-        <p id="partner-welcome">Welcome back, Partner 👋</p>
+        <p id="partner-welcome">Welcome back, Partner ðŸ‘‹</p>
     </div>
 
     <div class="alert">
-        <span>🔒</span> Partner Mode Connected: Real-Time Sync Active
+        <span>ðŸ”’</span> Partner Mode Connected: Real-Time Sync Active
     </div>
 
     <div class="grid">
@@ -187,7 +197,7 @@
                     <span style="font-size: 0.9rem;">Energy Level</span>
                     <strong id="aiEnergy">--</strong>
                 </div>
-                <button class="btn" onclick="location.href='chat.html'">Send Support ❤️</button>
+                <button class="btn" onclick="location.href='chat.html'">Send Support â¤ï¸</button>
             </div>
         </div>
 
@@ -203,9 +213,9 @@
             <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee;">
                 <p style="font-size: 0.8rem; color: #ff6b81; font-weight: 700; text-transform: uppercase; margin-bottom: 10px;">Send Quick Support</p>
                 <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px;">
-                    <button class="support-btn" style="background:#fff1f3; border:1px solid #ffccd5; border-radius:15px; padding:8px 12px; font-size:0.8rem; cursor:pointer;">❤️ Love</button>
-                    <button class="support-btn" style="background:#fff1f3; border:1px solid #ffccd5; border-radius:15px; padding:8px 12px; font-size:0.8rem; cursor:pointer;">🍵 Tea</button>
-                    <button class="support-btn" style="background:#fff1f3; border:1px solid #ffccd5; border-radius:15px; padding:8px 12px; font-size:0.8rem; cursor:pointer;">💐 Flowers</button>
+                    <button class="support-btn" style="background:#fff1f3; border:1px solid #ffccd5; border-radius:15px; padding:8px 12px; font-size:0.8rem; cursor:pointer;">â¤ï¸ Love</button>
+                    <button class="support-btn" style="background:#fff1f3; border:1px solid #ffccd5; border-radius:15px; padding:8px 12px; font-size:0.8rem; cursor:pointer;">ðŸµ Tea</button>
+                    <button class="support-btn" style="background:#fff1f3; border:1px solid #ffccd5; border-radius:15px; padding:8px 12px; font-size:0.8rem; cursor:pointer;">ðŸ’ Flowers</button>
                 </div>
             </div>
         </div>
@@ -215,7 +225,7 @@
             <h3>Shared Timeline</h3>
             <div id="activity-feed" style="display: flex; flex-direction: column; gap: 12px;">
                 <div style="display: flex; gap: 10px; align-items: flex-start;">
-                    <span style="background: #ffe6eb; padding: 5px; border-radius: 8px;">✔</span>
+                    <span style="background: #ffe6eb; padding: 5px; border-radius: 8px;">âœ”</span>
                     <div>
                         <p style="font-size: 0.85rem; font-weight: 600;">System Synced</p>
                         <p style="font-size: 0.75rem; color: #999;">Just now</p>
@@ -246,3 +256,4 @@
 <script src="js/partner.js"></script>
 </body>
 </html>
+

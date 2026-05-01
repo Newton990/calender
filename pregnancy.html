@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,13 +13,23 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 <body class="pregnancy-mode">
     <!-- Animated Splash Screen -->
     <div class="splash-overlay">
         <div class="splash-content">
-            <div class="splash-icon">❋</div>
-            <div class="splash-text">NewLuna ❋</div>
+            <div class="splash-icon">â‹</div>
+            <div class="splash-text">NewLuna â‹</div>
         </div>
     </div>
 
@@ -27,27 +37,27 @@
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <a href="index.html" class="nav-item">
-            <span class="nav-icon">🏠</span>
+            <span class="nav-icon">ðŸ </span>
             <span>Home</span>
         </a>
         <a href="calendar.html" class="nav-item">
-            <span class="nav-icon">📅</span>
+            <span class="nav-icon">ðŸ“…</span>
             <span>Calendar</span>
         </a>
         <div id="quick-log-btn" class="log-btn-nav" title="Quick Log">+</div>
         <a href="report.html" class="nav-item">
-            <span class="nav-icon">📊</span>
+            <span class="nav-icon">ðŸ“Š</span>
             <span>Insights</span>
         </a>
         <a href="settings.html" class="nav-item">
-            <span class="nav-icon">⚙️</span>
+            <span class="nav-icon">âš™ï¸</span>
             <span>Settings</span>
         </a>
     </nav>
     
     <div class="app-container" style="max-width: 1000px; margin: 0 auto; padding: 20px;">
         <header style="text-align: center; margin-bottom: 30px;">
-            <h1 id="journey-title" style="font-family: 'Playfair Display', serif; font-size: 2.22rem; color: var(--primary-dark);">Your Journey ❋</h1>
+            <h1 id="journey-title" style="font-family: 'Playfair Display', serif; font-size: 2.22rem; color: var(--primary-dark);">Your Journey â‹</h1>
             <p id="journey-subtitle" style="color: var(--text-muted); font-style: italic;">We're with you every step of the way.</p>
         </header>
 
@@ -56,17 +66,17 @@
             <h3 style="margin-bottom: 20px;">What is your current goal?</h3>
             <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                 <button id="btn-set-ttc" class="well-card glass" style="flex: 1; min-width: 200px; cursor: pointer; border: 2px solid transparent;">
-                    <span style="font-size: 2rem;">🌱</span>
+                    <span style="font-size: 2rem;">ðŸŒ±</span>
                     <strong style="display: block; margin-top: 10px;">Trying to Conceive</strong>
                     <p style="font-size: 0.8rem; opacity: 0.7;">Track ovulation & fertility windows.</p>
                 </button>
                 <button id="btn-set-pregnant" class="well-card glass" style="flex: 1; min-width: 200px; cursor: pointer; border: 2px solid transparent;">
-                    <span style="font-size: 2rem;">👶</span>
+                    <span style="font-size: 2rem;">ðŸ‘¶</span>
                     <strong style="display: block; margin-top: 10px;">I'm Pregnant</strong>
                     <p style="font-size: 0.8rem; opacity: 0.7;">Track weeks & fetal development.</p>
                 </button>
             </div>
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 20px;">You can change this anytime in your profile settings. 🌸</p>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 20px;">You can change this anytime in your profile settings. ðŸŒ¸</p>
         </div>
 
         <!-- TTC DASHBOARD -->
@@ -79,12 +89,12 @@
                 </div>
                 <div class="glass" style="padding: 25px; text-align: center;">
                     <span style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted);">Today's Tip</span>
-                    <p id="ttc-tip" style="font-size: 0.9rem; margin-top: 10px; line-height: 1.4;">"CoQ10 supplements may support egg quality during your TTC journey. ❋"</p>
+                    <p id="ttc-tip" style="font-size: 0.9rem; margin-top: 10px; line-height: 1.4;">"CoQ10 supplements may support egg quality during your TTC journey. â‹"</p>
                 </div>
             </div>
 
             <div class="glass" style="margin-top: 20px; padding: 25px;">
-                <h3 style="margin-bottom: 15px;">Fertility Tracking 🌡️</h3>
+                <h3 style="margin-bottom: 15px;">Fertility Tracking ðŸŒ¡ï¸</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                     <div>
                         <label style="font-size: 0.85rem; display: block; margin-bottom: 5px;">Basal Body Temp (BBT)</label>
@@ -102,7 +112,7 @@
                         </select>
                     </div>
                 </div>
-                <button id="save-fertility" class="auth-btn" style="margin-top: 20px; width: auto; padding: 10px 30px;">Log Today's Data ❋</button>
+                <button id="save-fertility" class="auth-btn" style="margin-top: 20px; width: auto; padding: 10px 30px;">Log Today's Data â‹</button>
             </div>
         </div>
 
@@ -119,17 +129,17 @@
             <div class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div class="glass" style="padding: 25px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                     <span style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;">Baby is the size of a:</span>
-                    <span id="baby-size-emoji" style="font-size: 3rem; margin-bottom: 10px;">🍋</span>
+                    <span id="baby-size-emoji" style="font-size: 3rem; margin-bottom: 10px;">ðŸ‹</span>
                     <h3 id="baby-size-name">Lemon</h3>
                 </div>
                 <div class="glass" style="padding: 25px;">
-                    <h3 style="margin-bottom: 10px;">This Week ❋</h3>
+                    <h3 style="margin-bottom: 10px;">This Week â‹</h3>
                     <p id="weekly-insight" style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">"Your baby's reflexes are developing! They may be moving their fingers and toes, though you can't feel it yet."</p>
                 </div>
             </div>
 
             <div class="glass" style="margin-top: 30px; padding: 25px; text-align: center; background: rgba(255,179,193,0.1);">
-                <p style="font-size: 0.9rem; color: var(--primary-dark);">"You're doing an incredible job growing a human. Remember to take time for yourself today." ❤️</p>
+                <p style="font-size: 0.9rem; color: var(--primary-dark);">"You're doing an incredible job growing a human. Remember to take time for yourself today." â¤ï¸</p>
             </div>
         </div>
 
@@ -141,7 +151,7 @@
                 <input type="date" id="setup-date" class="date-input" style="width: 100%; margin-bottom: 20px;">
                 <div style="display: flex; gap: 10px;">
                     <button id="cancel-setup" class="btn-secondary" style="flex: 1;">Cancel</button>
-                    <button id="confirm-setup" class="btn-primary" style="flex: 1;">Start ❋</button>
+                    <button id="confirm-setup" class="btn-primary" style="flex: 1;">Start â‹</button>
                 </div>
             </div>
         </div>
@@ -153,3 +163,4 @@
     <script src="js/pregnancy.js"></script>
 </body>
 </html>
+

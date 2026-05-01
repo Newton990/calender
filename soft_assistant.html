@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -91,20 +91,30 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 <body class="soft-theme">
     <!-- Animated Splash Screen -->
     <div class="splash-overlay">
-        <div class="splash-icon">❋</div>
+        <div class="splash-icon">â‹</div>
         <div class="splash-luna">NewLuna</div>
     </div>
     <div class="fluid-container">
         <!-- Soft Header -->
         <header class="soft-header">
-            <button class="icon-btn" onclick="history.back()">←</button>
+            <button class="icon-btn" onclick="history.back()">â†</button>
             <div class="header-content">
                 <span class="soft-tag">AI Companion</span>
-                <h1 style="font-size: 1.3rem; margin-top: 4px;">Talk to Luna 🌙</h1>
+                <h1 style="font-size: 1.3rem; margin-top: 4px;">Talk to Luna ðŸŒ™</h1>
             </div>
             <div class="user-avatar-mini" style="background-image: url('https://api.placeholder.com/40');"></div>
         </header>
@@ -112,50 +122,50 @@
         <!-- Chat thread -->
         <div class="chat-container" id="soft-chat-thread">
             <div class="message ai">
-                Hi! I'm Luna, your personal wellness companion. 🌙<br><br>Tell me how you're feeling today — physically, emotionally, anything. I'm here to listen and help. ❋
+                Hi! I'm Luna, your personal wellness companion. ðŸŒ™<br><br>Tell me how you're feeling today â€” physically, emotionally, anything. I'm here to listen and help. â‹
             </div>
         </div>
 
         <!-- Suggestion Chips -->
         <div class="insights-row" style="position: fixed; bottom: 185px; left: 0; right: 0; padding: 0 20px; z-index: 999;">
-            <div class="insight-pill" style="white-space: nowrap; font-size: 0.8rem; background: rgba(255,255,255,0.7);">Why am I so tired? 😴</div>
-            <div class="insight-pill" style="white-space: nowrap; font-size: 0.8rem; background: rgba(255,255,255,0.7);">Cramps relief? 🌿</div>
-            <div class="insight-pill" style="white-space: nowrap; font-size: 0.8rem; background: rgba(255,255,255,0.7);">I feel happy! 😊</div>
+            <div class="insight-pill" style="white-space: nowrap; font-size: 0.8rem; background: rgba(255,255,255,0.7);">Why am I so tired? ðŸ˜´</div>
+            <div class="insight-pill" style="white-space: nowrap; font-size: 0.8rem; background: rgba(255,255,255,0.7);">Cramps relief? ðŸŒ¿</div>
+            <div class="insight-pill" style="white-space: nowrap; font-size: 0.8rem; background: rgba(255,255,255,0.7);">I feel happy! ðŸ˜Š</div>
         </div>
 
         <!-- Soft Input Bar -->
         <div class="soft-input-bar">
             <div class="mood-reflection" id="soft-mood-row">
-                <div class="mood-dot" title="Happy">😊</div>
-                <div class="mood-dot" title="Tired">😴</div>
-                <div class="mood-dot" title="Anxious">😟</div>
-                <div class="mood-dot" title="Sad">😢</div>
-                <div class="mood-dot" title="Cramping">😣</div>
-                <div class="mood-dot" title="Energetic">⚡</div>
+                <div class="mood-dot" title="Happy">ðŸ˜Š</div>
+                <div class="mood-dot" title="Tired">ðŸ˜´</div>
+                <div class="mood-dot" title="Anxious">ðŸ˜Ÿ</div>
+                <div class="mood-dot" title="Sad">ðŸ˜¢</div>
+                <div class="mood-dot" title="Cramping">ðŸ˜£</div>
+                <div class="mood-dot" title="Energetic">âš¡</div>
             </div>
             <div class="input-row">
-                <button style="background:none; border:none; font-size: 1.3rem; opacity: 0.5;">🎤</button>
+                <button style="background:none; border:none; font-size: 1.3rem; opacity: 0.5;">ðŸŽ¤</button>
                 <input type="text" id="soft-chat-input" placeholder="How are you feeling, dear?">
-                <button class="mini-send-btn" id="soft-send-btn">❋</button>
+                <button class="mini-send-btn" id="soft-send-btn">â‹</button>
             </div>
         </div>
 
         <!-- Soft Bottom Nav -->
         <nav class="soft-nav">
             <a href="soft_dashboard.html" class="nav-item">
-                <span class="nav-icon">🏠</span>
+                <span class="nav-icon">ðŸ </span>
                 <span class="nav-label">Home</span>
             </a>
             <a href="calendar.html" class="nav-item">
-                <span class="nav-icon">📅</span>
+                <span class="nav-icon">ðŸ“…</span>
                 <span class="nav-label">Dates</span>
             </a>
             <a href="soft_assistant.html" class="nav-item active">
-                <span class="nav-icon">🌙</span>
+                <span class="nav-icon">ðŸŒ™</span>
                 <span class="nav-label">Luna</span>
             </a>
             <a href="settings.html" class="nav-item">
-                <span class="nav-icon">⚙️</span>
+                <span class="nav-icon">âš™ï¸</span>
                 <span class="nav-label">Settings</span>
             </a>
         </nav>
@@ -171,3 +181,4 @@
     </script>
 </body>
 </html>
+

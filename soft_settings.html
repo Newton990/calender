@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NewLuna | Settings</title>
-    <meta name="description" content="NewLuna — Your premium cycle tracking and wellness companion.">
+    <meta name="description" content="NewLuna â€” Your premium cycle tracking and wellness companion.">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -44,10 +44,10 @@
             overflow-x: hidden;
         }
 
-        /* ── LAYOUT ── */
+        /* â”€â”€ LAYOUT â”€â”€ */
         .app-shell { display: flex; min-height: 100vh; }
 
-        /* ── SIDEBAR ── */
+        /* â”€â”€ SIDEBAR â”€â”€ */
         .sidebar {
             width: var(--sidebar-w);
             background: linear-gradient(180deg, #f06292 0%, #ce4993 60%, #a83283 100%);
@@ -78,7 +78,7 @@
         .nav-link.active { background: rgba(255,255,255,.22); color: white; font-weight: 600; }
         .nav-icon { font-size: 1.25rem; width: 28px; text-align: center; }
 
-        /* ── MAIN ── */
+        /* â”€â”€ MAIN â”€â”€ */
         .main {
             flex: 1; padding: 40px 36px;
             max-width: 900px;
@@ -86,7 +86,7 @@
 
         .page-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 30px; }
 
-        /* ── CARDS ── */
+        /* â”€â”€ CARDS â”€â”€ */
         .card {
             background: var(--card); border-radius: var(--radius);
             padding: 30px; box-shadow: var(--shadow-soft);
@@ -95,7 +95,7 @@
         .card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .card-subtitle { font-size: .9rem; color: var(--muted); margin-bottom: 24px; }
 
-        /* ── FORMS ── */
+        /* â”€â”€ FORMS â”€â”€ */
         .form-group { margin-bottom: 20px; }
         label { display: block; font-size: .95rem; font-weight: 600; margin-bottom: 8px; color: var(--text); }
         input[type="number"], input[type="text"], input[type="password"], select {
@@ -128,7 +128,7 @@
         }
         .btn-save:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(240, 98, 146, 0.35); }
 
-        /* ── ANIMATIONS ── */
+        /* â”€â”€ ANIMATIONS â”€â”€ */
         .fade-in { animation: fadeUp .6s ease both; }
         @keyframes fadeUp {
             from { opacity:0; transform: translateY(16px); }
@@ -141,30 +141,40 @@
             .nav-link span:not(.nav-icon) { display: none; }
         }
     </style>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 <body>
 
 <div class="app-shell">
     <aside class="sidebar">
         <div class="sidebar-brand">
-            <div class="brand-flower">❋</div>
+            <div class="brand-flower">â‹</div>
             <div class="brand-name">NewLuna</div>
         </div>
         <nav class="sidebar-nav">
             <a href="soft_dashboard.html" class="nav-link">
-                <span class="nav-icon">🏠</span> <span>Dashboard</span>
+                <span class="nav-icon">ðŸ </span> <span>Dashboard</span>
             </a>
             <a href="soft_calendar.html" class="nav-link">
-                <span class="nav-icon">📅</span> <span>Calendar</span>
+                <span class="nav-icon">ðŸ“…</span> <span>Calendar</span>
             </a>
             <a href="soft_tracking.html" class="nav-link">
-                <span class="nav-icon">📝</span> <span>Daily Log</span>
+                <span class="nav-icon">ðŸ“</span> <span>Daily Log</span>
             </a>
             <a href="soft_profile.html" class="nav-link">
-                <span class="nav-icon">👤</span> <span>Profile</span>
+                <span class="nav-icon">ðŸ‘¤</span> <span>Profile</span>
             </a>
             <a href="soft_settings.html" class="nav-link active">
-                <span class="nav-icon">⚙️</span> <span>Settings</span>
+                <span class="nav-icon">âš™ï¸</span> <span>Settings</span>
             </a>
         </nav>
     </aside>
@@ -174,7 +184,7 @@
 
         <!-- CYCLE SETTINGS -->
         <div class="card fade-in" style="animation-delay: 0.1s">
-            <div class="card-title">🌸 Cycle Personalization</div>
+            <div class="card-title">ðŸŒ¸ Cycle Personalization</div>
             <div class="form-group">
                 <label>Average Cycle Length (Days)</label>
                 <input type="number" id="setting-cycle" value="28" min="20" max="45">
@@ -187,7 +197,7 @@
 
         <!-- SECURITY -->
         <div class="card fade-in" style="animation-delay: 0.2s">
-            <div class="card-title">🔒 Privacy & Security</div>
+            <div class="card-title">ðŸ”’ Privacy & Security</div>
             <div class="toggle-row">
                 <span>Enable Security Lock</span>
                 <label class="switch">
@@ -206,7 +216,7 @@
 
         <!-- REMINDERS -->
         <div class="card fade-in" style="animation-delay: 0.3s">
-            <div class="card-title">🔔 Daily Reminders</div>
+            <div class="card-title">ðŸ”” Daily Reminders</div>
             <div class="toggle-row">
                 <span>Birth Control Reminder</span>
                 <label class="switch">
@@ -262,10 +272,11 @@
         localStorage.setItem('private-mode', document.getElementById('private-mode').checked);
         localStorage.setItem('bc-reminder', document.getElementById('bc-reminder').checked);
         
-        alert('Settings saved successfully! ❋');
+        alert('Settings saved successfully! â‹');
         location.href = 'soft_dashboard.html';
     }
 </script>
 
 </body>
 </html>
+

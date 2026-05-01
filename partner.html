@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -198,6 +198,16 @@ body {
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 
 <body>
@@ -207,11 +217,11 @@ body {
   <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>NewLuna</h2>
-    <div class="nav-item" data-page="dashboard">🏠 Dashboard</div>
-    <div class="nav-item" data-page="calendar">📅 Calendar</div>
-    <div class="nav-item active" data-page="partner">❤️ Partner</div>
-    <div class="nav-item" data-page="profile">👤 Profile</div>
-    <div class="nav-item" data-page="settings">⚙️ Settings</div>
+    <div class="nav-item" data-page="dashboard">ðŸ  Dashboard</div>
+    <div class="nav-item" data-page="calendar">ðŸ“… Calendar</div>
+    <div class="nav-item active" data-page="partner">â¤ï¸ Partner</div>
+    <div class="nav-item" data-page="profile">ðŸ‘¤ Profile</div>
+    <div class="nav-item" data-page="settings">âš™ï¸ Settings</div>
   </div>
 
   <!-- MAIN -->
@@ -226,7 +236,7 @@ body {
 
     <!-- CURRENT PARTNER -->
     <div id="partnerSection" class="partner-card" style="display: none;">
-      <h4>😍 Connected Partner</h4>
+      <h4>ðŸ˜ Connected Partner</h4>
       <div id="partnerInfo"></div>
       <button class="btn" id="disconnectBtn" style="background: rgba(255,77,109,0.3);">Disconnect</button>
     </div>
@@ -251,7 +261,7 @@ body {
 
     <!-- MESSAGES -->
     <div class="card">
-      <h3>💬 Messages</h3>
+      <h3>ðŸ’¬ Messages</h3>
       <div id="messagesContainer" style="max-height: 300px; overflow-y: auto; margin: 15px 0; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 10px;">
         <p style="opacity: 0.7;">Start a conversation with your partner</p>
       </div>
@@ -480,7 +490,7 @@ document.head.appendChild(style);
 
                 <section class="dashboard">
                 <div id="partner-mode-banner" class="banner">Partner Mode Connected: Read-Only</div>
-                <div id="pregnancy-banner" class="banner pregnancy hidden">Pregnancy Journey 👶</div>
+                <div id="pregnancy-banner" class="banner pregnancy hidden">Pregnancy Journey ðŸ‘¶</div>
                 
                 <!-- Menstrual Stats -->
                 <div id="menstrual-stats" class="stats-card glass">
@@ -509,7 +519,7 @@ document.head.appendChild(style);
                         <h2 id="pregnancy-week-text">Week 12</h2>
                         <div class="days-circle pregnancy">
                             <span id="pregnancy-days">Day 4</span>
-                            <span class="unit" id="baby-size">Size of a Lemon 🍋</span>
+                            <span class="unit" id="baby-size">Size of a Lemon ðŸ‹</span>
                         </div>
                         <p class="prediction-date" id="due-date-display">Due Date: --</p>
                     </div>
@@ -517,7 +527,7 @@ document.head.appendChild(style);
 
                 <!-- Partner Insights -->
                 <div id="partner-insights" class="insight-card glass">
-                    <h3 style="margin-bottom: 20px;">Partner Insights 💡</h3>
+                    <h3 style="margin-bottom: 20px;">Partner Insights ðŸ’¡</h3>
                     
                     <div class="insight-item">
                         <div class="insight-label">
@@ -575,12 +585,12 @@ document.head.appendChild(style);
                     <h3 style="color: var(--primary-dark); margin-bottom: 20px; font-weight: 700;">Partner Messages</h3>
                     <div id="messages" style="height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; padding: 10px; background: #fdfdfd; border-radius: 12px; border: 1px solid #eee;">
                         <!-- Messages will be dynamically rendered here -->
-                        <p style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 20px;">No messages yet. Start the conversation! 💌</p>
+                        <p style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 20px;">No messages yet. Start the conversation! ðŸ’Œ</p>
                     </div>
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <input id="chatInput" placeholder="Send message..." style="flex: 1; padding: 12px 20px; border-radius: 20px; border: 1px solid #eee; outline: none; background: #fdfdfd;">
                         <button onclick="sendMessage()" class="btn-primary" style="padding: 10px 15px; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
-                            <span style="font-size: 1.2rem;">↗️</span>
+                            <span style="font-size: 1.2rem;">â†—ï¸</span>
                         </button>
                     </div>
                 </div>
@@ -603,22 +613,22 @@ document.head.appendChild(style);
 
             <!-- Tab Navigation -->
             <div class="modal-tabs" style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 10px;">
-                <button class="tab-btn active" data-tab="emotional">🧠 Emotional</button>
-                <button class="tab-btn" data-tab="physical">🩸 Physical</button>
-                <button class="tab-btn" data-tab="lifestyle">🌿 Lifestyle</button>
+                <button class="tab-btn active" data-tab="emotional">ðŸ§  Emotional</button>
+                <button class="tab-btn" data-tab="physical">ðŸ©¸ Physical</button>
+                <button class="tab-btn" data-tab="lifestyle">ðŸŒ¿ Lifestyle</button>
             </div>
 
             <!-- Emotional Tab -->
             <div id="tab-emotional" class="tab-pane">
                 <h4 style="margin-bottom: 10px; text-align: left;">Mood & Energy</h4>
                 <div class="mood-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
-                    <button class="metric-btn mood-btn" data-mood="happy" disabled>😊 Happy</button>
-                    <button class="metric-btn mood-btn" data-mood="sad" disabled>😢 Sad</button>
-                    <button class="metric-btn mood-btn" data-mood="anxious" disabled>😰 Anxious</button>
-                    <button class="metric-btn mood-btn" data-mood="angry" disabled>😡 Angry</button>
-                    <button class="metric-btn mood-btn" data-mood="calm" disabled>😌 Calm</button>
-                    <button class="metric-btn mood-btn" data-mood="tired" disabled>😴 Tired</button>
-                    <button class="metric-btn mood-btn" data-mood="moody" disabled>🎭 Mood Swings</button>
+                    <button class="metric-btn mood-btn" data-mood="happy" disabled>ðŸ˜Š Happy</button>
+                    <button class="metric-btn mood-btn" data-mood="sad" disabled>ðŸ˜¢ Sad</button>
+                    <button class="metric-btn mood-btn" data-mood="anxious" disabled>ðŸ˜° Anxious</button>
+                    <button class="metric-btn mood-btn" data-mood="angry" disabled>ðŸ˜¡ Angry</button>
+                    <button class="metric-btn mood-btn" data-mood="calm" disabled>ðŸ˜Œ Calm</button>
+                    <button class="metric-btn mood-btn" data-mood="tired" disabled>ðŸ˜´ Tired</button>
+                    <button class="metric-btn mood-btn" data-mood="moody" disabled>ðŸŽ­ Mood Swings</button>
                 </div>
                 <div class="scale-group" style="margin-bottom: 15px;">
                     <label style="display: block; font-size: 0.8rem; margin-bottom: 5px;">Energy Level:</label>
@@ -634,16 +644,16 @@ document.head.appendChild(style);
                     <input type="range" id="pain-range" min="1" max="5" disabled style="width: 100%;">
                 </div>
                 <div class="flow-selector" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px;">
-                    <button class="metric-btn flow-btn" data-flow="spotting" disabled>💧 Spotting</button>
-                    <button class="metric-btn flow-btn" data-flow="light" disabled>🩸 Light</button>
-                    <button class="metric-btn flow-btn" data-flow="medium" disabled>🩸 Medium</button>
-                    <button class="metric-btn flow-btn" data-flow="heavy" disabled>🩸 Heavy</button>
+                    <button class="metric-btn flow-btn" data-flow="spotting" disabled>ðŸ’§ Spotting</button>
+                    <button class="metric-btn flow-btn" data-flow="light" disabled>ðŸ©¸ Light</button>
+                    <button class="metric-btn flow-btn" data-flow="medium" disabled>ðŸ©¸ Medium</button>
+                    <button class="metric-btn flow-btn" data-flow="heavy" disabled>ðŸ©¸ Heavy</button>
                 </div>
                 <div id="menstrual-symptoms" class="symptom-grid">
-                    <button class="symptom-btn" data-symptom="bloating" disabled>🎈 Bloating</button>
-                    <button class="symptom-btn" data-symptom="headache" disabled>🤕 Headache</button>
-                    <button class="symptom-btn" data-symptom="acne" disabled>❋ Acne</button>
-                    <button class="symptom-btn" data-symptom="cravings" disabled>🍕 Cravings</button>
+                    <button class="symptom-btn" data-symptom="bloating" disabled>ðŸŽˆ Bloating</button>
+                    <button class="symptom-btn" data-symptom="headache" disabled>ðŸ¤• Headache</button>
+                    <button class="symptom-btn" data-symptom="acne" disabled>â‹ Acne</button>
+                    <button class="symptom-btn" data-symptom="cravings" disabled>ðŸ• Cravings</button>
                 </div>
             </div>
 
@@ -655,9 +665,9 @@ document.head.appendChild(style);
                     <input type="number" id="sleep-hours" disabled style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 8px;">
                 </div>
                 <div class="drive-selector" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                    <button class="metric-btn drive-btn" data-drive="low" disabled>📉 Low</button>
-                    <button class="metric-btn drive-btn" data-drive="med" disabled>📊 Med</button>
-                    <button class="metric-btn drive-btn" data-drive="high" disabled>📈 High</button>
+                    <button class="metric-btn drive-btn" data-drive="low" disabled>ðŸ“‰ Low</button>
+                    <button class="metric-btn drive-btn" data-drive="med" disabled>ðŸ“Š Med</button>
+                    <button class="metric-btn drive-btn" data-drive="high" disabled>ðŸ“ˆ High</button>
                 </div>
             </div>
 
@@ -670,3 +680,4 @@ document.head.appendChild(style);
     <script src="js/partner.js"></script>
 </body>
 </html>
+

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NewLuna | Dashboard</title>
-    <meta name="description" content="NewLuna — Your premium cycle tracking and wellness companion.">
+    <meta name="description" content="NewLuna â€” Your premium cycle tracking and wellness companion.">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -45,7 +45,7 @@
             overflow-x: hidden;
         }
 
-        /* ── SPLASH ── */
+        /* â”€â”€ SPLASH â”€â”€ */
         .splash-overlay {
             position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh;
@@ -89,10 +89,10 @@
             100% { opacity:0; pointer-events:none; visibility:hidden; }
         }
 
-        /* ── LAYOUT ── */
+        /* â”€â”€ LAYOUT â”€â”€ */
         .app-shell { display: flex; min-height: 100vh; }
 
-        /* ── SIDEBAR ── */
+        /* â”€â”€ SIDEBAR â”€â”€ */
         .sidebar {
             width: var(--sidebar-w);
             background: linear-gradient(180deg, #f06292 0%, #ce4993 60%, #a83283 100%);
@@ -143,14 +143,14 @@
         .sidebar-user-info .name { font-size: .9rem; font-weight: 600; color: white; }
         .sidebar-user-info .plan { font-size: .72rem; opacity: .7; color: white; }
 
-        /* ── MAIN ── */
+        /* â”€â”€ MAIN â”€â”€ */
         .main {
             flex: 1; padding: 40px 36px;
             overflow-y: auto; overflow-x: hidden;
             max-height: 100vh;
         }
 
-        /* ── TOP HEADER ── */
+        /* â”€â”€ TOP HEADER â”€â”€ */
         .top-header {
             display: flex; justify-content: space-between; align-items: flex-start;
             margin-bottom: 36px;
@@ -180,20 +180,23 @@
             letter-spacing: .5px;
         }
 
-        /* ── CARD BASE ── */
+        /* â”€â”€ CARD BASE â”€â”€ */
         .card {
-            background: var(--card); border-radius: var(--radius);
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: var(--radius);
             padding: 28px; box-shadow: var(--shadow-soft);
-            border: 1px solid var(--border);
-            transition: transform .3s ease, box-shadow .3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: transform .4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow .4s ease, background .4s ease;
         }
-        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        .card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); background: rgba(255, 255, 255, 0.85); }
         .card-title {
-            font-size: 1rem; font-weight: 600; color: var(--muted);
-            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;
+            font-size: 1.05rem; font-weight: 700; color: var(--muted);
+            text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 20px;
         }
 
-        /* ── MAIN GRID ── */
+        /* â”€â”€ MAIN GRID â”€â”€ */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1.6fr 1fr;
@@ -202,7 +205,7 @@
         .left-col { display: flex; flex-direction: column; gap: 24px; }
         .right-col { display: flex; flex-direction: column; gap: 24px; }
 
-        /* ── HERO CYCLE CARD ── */
+        /* â”€â”€ HERO CYCLE CARD â”€â”€ */
         .hero-card {
             background: linear-gradient(135deg, #f06292 0%, #ce4993 55%, #ab47bc 100%);
             border: none; color: white; overflow: hidden; position: relative;
@@ -253,7 +256,7 @@
         .ring-phase { font-size: .72rem; opacity: .8; text-transform: uppercase; letter-spacing: 1px; }
         .ring-day-num { font-size: 2rem; font-weight: 700; line-height: 1; }
 
-        /* ── 3-COL STATS ── */
+        /* â”€â”€ 3-COL STATS â”€â”€ */
         .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
         .stat-card {
             background: var(--card); border-radius: var(--radius-sm);
@@ -266,7 +269,7 @@
         .stat-label { font-size: .75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 4px; }
         .stat-value { font-size: 1.05rem; font-weight: 700; color: var(--text); }
 
-        /* ── HYDRATION ── */
+        /* â”€â”€ HYDRATION â”€â”€ */
         .hydration-card { padding: 24px; }
         .hydration-header {
             display: flex; justify-content: space-between;
@@ -297,7 +300,7 @@
         }
         .water-cup.filled { background: var(--bloom-teal); border-color: var(--bloom-teal); }
 
-        /* ── QUICK ACTIONS ── */
+        /* â”€â”€ QUICK ACTIONS â”€â”€ */
         .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         .action-btn {
             display: flex; align-items: center; gap: 12px;
@@ -311,7 +314,7 @@
         .action-btn .act-label { font-size: .88rem; font-weight: 600; }
         .action-btn .act-sub { font-size: .75rem; color: var(--muted); margin-top: 2px; }
 
-        /* ── AI INSIGHT CARD ── */
+        /* â”€â”€ AI INSIGHT CARD â”€â”€ */
         .insight-card { position: relative; overflow: hidden; }
         .insight-glow {
             position: absolute; top: -40px; right: -40px;
@@ -328,23 +331,29 @@
         @keyframes pulse { 0%,100% { box-shadow: 0 0 6px var(--bloom-pink); } 50% { box-shadow: 0 0 16px var(--bloom-pink); } }
 
         .insight-pill {
-            background: linear-gradient(135deg, #fce4ec, #fff);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(16px);
             border-left: 4px solid var(--bloom-pink);
             border-radius: 14px; padding: 16px 18px; margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(240, 98, 146, 0.05);
+            transition: transform .25s ease;
+        }
+        .insight-pill:hover {
+            transform: translateX(6px);
         }
         .insight-pill.teal { border-left-color: var(--bloom-teal); }
         .insight-pill.sage { border-left-color: var(--bloom-sage); }
-        .insight-pill h6 { font-size: .78rem; color: var(--bloom-pink); font-weight: 700; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 5px; }
+        .insight-pill h6 { font-size: .85rem; color: var(--bloom-pink); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
         .insight-pill.teal h6 { color: var(--bloom-teal); }
         .insight-pill.sage h6 { color: #6aaf6e; }
-        .insight-pill p { font-size: .9rem; color: var(--text); line-height: 1.55; }
+        .insight-pill p { font-size: .95rem; color: var(--text); line-height: 1.6; font-weight: 500; }
         .phase-badge {
             display: inline-block; padding: 4px 12px; border-radius: 20px;
             background: var(--bloom-pink); color: white; font-size: .75rem; font-weight: 700;
             margin-bottom: 6px;
         }
 
-        /* ── UPCOMING CARD ── */
+        /* â”€â”€ UPCOMING CARD â”€â”€ */
         .upcoming-card {
             background: linear-gradient(135deg, #fce4ec 0%, #fff 100%);
             text-align: center; padding: 28px;
@@ -358,7 +367,7 @@
             color: var(--bloom-pink); box-shadow: 0 2px 12px rgba(240,98,146,.15);
         }
 
-        /* ── MINI CALENDAR ── */
+        /* â”€â”€ MINI CALENDAR â”€â”€ */
         .mini-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
         .mini-cal-header h5 { font-size: 1rem; font-weight: 600; }
         .mini-nav { display: flex; gap: 6px; }
@@ -380,7 +389,7 @@
         .mini-day.period { background: rgba(240,98,146,.22); color: var(--bloom-pink); font-weight: 600; }
         .mini-day.fertile { background: rgba(77,182,172,.15); }
 
-        /* ── PARTNER SYNC ── */
+        /* â”€â”€ PARTNER SYNC â”€â”€ */
         .partner-card { display: flex; align-items: center; gap: 16px; }
         .partner-avatar {
             width: 52px; height: 52px; border-radius: 16px;
@@ -398,7 +407,7 @@
         }
         .partner-link:hover { opacity: .7; }
 
-        /* ── KINDNESS CORNER ── */
+        /* â”€â”€ KINDNESS CORNER â”€â”€ */
         .kindness-card {
             text-align: center;
             border: 1.5px dashed rgba(240,98,146,.3);
@@ -408,7 +417,7 @@
         .kindness-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 10px; }
         .kindness-msg { font-size: .9rem; color: var(--muted); line-height: 1.65; font-style: italic; }
 
-        /* ── REMINDERS ── */
+        /* â”€â”€ REMINDERS â”€â”€ */
         .reminder-item {
             display: flex; align-items: center; gap: 12px;
             padding: 10px 0; border-bottom: 1px solid var(--border);
@@ -417,7 +426,7 @@
         .reminder-item:last-child { border-bottom: none; }
         .reminder-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--bloom-pink); flex-shrink: 0; }
 
-        /* ── ANIMATIONS ── */
+        /* â”€â”€ ANIMATIONS â”€â”€ */
         .fade-in { animation: fadeUp .6s ease both; }
         .delay-1 { animation-delay: .1s; }
         .delay-2 { animation-delay: .2s; }
@@ -429,7 +438,7 @@
             to   { opacity:1; transform: translateY(0); }
         }
 
-        /* ── RESPONSIVE ── */
+        /* â”€â”€ RESPONSIVE â”€â”€ */
         @media (max-width: 1100px) {
             .dashboard-grid { grid-template-columns: 1fr; }
             .right-col { display: grid; grid-template-columns: 1fr 1fr; }
@@ -454,23 +463,33 @@
             .right-col { grid-template-columns: 1fr; }
         }
     </style>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 <body>
 
-<!-- ── SPLASH ── -->
+<!-- â”€â”€ SPLASH â”€â”€ -->
 <div class="splash-overlay" id="splash">
-    <div class="splash-icon">❋</div>
+    <div class="splash-icon">â‹</div>
     <div class="splash-title">NewLuna</div>
     <div class="splash-sub">Your wellness, beautifully tracked</div>
 </div>
 
-<!-- ── APP SHELL ── -->
+<!-- â”€â”€ APP SHELL â”€â”€ -->
 <div class="app-shell">
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-brand">
-            <div class="brand-flower">❋</div>
+            <div class="brand-flower">â‹</div>
             <div class="brand-name">
                 NewLuna
                 <span>Wellness Dashboard</span>
@@ -479,28 +498,28 @@
 
         <nav class="sidebar-nav">
             <a href="soft_dashboard.html" class="nav-link active">
-                <span class="nav-icon">🏠</span> Dashboard
+                <span class="nav-icon">ðŸ </span> Dashboard
             </a>
             <a href="soft_calendar.html" class="nav-link">
-                <span class="nav-icon">📅</span> Calendar
+                <span class="nav-icon">ðŸ“…</span> Calendar
             </a>
             <a href="soft_tracking.html" class="nav-link">
-                <span class="nav-icon">📝</span> Daily Log
+                <span class="nav-icon">ðŸ“</span> Daily Log
             </a>
             <a href="soft_assistant.html" class="nav-link">
-                <span class="nav-icon">❋</span> Luna AI
+                <span class="nav-icon">â‹</span> Luna AI
             </a>
             <a href="soft_partner_dashboard.html" class="nav-link">
-                <span class="nav-icon">❤️</span> Partner
+                <span class="nav-icon">â¤ï¸</span> Partner
             </a>
             <a href="soft_reports.html" class="nav-link">
-                <span class="nav-icon">📊</span> Reports
+                <span class="nav-icon">ðŸ“Š</span> Reports
             </a>
             <a href="soft_profile.html" class="nav-link">
-                <span class="nav-icon">👤</span> Profile
+                <span class="nav-icon">ðŸ‘¤</span> Profile
             </a>
             <a href="soft_settings.html" class="nav-link">
-                <span class="nav-icon">⚙️</span> Settings
+                <span class="nav-icon">âš™ï¸</span> Settings
             </a>
         </nav>
 
@@ -509,12 +528,12 @@
                 <div class="sidebar-avatar" id="sidebar-avatar-letter">S</div>
                 <div class="sidebar-user-info">
                     <div class="name" id="sidebar-username">Sarah</div>
-                    <div class="plan">❋ Premium Member</div>
+                    <div class="plan">â‹ Premium Member</div>
                 </div>
             </div>
             <div class="sidebar-footer">
                 NewLuna v2.1.0<br>
-                Synced · All data secured
+                Synced Â· All data secured
             </div>
         </div>
     </aside>
@@ -526,7 +545,7 @@
         <header class="top-header fade-in">
             <div>
                 <p class="greeting-date" id="current-date">Loading...</p>
-                <h1 class="greeting-name">Hello, <span id="user-name">Sarah</span>! 👋</h1>
+                <h1 class="greeting-name">Hello, <span id="user-name">Sarah</span>! ðŸ‘‹</h1>
             </div>
             <div class="header-actions">
                 <div class="pro-badge">PRO</div>
@@ -537,7 +556,7 @@
         <!-- MAIN GRID -->
         <div class="dashboard-grid">
 
-            <!-- ── LEFT COLUMN ── -->
+            <!-- â”€â”€ LEFT COLUMN â”€â”€ -->
             <div class="left-col">
 
                 <!-- HERO CYCLE CARD -->
@@ -546,7 +565,7 @@
                         <div class="hero-badge" id="hero-phase">Follicular Phase</div>
                         <div class="hero-day" id="hero-cycle-day">Day 4</div>
                         <div class="hero-subtitle" id="hero-subtitle">24 days until next cycle</div>
-                        <button class="hero-log-btn" id="log-period-btn">🩸 Log Period</button>
+                        <button class="hero-log-btn" id="log-period-btn">ðŸ©¸ Log Period</button>
                     </div>
                     <div class="ring-wrap">
                         <svg class="ring-svg" width="165" height="165" viewBox="0 0 165 165">
@@ -564,17 +583,17 @@
                 <!-- STATS ROW -->
                 <div class="stats-row fade-in delay-2">
                     <div class="stat-card">
-                        <div class="stat-icon">💚</div>
+                        <div class="stat-icon">ðŸ’š</div>
                         <div class="stat-label">Fertile Window</div>
-                        <div class="stat-value" id="fertile-window">Apr 16–21</div>
+                        <div class="stat-value" id="fertile-window">Apr 16â€“21</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">🌕</div>
+                        <div class="stat-icon">ðŸŒ•</div>
                         <div class="stat-label">Ovulation</div>
                         <div class="stat-value" id="ovulation-date">Apr 22</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">📈</div>
+                        <div class="stat-icon">ðŸ“ˆ</div>
                         <div class="stat-label">Avg Cycle</div>
                         <div class="stat-value" id="avg-cycle">28 Days</div>
                     </div>
@@ -583,9 +602,9 @@
                 <!-- HYDRATION -->
                 <div class="card hydration-card fade-in delay-3">
                     <div class="hydration-header">
-                        <div class="card-title" style="margin:0">💧 Hydration</div>
+                        <div class="card-title" style="margin:0">ðŸ’§ Hydration</div>
                         <div class="hydration-controls">
-                            <button class="water-btn" id="remove-water">−</button>
+                            <button class="water-btn" id="remove-water">âˆ’</button>
                             <span class="water-count" id="hydration-count">0 / 8</span>
                             <button class="water-btn" id="add-water">+</button>
                         </div>
@@ -603,28 +622,28 @@
                     <div class="card-title">Quick Actions</div>
                     <div class="quick-actions">
                         <a href="soft_tracking.html" class="action-btn">
-                            <span class="act-icon">📝</span>
+                            <span class="act-icon">ðŸ“</span>
                             <div>
                                 <div class="act-label">Daily Log</div>
                                 <div class="act-sub">Log mood & symptoms</div>
                             </div>
                         </a>
                         <a href="soft_assistant.html" class="action-btn">
-                            <span class="act-icon">🤖</span>
+                            <span class="act-icon">ðŸ¤–</span>
                             <div>
                                 <div class="act-label">Luna AI</div>
                                 <div class="act-sub">Ask anything</div>
                             </div>
                         </a>
                         <a href="soft_wellness.html" class="action-btn">
-                            <span class="act-icon">🧘</span>
+                            <span class="act-icon">ðŸ§˜</span>
                             <div>
                                 <div class="act-label">Wellness</div>
                                 <div class="act-sub">Yoga & mindfulness</div>
                             </div>
                         </a>
                         <a href="soft_calendar.html" class="action-btn">
-                            <span class="act-icon">📅</span>
+                            <span class="act-icon">ðŸ“…</span>
                             <div>
                                 <div class="act-label">Calendar</div>
                                 <div class="act-sub">View full cycle</div>
@@ -635,12 +654,12 @@
 
             </div>
 
-            <!-- ── RIGHT COLUMN ── -->
+            <!-- â”€â”€ RIGHT COLUMN â”€â”€ -->
             <div class="right-col">
 
                 <!-- UPCOMING PERIOD CARD -->
                 <div class="card upcoming-card fade-in delay-1">
-                    <div class="upcoming-label">📅 Next Period</div>
+                    <div class="upcoming-label">ðŸ“… Next Period</div>
                     <div class="upcoming-date" id="next-period-date">MAY 4</div>
                     <div class="upcoming-sub" id="next-period-label">Next predicted period</div>
                     <div class="days-pill" id="days-pill">27 days away</div>
@@ -651,23 +670,23 @@
                     <div class="insight-glow"></div>
                     <div class="insight-header">
                         <div class="ai-dot"></div>
-                        <div class="card-title" style="margin:0">❋ Luna Insights</div>
+                        <div class="card-title" style="margin:0">â‹ Luna Insights</div>
                     </div>
 
                     <div class="insight-pill" id="ai-insight-main">
                         <h6>Daily Prediction</h6>
-                        <p id="ai-insight-text">Energy rising! Estrogen is climbing — try a light workout today and embrace your creativity. 🌸</p>
+                        <p id="ai-insight-text">Energy rising! Estrogen is climbing â€” try a light workout today and embrace your creativity. ðŸŒ¸</p>
                     </div>
 
                     <div class="insight-pill teal">
                         <h6>Current Phase</h6>
                         <div class="phase-badge" id="phase-badge">Follicular Phase</div>
-                        <p id="fertility-insight">Approaching your fertile window — energy and confidence are on the rise! ❋</p>
+                        <p id="fertility-insight">Approaching your fertile window â€” energy and confidence are on the rise! â‹</p>
                     </div>
 
                     <div class="insight-pill sage">
                         <h6>Wellness Tip</h6>
-                        <p id="wellness-tip">Focus on iron-rich foods like spinach and dark chocolate. 🍫</p>
+                        <p id="wellness-tip">Focus on iron-rich foods like spinach and dark chocolate. ðŸ«</p>
                     </div>
                 </div>
 
@@ -676,8 +695,8 @@
                     <div class="mini-cal-header">
                         <h5 id="mini-month-display">April 2026</h5>
                         <div class="mini-nav">
-                            <button id="prev-month">‹</button>
-                            <button id="next-month">›</button>
+                            <button id="prev-month">â€¹</button>
+                            <button id="next-month">â€º</button>
                         </div>
                     </div>
                     <div class="mini-grid">
@@ -694,38 +713,38 @@
 
                 <!-- PARTNER SYNC -->
                 <div class="card fade-in delay-4">
-                    <div class="card-title">❤️ Partner Sync</div>
+                    <div class="card-title">â¤ï¸ Partner Sync</div>
                     <div class="partner-card">
-                        <div class="partner-avatar">💑</div>
+                        <div class="partner-avatar">ðŸ’‘</div>
                         <div class="partner-info">
                             <h4>Connected with <span id="partner-name">Alex</span></h4>
-                            <p>Your partner is kept in the loop — privately and thoughtfully.</p>
-                            <a href="partner.html" class="partner-link">Open Duo Chat →</a>
+                            <p>Your partner is kept in the loop â€” privately and thoughtfully.</p>
+                            <a href="partner.html" class="partner-link">Open Duo Chat â†’</a>
                         </div>
                     </div>
                 </div>
 
                 <!-- KINDNESS CORNER -->
                 <div class="card kindness-card fade-in delay-5">
-                    <span class="kindness-icon" id="kindness-icon">🌸</span>
-                    <div class="kindness-title" id="kindness-title">Luna's Daily Note 🌙</div>
-                    <p class="kindness-msg" id="kindness-msg">"You are absolutely radiant. Your body is doing something extraordinary today. Trust it. 🌟"</p>
+                    <span class="kindness-icon" id="kindness-icon">ðŸŒ¸</span>
+                    <div class="kindness-title" id="kindness-title">Luna's Daily Note ðŸŒ™</div>
+                    <p class="kindness-msg" id="kindness-msg">"You are absolutely radiant. Your body is doing something extraordinary today. Trust it. ðŸŒŸ"</p>
                 </div>
 
                 <!-- REMINDERS -->
                 <div class="card fade-in delay-5">
-                    <div class="card-title">🔔 Reminders</div>
+                    <div class="card-title">ðŸ”” Reminders</div>
                     <div class="reminder-item">
                         <div class="reminder-dot" style="background: var(--bloom-pink)"></div>
-                        <span>Take your vitamins 💊</span>
+                        <span>Take your vitamins ðŸ’Š</span>
                     </div>
                     <div class="reminder-item">
                         <div class="reminder-dot" style="background: var(--bloom-teal)"></div>
-                        <span>Log today's mood & symptoms 📝</span>
+                        <span>Log today's mood & symptoms ðŸ“</span>
                     </div>
                     <div class="reminder-item" id="cycle-reminder">
                         <div class="reminder-dot" style="background: #ab47bc"></div>
-                        <span id="cycle-reminder-text">Your cycle is on track ❋</span>
+                        <span id="cycle-reminder-text">Your cycle is on track â‹</span>
                     </div>
                 </div>
 
@@ -740,3 +759,4 @@
 
 </body>
 </html>
+

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -294,6 +294,16 @@ body {
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 
 <body>
@@ -303,13 +313,13 @@ body {
   <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>NewLuna</h2>
-    <div class="nav-item" data-page="dashboard">🏠 Dashboard</div>
-    <div class="nav-item" data-page="calendar">📅 Calendar</div>
-    <div class="nav-item" data-page="partner">❤️ Partner</div>
-    <div class="nav-item" data-page="profile">👤 Profile</div>
-    <div class="nav-item" data-page="tracking">📝 Tracking</div>
-    <div class="nav-item active" data-page="analytics">📊 Analytics</div>
-    <div class="nav-item" data-page="settings">⚙️ Settings</div>
+    <div class="nav-item" data-page="dashboard">ðŸ  Dashboard</div>
+    <div class="nav-item" data-page="calendar">ðŸ“… Calendar</div>
+    <div class="nav-item" data-page="partner">â¤ï¸ Partner</div>
+    <div class="nav-item" data-page="profile">ðŸ‘¤ Profile</div>
+    <div class="nav-item" data-page="tracking">ðŸ“ Tracking</div>
+    <div class="nav-item active" data-page="analytics">ðŸ“Š Analytics</div>
+    <div class="nav-item" data-page="settings">âš™ï¸ Settings</div>
   </div>
 
   <!-- MAIN -->
@@ -517,14 +527,14 @@ function displayOverallStats(stats) {
 
 function displayMoodDistribution(stats) {
   const moodEmojis = {
-    happy: '😊',
-    calm: '😌',
-    tired: '😴',
-    anxious: '😰',
-    sad: '😢',
-    angry: '😡',
-    moody: '🎭',
-    lazy: '🛋️'
+    happy: 'ðŸ˜Š',
+    calm: 'ðŸ˜Œ',
+    tired: 'ðŸ˜´',
+    anxious: 'ðŸ˜°',
+    sad: 'ðŸ˜¢',
+    angry: 'ðŸ˜¡',
+    moody: 'ðŸŽ­',
+    lazy: 'ðŸ›‹ï¸'
   };
 
   const maxMood = Math.max(...Object.values(stats.moods), 1);
@@ -563,11 +573,11 @@ function displaySymptomAnalysis(stats) {
 
 function displayExerciseAnalysis(stats) {
   const exerciseEmojis = {
-    walking: '🚶',
-    yoga: '🧘',
-    cardio: '🏃',
-    strength: '💪',
-    sports: '⚽'
+    walking: 'ðŸš¶',
+    yoga: 'ðŸ§˜',
+    cardio: 'ðŸƒ',
+    strength: 'ðŸ’ª',
+    sports: 'âš½'
   };
 
   const sorted = Object.entries(stats.exercises)
@@ -575,7 +585,7 @@ function displayExerciseAnalysis(stats) {
 
   const html = sorted.map(([exercise, count]) => `
     <div class="symptom-tag">
-      <div>${exerciseEmojis[exercise] || '🏋️'} ${exercise}</div>
+      <div>${exerciseEmojis[exercise] || 'ðŸ‹ï¸'} ${exercise}</div>
       <span class="symptom-count">${count}</span>
     </div>
   `).join('');
@@ -670,34 +680,34 @@ function displayInsights(stats) {
 
   // Insight 1: Energy patterns
   if (stats.avgEnergy > 7) {
-    insights.push('💪 You have high energy levels on average! Great time for intense workouts.');
+    insights.push('ðŸ’ª You have high energy levels on average! Great time for intense workouts.');
   } else if (stats.avgEnergy < 4) {
-    insights.push('😴 Your energy levels are lower on average. Consider gentle exercises like yoga.');
+    insights.push('ðŸ˜´ Your energy levels are lower on average. Consider gentle exercises like yoga.');
   }
 
   // Insight 2: Sleep patterns
   if (stats.avgSleep >= 7) {
-    insights.push('😴 Your sleep schedule is excellent! Keep it consistent for optimal health.');
+    insights.push('ðŸ˜´ Your sleep schedule is excellent! Keep it consistent for optimal health.');
   } else if (stats.avgSleep < 6) {
-    insights.push('⏰ You\'re getting less sleep than recommended. Aim for 7-9 hours.');
+    insights.push('â° You\'re getting less sleep than recommended. Aim for 7-9 hours.');
   }
 
   // Insight 3: Common symptoms
   const topSymptom = Object.entries(stats.symptoms).sort(([, a], [, b]) => b - a)[0];
   if (topSymptom) {
-    insights.push(`📍 Your most common symptom is ${topSymptom[0]}. Consider tracking triggers.`);
+    insights.push(`ðŸ“ Your most common symptom is ${topSymptom[0]}. Consider tracking triggers.`);
   }
 
   // Insight 4: Period tracking
   if (stats.onPeriodCount > 0) {
     const estimatedCycleDays = stats.totalEntries;
-    insights.push(`📅 You logged your period on ${stats.onPeriodCount} day(s). Track consistently for better predictions.`);
+    insights.push(`ðŸ“… You logged your period on ${stats.onPeriodCount} day(s). Track consistently for better predictions.`);
   }
 
   // Insight 5: Exercise habits
   const exerciseCount = Object.values(stats.exercises).reduce((a, b) => a + b, 0);
   if (exerciseCount > stats.totalEntries * 0.5) {
-    insights.push(`🏃 You\'re very active! You exercised on over half your tracked days.`);
+    insights.push(`ðŸƒ You\'re very active! You exercised on over half your tracked days.`);
   }
 
   const html = insights.map(insight => `<div class="insight">${insight}</div>`).join('');
@@ -707,3 +717,4 @@ function displayInsights(stats) {
 
 </body>
 </html>
+

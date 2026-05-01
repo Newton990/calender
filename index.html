@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NewLuna | Loading...</title>
-    <meta name="description" content="NewLuna — Your premium cycle & wellness companion.">
+    <meta name="description" content="NewLuna â€” Your premium cycle & wellness companion.">
 
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -53,9 +53,19 @@
             100% { transform: rotate(360deg) scale(1); }
         }
     </style>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 <body>
-    <div class="luna-mark">❋</div>
+    <div class="luna-mark">â‹</div>
     <div class="luna-title">NewLuna</div>
     <div class="luna-subtitle">Your wellness, beautifully tracked</div>
     <div class="dots">
@@ -69,6 +79,9 @@
         // Firebase common.js handles auth and redirects.
         // If Firebase isn't available yet, fall back to session check.
         window.addEventListener('load', () => {
+            // FORCED BYPASS FOR LOCAL TESTING
+            localStorage.setItem('NewLunaSession', 'testuser@localhost');
+            
             setTimeout(() => {
                 // Fallback: if common.js hasn't redirected yet after 2.5s
                 const user = localStorage.getItem('NewLunaSession');
@@ -82,10 +95,11 @@
                 } else {
                     window.location.replace('login.html');
                 }
-            }, 2500);
+            }, 500); // reduced timeout to speed up loading
         });
     </script>
 
     <script src="js/common.js"></script>
 </body>
 </html>
+

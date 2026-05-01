@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,13 +12,23 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
     <script src="js/common.js"></script>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 <body class="partner-mode">
     <!-- Animated Splash Screen -->
     <div class="splash-overlay">
         <div class="splash-content">
-            <div class="splash-icon">❋</div>
-            <div class="splash-text">NewLuna ❋</div>
+            <div class="splash-icon">â‹</div>
+            <div class="splash-text">NewLuna â‹</div>
         </div>
     </div>
 
@@ -26,21 +36,21 @@
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
             <a href="partner_app.html" class="nav-item active">
-                <span class="nav-icon">🤝</span>
+                <span class="nav-icon">ðŸ¤</span>
                 <span>Dashboard</span>
             </a>
             <a href="chat.html" class="nav-item">
-                <span class="nav-icon">💬</span>
+                <span class="nav-icon">ðŸ’¬</span>
                 <span>Chat</span>
             </a>
             <a href="settings.html" class="nav-item">
-                <span class="nav-icon">⚙️</span>
+                <span class="nav-icon">âš™ï¸</span>
                 <span>Settings</span>
             </a>
         </nav>
 
         <header style="text-align: center; margin-bottom: 30px;">
-            <h1 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--primary-dark);">Support Hub 🤝</h1>
+            <h1 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--primary-dark);">Support Hub ðŸ¤</h1>
             <p style="color: var(--text-muted); font-style: italic;">Stay connected, stay supportive.</p>
         </header>
 
@@ -62,7 +72,7 @@
                     </div>
                     
                     <div id="phase-alert-box" class="glass" style="margin-top: 15px; padding: 10px 20px; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">
-                        Period predicted in 5 days 🌸
+                        Period predicted in 5 days ðŸŒ¸
                     </div>
                 </div>
             </div>
@@ -70,19 +80,19 @@
             <!-- Pregnancy Update (Hidden by default) -->
             <div id="partner-preg-card" class="stats-card glass support-card hidden">
                 <div class="stats-content" style="text-align: left; width: 100%;">
-                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">Baby Update 👶</h3>
-                    <p style="font-size: 0.95rem; line-height: 1.5;">Week 12: Baby is the size of a <b>Lemon 🍋</b>! Their tiny fingers and toes are starting to develop.</p>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">Baby Update ðŸ‘¶</h3>
+                    <p style="font-size: 0.95rem; line-height: 1.5;">Week 12: Baby is the size of a <b>Lemon ðŸ‹</b>! Their tiny fingers and toes are starting to develop.</p>
                     <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Tip: Be ready for more frequent snacks!</p>
                 </div>
             </div>
 
             <!-- Support Tips Card -->
             <div class="stats-card glass" style="padding: 24px; text-align: left;">
-                <h3 style="font-size: 1.1rem; margin-bottom: 15px;">Luna's Support Tips 🤖</h3>
+                <h3 style="font-size: 1.1rem; margin-bottom: 15px;">Luna's Support Tips ðŸ¤–</h3>
                 <div id="support-tips-container" style="display: flex; flex-direction: column; gap: 15px;">
                     <div class="insight-row">
                         <div style="display: flex; gap: 12px; align-items: flex-start;">
-                            <span style="font-size: 1.5rem;">💆‍♀️</span>
+                            <span style="font-size: 1.5rem;">ðŸ’†â€â™€ï¸</span>
                             <div>
                                 <strong id="support-tip-title">Comfort Strategy</strong>
                                 <p id="support-tip-desc" style="font-size: 0.9rem; color: var(--text-muted);">Partner might feel extra tired today. Offer to handle dinner or a relaxing foot rub.</p>
@@ -96,9 +106,9 @@
             <div style="margin-top: 20px;">
                 <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; text-align: center;">Send a quick gesture of support:</p>
                 <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                    <div class="action-chip" onclick="location.href='chat.html?prefill=love'">❤️ Send Love</div>
-                    <div class="action-chip" onclick="location.href='chat.html?prefill=help'">🤝 Can I help?</div>
-                    <div class="action-chip" onclick="location.href='chat.html?prefill=flowers'">💐 Thinking of you</div>
+                    <div class="action-chip" onclick="location.href='chat.html?prefill=love'">â¤ï¸ Send Love</div>
+                    <div class="action-chip" onclick="location.href='chat.html?prefill=help'">ðŸ¤ Can I help?</div>
+                    <div class="action-chip" onclick="location.href='chat.html?prefill=flowers'">ðŸ’ Thinking of you</div>
                 </div>
             </div>
         </main>
@@ -107,3 +117,4 @@
     <script src="js/partner_app.js"></script>
 </body>
 </html>
+

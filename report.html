@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,20 +14,20 @@
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <a href="index.html" class="nav-item">
-            <span class="nav-icon">🏠</span>
+            <span class="nav-icon">ðŸ </span>
             <span>Home</span>
         </a>
         <a href="calendar.html" class="nav-item">
-            <span class="nav-icon">📅</span>
+            <span class="nav-icon">ðŸ“…</span>
             <span>Calendar</span>
         </a>
         <div id="quick-log-btn" class="log-btn-nav" title="Quick Log">+</div>
         <a href="report.html" class="nav-item active">
-            <span class="nav-icon">📊</span>
+            <span class="nav-icon">ðŸ“Š</span>
             <span>Insights</span>
         </a>
         <a href="settings.html" class="nav-item">
-            <span class="nav-icon">⚙️</span>
+            <span class="nav-icon">âš™ï¸</span>
             <span>Settings</span>
         </a>
     </nav>
@@ -98,13 +98,23 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+    
+    
+    
+    
+    
+
+    <!-- App Icons and Favicon -->
+    <link rel="icon" href="NewLuna_Logo_Transparent.svg" type="image/svg+xml">
+    <meta property="og:image" content="NewLuna_Logo_Light.svg">
+    <meta name="twitter:image" content="NewLuna_Logo_Light.svg">
 </head>
 <body>
     <!-- Animated Splash Screen -->
     <div class="splash-overlay">
         <div class="splash-content">
-            <div class="splash-icon">❋</div>
-            <div class="splash-text">NewLuna ❋</div>
+            <div class="splash-icon">â‹</div>
+            <div class="splash-text">NewLuna â‹</div>
         </div>
     </div>
 
@@ -113,10 +123,10 @@
     <div class="app-container" style="max-width: 900px; margin: 0 auto; padding: 20px;">
         <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
             <div>
-                <h1 style="font-family: 'Playfair Display', serif; font-size: 2.22rem; color: var(--primary-dark);">Health Insights Report 📊</h1>
+                <h1 style="font-family: 'Playfair Display', serif; font-size: 2.22rem; color: var(--primary-dark);">Health Insights Report ðŸ“Š</h1>
                 <p style="color: var(--text-muted);">A comprehensive summary of your wellness journey.</p>
             </div>
-            <button onclick="window.print()" class="auth-btn no-print" style="width: auto; padding: 10px 20px; margin: 0;">Print / PDF ❋</button>
+            <button onclick="window.print()" class="auth-btn no-print" style="width: auto; padding: 10px 20px; margin: 0;">Print / PDF â‹</button>
         </header>
 
         <main id="report-content">
@@ -140,7 +150,7 @@
 
             <!-- Symptom Frequency -->
             <section class="report-section glass" style="padding: 25px;">
-                <h3 style="margin-bottom: 20px;">Symptom Frequency Heatmap 🔥</h3>
+                <h3 style="margin-bottom: 20px;">Symptom Frequency Heatmap ðŸ”¥</h3>
                 <div id="symptom-list" style="display: grid; gap: 15px;">
                     <!-- Symptom bars injected here -->
                 </div>
@@ -148,7 +158,7 @@
 
             <!-- Mood Patterns -->
             <section class="report-section glass" style="padding: 25px;">
-                <h3 style="margin-bottom: 20px;">Mood Patterns by Phase 🎭</h3>
+                <h3 style="margin-bottom: 20px;">Mood Patterns by Phase ðŸŽ­</h3>
                 <div id="mood-phase-report" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
                     <!-- Mood data injected here -->
                 </div>
@@ -156,7 +166,7 @@
 
             <!-- Period History -->
             <section class="report-section glass" style="padding: 25px;">
-                <h3 style="margin-bottom: 20px;">Detailed Period History 🗓️</h3>
+                <h3 style="margin-bottom: 20px;">Detailed Period History ðŸ—“ï¸</h3>
                 <div style="overflow-x: auto;">
                     <table class="history-table">
                         <thead>
@@ -179,3 +189,4 @@
     <script src="js/report.js"></script>
 </body>
 </html>
+
